@@ -77,11 +77,14 @@ static cnnlStatus_t TestOpTensor(cnnlHandle_t handle,
     }
     CNRT_CHECK(cnrtPlaceNotifier(start, queue));
     host_timer.start();
-    CNNL_CHECK(cnnlOpTensor(handle, descOpTensor,
-                            &alpha1, descX, device_X_ptr,
-                            &alpha2, descY, device_Y_ptr,
-                            workspace, size_workspace,
-                            &beta, descZ, device_Z_ptr));
+    for (size_t i = 0; i < 100; i++)
+    {
+        CNNL_CHECK(cnnlOpTensor(handle, descOpTensor,
+                                &alpha1, descX, device_X_ptr,
+                                &alpha2, descY, device_Y_ptr,
+                                workspace, size_workspace,
+                                &beta, descZ, device_Z_ptr));
+    }
     host_timer.stop();
     optensor.host_time = host_timer.tv_usec;
     CNRT_CHECK(cnrtPlaceNotifier(end, queue));
@@ -150,9 +153,9 @@ int main(int argc, char *argv[])
     {
         LOG("PASSED");
         std::stringstream host_time;
-        host_time << "Host Time(us): " << optensor.host_time;
+        host_time << "Host Time(us): " << optensor.host_time / 100;
         std::stringstream mlu_compute_time;
-        mlu_compute_time << "MLU Time(us): " << optensor.mlu_compute_time;
+        mlu_compute_time << "MLU Time(ms): " << optensor.mlu_compute_time / 100000;
         std::stringstream memcpy_time;
         memcpy_time << "CopyIn Time(us): " << optensor.memcpyH2D_time << "; CopyOut Time(us): " << optensor.memcpyD2H_time;
 

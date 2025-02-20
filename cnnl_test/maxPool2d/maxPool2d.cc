@@ -42,7 +42,6 @@ static cnnlStatus_t TestPooling(cnnlHandle_t handle,
     CNNL_CHECK(cnnlCreatePoolingDescriptor(&descPooling));
     CNNL_CHECK(cnnlSetPoolingNdDescriptor_v2(descPooling, PoolingMode, CNNL_NOT_PROPAGATE_NAN, 4, dim_kernel, padding, stride, dilation, false));
 
-    bool isNull = false;
     float_t *device_input_ptr = NULL;
     float_t *device_result_ptr = NULL;
     int32_t *device_index_ptr = NULL;
@@ -64,22 +63,24 @@ static cnnlStatus_t TestPooling(cnnlHandle_t handle,
 
     float_t *host_input = (float_t *)malloc(size_test);
     int32_t *host_index = (int32_t *)malloc(size_result);
+    int32_t *MLU_index = (int32_t *)malloc(size_result);
     float_t *host_result = (float_t *)malloc(size_result);
     float_t *MLU_result = (float_t *)malloc(size_result);
 
-    // TODO: CPU compute
     for (size_t i = 0; i < dims_test; i++)
     {
-        host_input[i] = rand() / RAND_MAX;
+        host_input[i] = RAND_MAX / rand();
     }
 
     HostTimer copyin_timer;
     copyin_timer.start();
     CNRT_CHECK(cnrtMemcpy(device_input_ptr, host_input, size_test, CNRT_MEM_TRANS_DIR_HOST2DEV));
+    CNRT_CHECK(cnrtMemcpy(device_index_ptr, host_index, size_result, CNRT_MEM_TRANS_DIR_HOST2DEV));
     CNRT_CHECK(cnrtMemcpy(device_result_ptr, host_result, size_result, CNRT_MEM_TRANS_DIR_HOST2DEV));
     copyin_timer.stop();
     optensor.memcpyH2D_time = copyin_timer.tv_usec;
 
+    // MLU compute
     HostTimer host_timer;
     size_t size_workspace = 0;
     CNNL_CHECK(cnnlGetPoolingWithIndexWorkspaceSize(handle, descInput, descResult, &size_workspace));
@@ -90,11 +91,14 @@ static cnnlStatus_t TestPooling(cnnlHandle_t handle,
     }
     CNRT_CHECK(cnrtPlaceNotifier(start, queue));
     host_timer.start();
-    CNNL_CHECK(cnnlPoolingForwardWithIndex(handle, descPooling,
-                                           NULL, descInput, device_input_ptr,
-                                           NULL, descResult, device_result_ptr,
-                                           descIndex, device_index_ptr,
-                                           workspace, size_workspace));
+    for (size_t i = 0; i < 100; i++)
+    {
+        CNNL_CHECK(cnnlPoolingForwardWithIndex(handle, descPooling,
+                                               NULL, descInput, device_input_ptr,
+                                               NULL, descResult, device_result_ptr,
+                                               descIndex, device_index_ptr,
+                                               workspace, size_workspace));
+    }
     host_timer.stop();
     optensor.host_time = host_timer.tv_usec;
     CNRT_CHECK(cnrtPlaceNotifier(end, queue));
@@ -104,11 +108,9 @@ static cnnlStatus_t TestPooling(cnnlHandle_t handle,
     HostTimer copyout_timer;
     copyout_timer.start();
     CNRT_CHECK(cnrtMemcpy(MLU_result, device_result_ptr, size_result, CNRT_MEM_TRANS_DIR_DEV2HOST));
+    CNRT_CHECK(cnrtMemcpy(MLU_index, device_index_ptr, size_result, CNRT_MEM_TRANS_DIR_DEV2HOST));
     copyout_timer.stop();
     optensor.memcpyD2H_time = copyout_timer.tv_usec;
-
-    // TODO: Accuracy check
-    optensor.isPass = 1;
 
     // CNRT Free
     CNRT_CHECK(cnrtFree(device_index_ptr));
@@ -160,24 +162,16 @@ int main(int argc, char *argv[])
     CNNL_CHECK(cnnlDestroy(handle));
 
     // Print result
-    if (optensor.isPass == 1)
-    {
-        LOG("PASSED");
-        std::stringstream host_time;
-        host_time << "Host Time(us): " << optensor.host_time;
-        std::stringstream mlu_compute_time;
-        mlu_compute_time << "MLU Time(us): " << optensor.mlu_compute_time;
-        std::stringstream memcpy_time;
-        memcpy_time << "CopyIn Time(us): " << optensor.memcpyH2D_time << "; CopyOut Time(us): " << optensor.memcpyD2H_time;
+    std::stringstream host_time;
+    host_time << "Host Time(us): " << optensor.host_time / 100;
+    std::stringstream mlu_compute_time;
+    mlu_compute_time << "MLU Time(ms): " << optensor.mlu_compute_time / 100000;
+    std::stringstream memcpy_time;
+    memcpy_time << "CopyIn Time(us): " << optensor.memcpyH2D_time << "; CopyOut Time(us): " << optensor.memcpyD2H_time;
 
-        LOG(host_time.str());
-        LOG(mlu_compute_time.str());
-        LOG(memcpy_time.str());
-    }
-    else
-    {
-        LOG("FAILED");
-    }
+    LOG(host_time.str());
+    LOG(mlu_compute_time.str());
+    LOG(memcpy_time.str());
 
     return 0;
 }

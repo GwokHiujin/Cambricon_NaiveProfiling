@@ -32,6 +32,15 @@ typedef enum {
   ERROR   = 2,
 } DepCheckLevel;
 
+struct Optensor
+{
+    float mlu_compute_time = 0.0; // mlu compute time
+    float host_time = 0.0;        // host time
+    float memcpyH2D_time = 0.0;   // copy data in(include input, weight, bias)
+    float memcpyD2H_time = 0.0;   // copy data out(output)
+    bool isPass = 0;
+};
+
 struct HostTimer {
   struct timespec t0 = {0, 0};
   struct timespec t1 = {0, 0};

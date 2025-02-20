@@ -3,16 +3,7 @@
 #include <iostream>
 #include "../public/tool.h"
 
-// Reflect to CNNL OpTensor
-struct Optensor
-{
-    float mlu_compute_time = 0.0; // mlu compute time
-    float host_time = 0.0;        // host time
-    float memcpyH2D_time = 0.0;   // copy data in(include input, weight, bias)
-    float memcpyD2H_time = 0.0;   // copy data out(output)
-    bool isPass = 0;
-};
-
+// Reflect to CNNLOpTensor
 template <typename T>
 static cnnlStatus_t TestOpTensor(cnnlHandle_t handle,
                                  Optensor &optensor,
@@ -57,22 +48,22 @@ static cnnlStatus_t TestOpTensor(cnnlHandle_t handle,
 
     T *host_X = (T *)malloc(size_test);
     T *host_Y = (T *)malloc(size_test);
-    T *result_host = (T *)malloc(size_test);
-    T *result_MLU = (T *)malloc(size_test);
+    T *host_result = (T *)malloc(size_test);
+    T *MLU_result = (T *)malloc(size_test);
 
     for (size_t i = 0; i < dims_test; i++)
     {
         // Prepare input data
         host_X[i] = rand() / RAND_MAX;
         host_Y[i] = rand() / RAND_MAX;
-        result_host[i] = host_X[i] + host_Y[i]; // Save for accuracy check
+        host_result[i] = host_X[i] + host_Y[i]; // Save for accuracy check
     }
 
-    HostTimer copyin_timer;
+    HostTimer copyin_timer; // Actually, we can use cnperf to record the detailed time, but it produces tmp database.
     copyin_timer.start();
     CNRT_CHECK(cnrtMemcpy(device_X_ptr, host_X, size_test, CNRT_MEM_TRANS_DIR_HOST2DEV));
     CNRT_CHECK(cnrtMemcpy(device_Y_ptr, host_Y, size_test, CNRT_MEM_TRANS_DIR_HOST2DEV));
-    CNRT_CHECK(cnrtMemcpy(device_Z_ptr, result_host, size_test, CNRT_MEM_TRANS_DIR_HOST2DEV));
+    CNRT_CHECK(cnrtMemcpy(device_Z_ptr, host_result, size_test, CNRT_MEM_TRANS_DIR_HOST2DEV));
     copyin_timer.stop();
     optensor.memcpyH2D_time = copyin_timer.tv_usec;
 
@@ -99,12 +90,12 @@ static cnnlStatus_t TestOpTensor(cnnlHandle_t handle,
 
     HostTimer copyout_timer;
     copyout_timer.start();
-    CNRT_CHECK(cnrtMemcpy(result_MLU, device_Z_ptr, size_test, CNRT_MEM_TRANS_DIR_DEV2HOST));
+    CNRT_CHECK(cnrtMemcpy(MLU_result, device_Z_ptr, size_test, CNRT_MEM_TRANS_DIR_DEV2HOST));
     copyout_timer.stop();
     optensor.memcpyD2H_time = copyout_timer.tv_usec;
 
     // Accuracy check
-    optensor.isPass = MSE(result_host, result_MLU, size_test, isNull);
+    optensor.isPass = MSE(host_result, MLU_result, size_test, isNull);
 
     // CNRT Free
     CNRT_CHECK(cnrtFree(device_X_ptr));
@@ -124,8 +115,8 @@ static cnnlStatus_t TestOpTensor(cnnlHandle_t handle,
     CNNL_CHECK(cnnlDestroyTensorDescriptor(descZ));
     free(host_X);
     free(host_Y);
-    free(result_host);
-    free(result_MLU);
+    free(host_result);
+    free(MLU_result);
     return CNNL_STATUS_SUCCESS;
 }
 
@@ -148,6 +139,7 @@ int main(int argc, char *argv[])
     CNNL_CHECK(cnnlCreate(&handle));
     CNNL_CHECK(cnnlSetQueue(handle, queue));
 
+    // Test
     CNNL_CHECK(TestOpTensor(handle, optensor, OpTensorDesc, dtype, std::stof("1"), std::stof("1"), std::stof("1")));
 
     CNRT_CHECK(cnrtQueueDestroy(queue));

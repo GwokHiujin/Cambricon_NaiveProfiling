@@ -1,0 +1,170 @@
+#include "common.h"
+#include <bang.h>
+
+
+__nram__ uint8_t nram_buffer[MAX_NRAM_SIZE];
+
+float src1_cpu[ELEM_NUM];
+float src2_cpu[ELEM_NUM];
+float dst_cpu[ELEM_NUM];
+
+// load in pipeline
+__mlu_func__ void load(float *a_nram, const float *a, float *b_nram,
+                       const float *b, int32_t data_nram_num, int32_t i) {
+  mluMemcpyDirection_t direction = GDRAM2NRAM;
+  int32_t offset = i % 2 * data_nram_num * 2;
+  __memcpy_async(a_nram + offset, a + i * data_nram_num,
+                 data_nram_num * sizeof(float), direction);
+  __memcpy_async(b_nram + offset, b + i * data_nram_num,
+                 data_nram_num * sizeof(float), direction);
+}
+
+// compute in pipeline
+__mlu_func__ void compute(float *a_nram, float *b_nram,
+                          int32_t data_nram_num, int32_t i) {
+  int32_t offset = i % 2 * data_nram_num * 2;
+  __bang_add(a_nram + offset, a_nram + offset, b_nram + offset, data_nram_num);
+}
+
+// store in pipeline
+__mlu_func__ void store(float *output, float *a_nram,
+                        int32_t data_nram_num, int32_t i) {
+  mluMemcpyDirection_t direction = NRAM2GDRAM;
+  int32_t offset = i % 2 * data_nram_num * 2;
+  __memcpy_async(output + i * data_nram_num, a_nram + offset,
+                 data_nram_num * sizeof(float), direction);
+}
+
+// load in pipeline
+__mlu_func__ void load_rem(float *a_nram, const float *a, float *b_nram,
+                           const float *b, int32_t data_nram_num,
+                           int32_t rem_nram_num, int32_t loop_num, int32_t i) {
+  mluMemcpyDirection_t direction = GDRAM2NRAM;
+  int32_t offset = i % 2 * data_nram_num * 2;
+  __memcpy_async(a_nram + offset, a + loop_num * data_nram_num,
+                 rem_nram_num * sizeof(float), direction);
+  __memcpy_async(b_nram + offset, b + loop_num * data_nram_num,
+                 rem_nram_num * sizeof(float), direction);
+}
+
+// compute in pipeline
+__mlu_func__ void compute_rem(float *a_nram, float *b_nram,
+                              int32_t data_nram_num, int32_t rem_align_num,
+                              int32_t i) {
+  int32_t offset = i % 2 * data_nram_num * 2;
+  __bang_add(a_nram + offset, a_nram + offset, b_nram + offset, rem_align_num);
+}
+
+// store in pipeline
+__mlu_func__ void store_rem(float *output, float *a_nram, int32_t data_nram_num,
+                            int32_t rem_nram_num, int32_t loop_num, int32_t i) {
+  mluMemcpyDirection_t direction = NRAM2GDRAM;
+  int32_t offset = i % 2 * data_nram_num * 2;
+  __memcpy_async(output + loop_num * data_nram_num, a_nram + offset,
+                 rem_nram_num * sizeof(float), direction);
+}
+
+__mlu_global__ void kernel(float *output, const float *a,
+                           const float *b, int32_t data_num) {
+  if (nullptr == output || nullptr == a || nullptr == b || 0 >= data_num) {
+    return;
+  }
+
+  int32_t align_num = NFU_ALIGN_SIZE / sizeof(float);
+  int32_t data_nram_num =
+    MAX_NRAM_SIZE / sizeof(float) / 4 / align_num * align_num;
+  float *a_nram = (float *)nram_buffer;
+  float *b_nram = a_nram + data_nram_num;
+
+  int32_t loop_num = data_num / data_nram_num;
+  int32_t rem_nram_num = data_num % data_nram_num;
+  int rem_num = 0;
+  int32_t rem_align_num = (rem_nram_num + align_num - 1) / align_num * align_num;
+  if (rem_nram_num != 0) {
+    rem_num = 1;
+  }
+
+  for (int i = 0; i < loop_num + 2 + rem_num; i++) {
+    if (i >= 2) {
+      if (i < loop_num + 2 + rem_num - 1 || rem_num == 0) {
+        store(output, a_nram, data_nram_num, i - 2);
+      } else if (rem_num == 1) {
+       store_rem(output, a_nram, data_nram_num, rem_nram_num, loop_num, i - 2);
+      }
+    }
+    if (i >= 1 && i < loop_num + 1 + rem_num) {
+      if (i < loop_num + 1 + rem_num - 1 || rem_num == 0) {
+        compute(a_nram, b_nram, data_nram_num, i - 1);
+      } else if (rem_num == 1) {
+        compute_rem(a_nram, b_nram, data_nram_num, rem_align_num, i - 1);
+      }
+    }
+    if (i < loop_num + rem_num) {
+      if (i < loop_num + rem_num - 1 || rem_num == 0) {
+        load(a_nram, a, b_nram, b, data_nram_num, i);
+      } else if (rem_num == 1) {
+        load_rem(a_nram, a, b_nram, b, data_nram_num, rem_nram_num, loop_num, i);
+      }
+    }
+    __sync_all_ipu();
+  }
+}
+
+int main() {
+  CNRT_CHECK(cnrtSetDevice(0));
+  cnrtNotifier_t notifier_start, notifier_end;
+  CNRT_CHECK(cnrtNotifierCreate(&notifier_start));
+  CNRT_CHECK(cnrtNotifierCreate(&notifier_end));
+  cnrtQueue_t queue;
+  CNRT_CHECK(cnrtQueueCreate(&queue));
+
+  cnrtDim3_t dim;
+  cnrtFunctionType_t func_type;
+  get_policy_function_block(&dim, &func_type);
+
+  for (int32_t i = 0; i < ELEM_NUM; ++i) {
+    src1_cpu[i] = 1.0;
+    src2_cpu[i] = 1.0;
+  }
+  float* src1_mlu = NULL;
+  float* src2_mlu = NULL;
+  float* dst_mlu = NULL;
+  CNRT_CHECK(cnrtMalloc((void **)&src1_mlu, ELEM_NUM * sizeof(float)));
+  CNRT_CHECK(cnrtMalloc((void **)&src2_mlu, ELEM_NUM * sizeof(float)));
+  CNRT_CHECK(cnrtMalloc((void **)&dst_mlu, ELEM_NUM * sizeof(float)));
+  CNRT_CHECK(cnrtMemcpy(src1_mlu, src1_cpu, ELEM_NUM * sizeof(float),
+                        cnrtMemcpyHostToDev));
+  CNRT_CHECK(cnrtMemcpy(src2_mlu, src2_cpu, ELEM_NUM * sizeof(float),
+                        cnrtMemcpyHostToDev));
+  CNRT_CHECK(cnrtPlaceNotifier(notifier_start, queue));
+  kernel<<<dim, func_type, queue>>>(dst_mlu, src1_mlu, src2_mlu, ELEM_NUM);
+  CNRT_CHECK(cnrtPlaceNotifier(notifier_end, queue));
+  CNRT_CHECK(cnrtQueueSync(queue));
+  CNRT_CHECK(cnrtMemcpy(dst_cpu, dst_mlu, ELEM_NUM * sizeof(float),
+                        cnrtMemcpyDevToHost));
+  float latency = 0.0;
+  CNRT_CHECK(cnrtNotifierDuration(notifier_start, notifier_end, &latency));
+  CNRT_CHECK(cnrtFree(src1_mlu));
+  CNRT_CHECK(cnrtFree(src2_mlu));
+  CNRT_CHECK(cnrtFree(dst_mlu));
+  CNRT_CHECK(cnrtQueueDestroy(queue));
+
+  float diff = 0.0;
+  float baseline = 2.0; // 1.0f + 1.0f = 2.0f
+  for (int32_t i = 0; i < ELEM_NUM; ++i) {
+    diff += fabs(dst_cpu[i] - baseline);
+  }
+  double theory_io = ELEM_NUM * sizeof(float) * 3.0; // read a and b and write output, Bytes
+  double theory_ops = ELEM_NUM; // ops
+  double peak_compute_force = get_peak_compute_force(); // gflops
+  double io_bandwidth = get_io_bandwidth(); // GB/s
+  double io_efficiency = theory_io / (latency * 1000) / io_bandwidth;
+  double compute_efficiency = theory_ops / (latency * 1000) / peak_compute_force;
+  printf("[MLU Hardware Time ]: %.3f us\n", latency);
+  printf("[MLU IO Efficiency ]: %f\n", io_efficiency);
+  printf("[MLU Compute Efficiency]: %f\n", compute_efficiency);
+  printf("[MLU Diff Rate ]: %f\n", diff);
+  printf(diff == 0 ? "PASSED\n" : "FAILED\n");
+
+  return 0;
+}

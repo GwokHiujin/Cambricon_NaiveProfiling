@@ -6,7 +6,7 @@ build: maxPool2d
 OBJ =  maxPool2d.o tool.o public.o
 INCLUDES := -I${NEUWARE_HOME}/include
 LIBRARIES := -L${NEUWARE_HOME}/lib64
-CXXFLAGS := -Og -std=c++11 -fPIC -lstdc++ -Wall
+CXXFLAGS := -Og -std=c++11 -fPIC -lstdc++ -Wall -O3 -pthread
 LDFLAGS := -lcnnl -lcnrt -lcndrv
 
 maxPool2d: $(OBJ)

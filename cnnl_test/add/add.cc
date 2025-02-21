@@ -22,15 +22,15 @@ static cnnlStatus_t TestOpTensor(cnnlHandle_t handle,
     int dim_test[4] = {16, 256, 112, 112}; // NCHW Type
     cnnlTensorDescriptor_t descX;
     CNNL_CHECK(cnnlCreateTensorDescriptor(&descX));
-    CNNL_CHECK(cnnlSetTensorDescriptor(descX, CNNL_LAYOUT_NCHW, dtype, 4, dim_test));
+    CNNL_CHECK(cnnlSetTensorDescriptor(descX, CNNL_LAYOUT_ARRAY, dtype, 4, dim_test));
 
     cnnlTensorDescriptor_t descY;
     CNNL_CHECK(cnnlCreateTensorDescriptor(&descY));
-    CNNL_CHECK(cnnlSetTensorDescriptor(descY, CNNL_LAYOUT_NCHW, dtype, 4, dim_test));
+    CNNL_CHECK(cnnlSetTensorDescriptor(descY, CNNL_LAYOUT_ARRAY, dtype, 4, dim_test));
 
     cnnlTensorDescriptor_t descZ;
     CNNL_CHECK(cnnlCreateTensorDescriptor(&descZ));
-    CNNL_CHECK(cnnlSetTensorDescriptor(descZ, CNNL_LAYOUT_NCHW, dtype, 4, dim_test));
+    CNNL_CHECK(cnnlSetTensorDescriptor(descZ, CNNL_LAYOUT_ARRAY, dtype, 4, dim_test));
 
     cnnlOpTensorDescriptor_t descOpTensor; // Prepare desc of OpTensor
     CNNL_CHECK(cnnlCreateOpTensorDescriptor(&descOpTensor));
@@ -143,7 +143,7 @@ int main(int argc, char *argv[])
     CNNL_CHECK(cnnlSetQueue(handle, queue));
 
     // Test
-    CNNL_CHECK(TestOpTensor(handle, optensor, OpTensorDesc, dtype, std::stof("1"), std::stof("1"), std::stof("1")));
+    CNNL_CHECK(TestOpTensor(handle, optensor, OpTensorDesc, dtype, std::stof("1"), std::stof("1"), std::stof("0")));
 
     CNRT_CHECK(cnrtQueueDestroy(queue));
     CNNL_CHECK(cnnlDestroy(handle));

@@ -10,7 +10,7 @@ float dst_cpu[ELEM_NUM];
 
 __mlu_global__ void kernel(float *output, const float *a,
                            const float *b, int32_t data_num) {
-  if (nullptr == output || nullptr == a || nullptr == b || 0 >= data_num) {
+  if (NULL == output || NULL == a || NULL == b || 0 >= data_num) {
     return;
   }
 

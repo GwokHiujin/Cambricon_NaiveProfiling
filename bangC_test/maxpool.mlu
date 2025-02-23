@@ -1,0 +1,214 @@
+#include <float.h>
+#include <math.h>
+#include <memory.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <sys/time.h>
+#include <algorithm>
+
+#include "bang.h"
+#include "../utils.h"
+
+// macros
+#define N_BATCHES 16
+#define CHANNELS 256
+#define HEIGHT 112
+#define WIDTH 112
+#define KERNEL_HEIGHT 3
+#define KERNEL_WIDTH 3
+#define STRIDE_HEIGHT 2
+#define STRIDE_WIDTH 2
+#define DILATION_X 1
+#define DILATION_Y 1
+#define PADDING_H_0 0
+#define PADDING_H_1 0
+#define PADDING_W_0 0
+#define PADDING_W_1 0
+
+#define BUFFER 130000
+#define BLOCK 32
+
+#define BATCH_OFFSET (CHANNELS * HEIGHT * WIDTH)
+#define HEIGHT_OUT floor((HEIGHT + PADDING_H_0 + PADDING_H_1 - KERNEL_HEIGHT) / STRIDE_HEIGHT) + 1
+#define WIDTH_OUT floor((WIDTH + PADDING_W_0 + PADDING_W_1 - KERNEL_WIDTH) / STRIDE_WIDTH) + 1
+
+void transposeNCHWtoNHWC(float *data_input_NCHW, float *data_input_NHWC, int N, int C, int H, int W)
+{
+    // NCHW to NHWC
+    for (int n = 0; n < N; ++n)
+    { // Iterate over batch
+        for (int h = 0; h < H; ++h)
+        { // Iterate over height
+            for (int w = 0; w < W; ++w)
+            { // Iterate over width
+                for (int c = 0; c < C; ++c)
+                {                                                              // Iterate over channels
+                    int nchw_index = n * C * H * W + c * H * W + h * W + w;    // Compute NCHW index
+                    int nhwc_index = n * H * W * C + h * W * C + w * C + c;    // Compute NHWC index
+                    data_input_NHWC[nhwc_index] = data_input_NCHW[nchw_index]; // Assign value
+                }
+            }
+        }
+    }
+}
+
+void transposeNHWCtoNCHW(float *data_input_NHWC, float *data_input_NCHW, int N, int C, int H, int W)
+{
+    // NHWC to NCHW
+    for (int n = 0; n < N; ++n)
+    { // Iterate over batch
+        for (int h = 0; h < H; ++h)
+        { // Iterate over height
+            for (int w = 0; w < W; ++w)
+            { // Iterate over width
+                for (int c = 0; c < C; ++c)
+                {                                                              // Iterate over channels
+                    int nhwc_index = n * H * W * C + h * W * C + w * C + c;    // Compute NHWC index
+                    int nchw_index = n * C * H * W + c * H * W + h * W + w;    // Compute NCHW index
+                    data_input_NCHW[nchw_index] = data_input_NHWC[nhwc_index]; // Assign value
+                }
+            }
+        }
+    }
+}
+
+__mlu_entry__ void MaxPooling2dKernel(float *bottom_data,
+                                      float *top_data,
+                                      float *index_data,
+                                      int channels,
+                                      int height,
+                                      int width,
+                                      int pooled_height,
+                                      int pooled_width,
+                                      int kernel_height,
+                                      int kernel_width,
+                                      int stride_h,
+                                      int stride_w,
+                                      int pad_h,
+                                      int pad_w)
+{
+    __nram__ float nram_buffer[BUFFER];
+    float *nram_des = nram_buffer;
+    float *nram_src = nram_des + pooled_height * pooled_width * BLOCK;
+
+    int last_index = channels / BLOCK;
+    int last_size = channels % BLOCK;
+
+    for (int sidx = 0; sidx <= last_index; sidx++)
+    {
+        int segsz = sidx == last_index ? last_size : BLOCK;
+        if (segsz == 0)
+            break;
+
+        float *bottom_data_ptr = bottom_data + taskId * height * width * channels + sidx * BLOCK;
+        float *top_data_ptr = top_data + taskId * pooled_height * pooled_width * channels + sidx * BLOCK;
+
+        for (int ph = 0; ph < pooled_height; ++ph)
+        {
+            for (int pw = 0; pw < pooled_width; ++pw)
+            {
+                int hstart = ph * stride_h - pad_h;
+                int wstart = pw * stride_w - pad_w;
+                int hend = std::min(hstart + kernel_height, height);
+                int wend = std::min(wstart + kernel_width, width);
+                hstart = std::max(hstart, 0);
+                wstart = std::max(wstart, 0);
+
+                int pool_index = ph * pooled_width + pw;
+                float *ptr_top_data = nram_des + pool_index * segsz;
+
+                for (int h = hstart; h < hend; ++h)
+                {
+                    for (int w = wstart; w < wend; ++w)
+                    {
+                        __memcpy(nram_src + (h - hstart) * (wend - wstart) * segsz,
+                                       bottom_data_ptr + (h * width + w) * segsz,
+                                       (wend - wstart) * segsz * sizeof(float), GDRAM2NRAM);
+                    }
+                }
+                __asm__ volatile("sync;");
+                __bang_maxpool(ptr_top_data, nram_src, segsz, hend - hstart, wend - wstart,
+                               kernel_height, kernel_width, stride_h, stride_w);
+            }
+        }
+        __memcpy(top_data_ptr, nram_des,
+                 pooled_height * pooled_width * segsz * sizeof(float), NRAM2GDRAM);
+    }
+}
+
+int main()
+{
+    // Prepare device
+    cnrtQueue_t queue;
+    CNRT_CHECK(cnrtQueueCreate(&queue));
+    cnrtDim3_t dim_task;
+    cnrtFunctionType_t func_type = CNRT_FUNC_TYPE_UNION1;
+    dim_task.x = N_BATCHES;
+    dim_task.y = 1;
+    dim_task.z = 1;
+
+    // Prepare data
+    const int size_input = ((N_BATCHES) * (CHANNELS) * (HEIGHT) * (WIDTH));
+    const int size_output = ((N_BATCHES) * (CHANNELS) * (HEIGHT_OUT) * (WIDTH_OUT));
+
+    float *data_input_NCHW = (float *)malloc(size_input * sizeof(float));
+    float *data_input_NHWC = (float *)malloc(size_input * sizeof(float));
+    float *data_output_NCHW = (float *)malloc(size_output * sizeof(float));
+    float *data_output_NHWC = (float *)malloc(size_output * sizeof(float));
+    float *data_index_NCHW = (float *)malloc(size_output * sizeof(float));
+    float *data_index_NHWC = (float *)malloc(size_output * sizeof(float));
+    for (size_t i = 0; i < size_input; i++)
+    {
+        data_input_NCHW[i] = RAND_MAX / rand();
+    }
+
+    transposeNCHWtoNHWC(data_input_NCHW, data_index_NHWC, N_BATCHES, CHANNELS, HEIGHT, WIDTH);
+
+    // Copy in Data
+    float *device_input_ptr, *device_index_ptr, *device_output_ptr;
+    CNRT_CHECK(cnrtMalloc((void **)&device_input_ptr, size_input * sizeof(float)));
+    CNRT_CHECK(cnrtMalloc((void **)&device_index_ptr, size_output * sizeof(float)));
+    CNRT_CHECK(cnrtMalloc((void **)&device_output_ptr, size_output * sizeof(float)));
+
+    CNRT_CHECK(cnrtMemcpy(device_input_ptr, data_input_NHWC, size_input, CNRT_MEM_TRANS_DIR_HOST2DEV));
+    CNRT_CHECK(cnrtMemcpy(device_index_ptr, data_index_NHWC, size_output, CNRT_MEM_TRANS_DIR_HOST2DEV));
+    CNRT_CHECK(cnrtMemcpy(device_output_ptr, data_output_NHWC, size_output, CNRT_MEM_TRANS_DIR_HOST2DEV));
+
+    // Create cnrt event
+    cnrtNotifier_t start, end;
+    CNRT_CHECK(cnrtNotifierCreate(&start));
+    CNRT_CHECK(cnrtNotifierCreate(&end));
+    CNRT_CHECK(cnrtPlaceNotifier(start, queue));
+    for (int i = 0; i < 100; i++)
+        MaxPooling2dKernel<<<dim_task, func_type, queue>>>(device_input_ptr, device_index_ptr, device_output_ptr,
+                                                           CHANNELS, HEIGHT, WIDTH,
+                                                           HEIGHT_OUT, WIDTH_OUT,
+                                                           KERNEL_HEIGHT, KERNEL_WIDTH,
+                                                           STRIDE_HEIGHT, STRIDE_WIDTH,
+                                                           PADDING_H_0, PADDING_W_0);
+    CNRT_CHECK(cnrtPlaceNotifier(end, queue));
+    CNRT_CHECK(cnrtQueueSync(queue));
+
+    // Copy out data
+    CNRT_CHECK(cnrtMemcpy(data_output_NHWC, device_output_ptr, size_output, CNRT_MEM_TRANS_DIR_DEV2HOST));
+    CNRT_CHECK(cnrtMemcpy(data_index_NHWC, device_index_ptr, size_output, CNRT_MEM_TRANS_DIR_DEV2HOST));
+
+    transposeNHWCtoNCHW(data_output_NHWC, data_output_NCHW, N_BATCHES, CHANNELS, HEIGHT, WIDTH);
+    transposeNHWCtoNCHW(data_index_NHWC, data_index_NCHW, N_BATCHES, CHANNELS, HEIGHT, WIDTH);
+
+    float mlu_compute_time = 0.0;
+    CNRT_CHECK(cnrtNotifierDuration(start, end, &mlu_compute_time));
+    printf("Mlu compute time(ms): %f\n", mlu_compute_time / 100000);
+
+    // Free device
+    CNRT_CHECK(cnrtFree(device_input_ptr));
+    CNRT_CHECK(cnrtFree(device_index_ptr));
+    CNRT_CHECK(cnrtFree(device_output_ptr));
+    CNRT_CHECK(cnrtQueueDestroy(queue));
+    CNRT_CHECK(cnrtNotifierDestroy(start));
+    CNRT_CHECK(cnrtNotifierDestroy(end));
+    free(data_input_NCHW);
+    free(data_index_NCHW);
+    free(data_output_NCHW);
+    return 0;
+}

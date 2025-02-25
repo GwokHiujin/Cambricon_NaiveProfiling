@@ -55,7 +55,7 @@ set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/test)
 ################################################################################
 # Build Include
 ################################################################################
-include_directories("${NEUWARE_HOME}/include")
+include_directories("${NEUWARE_HOME}/include" )
 
 # NOTE: setup cross toolchain as you need
 if(NOT ${TARGET_CPU_ARCH} MATCHES "${CMAKE_SYSTEM_PROCESSOR}-linux-gnu")

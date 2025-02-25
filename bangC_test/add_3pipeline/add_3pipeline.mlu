@@ -71,6 +71,10 @@ __mlu_global__ void kernel(float *output, const float *a,
     return;
   }
 
+  a += taskId * data_num;
+  b += taskId * data_num;
+  output += taskId * data_num;
+
   int32_t align_num = NFU_ALIGN_SIZE / sizeof(float);
   int32_t data_nram_num =
     MAX_NRAM_SIZE / sizeof(float) / 4 / align_num * align_num;
@@ -122,6 +126,7 @@ int main() {
   cnrtDim3_t dim;
   cnrtFunctionType_t func_type;
   get_policy_function_block(&dim, &func_type);
+  dim.x = 16;
 
   for (int32_t i = 0; i < ELEM_NUM; ++i) {
     src1_cpu[i] = 1.0;
@@ -138,7 +143,7 @@ int main() {
   CNRT_CHECK(cnrtMemcpy(src2_mlu, src2_cpu, ELEM_NUM * sizeof(float),
                         cnrtMemcpyHostToDev));
   CNRT_CHECK(cnrtPlaceNotifier(notifier_start, queue));
-  kernel<<<dim, func_type, queue>>>(dst_mlu, src1_mlu, src2_mlu, ELEM_NUM);
+  kernel<<<dim, func_type, queue>>>(dst_mlu, src1_mlu, src2_mlu, ELEM_NUM / dim.x);
   CNRT_CHECK(cnrtPlaceNotifier(notifier_end, queue));
   CNRT_CHECK(cnrtQueueSync(queue));
   CNRT_CHECK(cnrtMemcpy(dst_cpu, dst_mlu, ELEM_NUM * sizeof(float),
@@ -161,7 +166,7 @@ int main() {
   double io_bandwidth = get_io_bandwidth(); // GB/s
   double io_efficiency = theory_io / (latency * 1000) / io_bandwidth;
   double compute_efficiency = theory_ops / (latency * 1000) / peak_compute_force;
-  printf("[MLU Hardware Time ]: %.3f us\n", latency);
+  printf("[MLU Hardware Time ]: %.3f ms\n", latency / 1000);
   printf("[MLU IO Efficiency ]: %f\n", io_efficiency);
   printf("[MLU Compute Efficiency]: %f\n", compute_efficiency);
   printf("[MLU Diff Rate ]: %f\n", diff);

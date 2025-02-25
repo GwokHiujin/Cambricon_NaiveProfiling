@@ -120,12 +120,12 @@ add_unittests(${CMAKE_SOURCE_DIR}/maxpool
   "-Werror -fPIC -std=c++11"
   "")
 
-add_unittests(${CMAKE_SOURCE_DIR}/add_naive
+add_unittests(${CMAKE_SOURCE_DIR}/add
   "-Werror -fPIC -std=c++11 -pthread"
   "-Werror -fPIC -std=c++11"
-  "")
+  "cndrv;cndev")
 
 add_unittests(${CMAKE_SOURCE_DIR}/add_3pipeline
   "-Werror -fPIC -std=c++11 -pthread"
   "-Werror -fPIC -std=c++11"
-  "")
+  "cndrv;cndev")

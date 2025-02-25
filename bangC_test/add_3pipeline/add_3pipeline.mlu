@@ -1,5 +1,6 @@
-#include "common.h"
-#include <bang.h>
+#include "../common.h"
+#include "bang.h"
+#include <cnrt.h>
 
 
 __nram__ uint8_t nram_buffer[MAX_NRAM_SIZE];

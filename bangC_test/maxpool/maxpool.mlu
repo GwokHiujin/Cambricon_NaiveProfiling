@@ -7,7 +7,7 @@
 #include <algorithm>
 
 #include "bang.h"
-#include "../utils.h"
+#include <cnrt.h>
 
 // macros
 #define N_BATCHES 16
@@ -72,7 +72,7 @@ void transposeNHWCtoNCHW(float *data_input_NHWC, float *data_input_NCHW, int N, 
     }
 }
 
-__mlu_entry__ void MaxPooling2dKernel(float *bottom_data,
+__mlu_global__ void MaxPooling2dKernel(float *bottom_data,
                                       float *top_data,
                                       float *index_data,
                                       int channels,

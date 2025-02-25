@@ -1,0 +1,41 @@
+#include "add.h"
+
+__mlu_global__ void AddKernel(float *output, const float *a,
+                           const float *b, int32_t data_num)
+{
+    __nram__ uint8_t nram_buffer[MAX_NRAM_SIZE];
+    if (NULL == output || NULL == a || NULL == b || data_num <= 0)
+    {
+        return;
+    }
+
+    int32_t align_num = NFU_ALIGN_SIZE / sizeof(float);
+    int32_t data_nram_num = MAX_NRAM_SIZE / sizeof(float) / 2 / align_num * align_num;
+    float *a_nram = (float *)nram_buffer;
+    float *b_nram = (float *)a_nram + data_nram_num;
+    int32_t loop_num = data_num / data_nram_num;
+    int32_t rem_nram_num = data_num % data_nram_num;
+
+    for (int32_t i = 0; i < loop_num; i++)
+    {
+        __memcpy(a_nram, a + i * data_nram_num,
+                 data_nram_num * sizeof(float), GDRAM2NRAM);
+        __memcpy(b_nram, b + i * data_nram_num,
+                 data_nram_num * sizeof(float), GDRAM2NRAM);
+        __bang_add(a_nram, a_nram, b_nram, data_nram_num);
+        __memcpy(output + i * data_nram_num, a_nram,
+                 data_nram_num * sizeof(float), NRAM2GDRAM);
+    }
+
+    if (rem_nram_num != 0)
+    {
+        int32_t rem_align_num = (rem_nram_num + align_num - 1) / align_num * align_num;
+        __memcpy(a_nram, a + loop_num * data_nram_num,
+                 rem_nram_num * sizeof(float), GDRAM2NRAM);
+        __memcpy(b_nram, b + loop_num * data_nram_num,
+                 rem_nram_num * sizeof(float), GDRAM2NRAM);
+        __bang_add(a_nram, a_nram, b_nram, rem_align_num);
+        __memcpy(output + loop_num * data_nram_num, a_nram,
+                 rem_nram_num * sizeof(float), NRAM2GDRAM);
+    }
+}

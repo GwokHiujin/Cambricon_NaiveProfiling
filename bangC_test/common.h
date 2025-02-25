@@ -37,7 +37,7 @@
     }                                                                          \
   } while(0)
 
-int32_t get_core_num_per_cluster() {
+inline int32_t get_core_num_per_cluster() {
   CNdev mlu_dev;
   CNDRV_CHECK(cnCtxGetDevice(&mlu_dev));
   int32_t core_num_per_cluster = -1;
@@ -48,7 +48,7 @@ int32_t get_core_num_per_cluster() {
   return core_num_per_cluster;
 }
 
-int32_t get_cluster_num() {
+inline int32_t get_cluster_num() {
   CNcontext drv_ctx;
   CNctxConfigParam ctx_conf_param;
   CNDRV_CHECK(cnCtxGetCurrent(&drv_ctx));
@@ -59,7 +59,7 @@ int32_t get_cluster_num() {
 }
 
 // get peak compute force, gflops
-double get_peak_compute_force() {
+inline double get_peak_compute_force() {
   int card = -1;
   int ipu_frequency = -1;
   CNRT_CHECK(cnrtGetDevice(&card));
@@ -78,7 +78,7 @@ double get_peak_compute_force() {
 }
 
 // get io bandwidth, GB/s
-double get_io_bandwidth() {
+inline double get_io_bandwidth() {
   int card = -1;
   CNRT_CHECK(cnrtGetDevice(&card));
   CNDEV_CHECK(cndevInit(0));
@@ -95,7 +95,7 @@ double get_io_bandwidth() {
   return result;
 }
 
-void get_policy_function_block(cnrtDim3_t *dim, cnrtFunctionType_t *func_type) {
+inline void get_policy_function_block(cnrtDim3_t *dim, cnrtFunctionType_t *func_type) {
   *func_type = cnrtFuncTypeBlock;
   dim->x = 1;
   dim->y = 1;
@@ -103,7 +103,7 @@ void get_policy_function_block(cnrtDim3_t *dim, cnrtFunctionType_t *func_type) {
   return;
 }
 
-void get_policy_function_union1(cnrtDim3_t *dim, cnrtFunctionType_t *func_type) {
+inline void get_policy_function_union1(cnrtDim3_t *dim, cnrtFunctionType_t *func_type) {
   *func_type = cnrtFuncTypeUnion1;
   dim->x = get_core_num_per_cluster();
   dim->y = get_cluster_num();

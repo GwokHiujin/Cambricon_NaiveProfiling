@@ -91,7 +91,7 @@ if __name__ == "__main__":
             warmup=10,
             repeats=100
         )
-        print(f"{cfg['desc']} | Batch Size: {cfg['batch_size']} | Avg Time: {avg_time / cfg['batch_size']:.2f}ms")
+        print(f"{cfg['desc']} | Batch Size: {cfg['batch_size']} | Total Time: {avg_time:.2f}ms | Avg Time: {avg_time / cfg['batch_size']:.2f}ms")
 
     # True Data Test
     print("\n=== True Data Test ===")

@@ -144,7 +144,7 @@ docker run -it --ipc=host -v /data:/data -v /usr/bin/cnmon:/usr/bin/cnmon --devi
    - Install dependencies:
 
      ```bash
-     pip install protobuf==3.20.0 tensorflow==2.15.0
+     pip install protobuf==3.20.3 tensorflow==2.15.0
      pip install transformers
      ```
 

@@ -39,12 +39,10 @@
 *.pt
 *.pyc
 *.bin
-.keep
 dllogger.json
 **/__pycache__/
 model_zoo/BERT/models/data/squad/v1.1
 model_zoo/BERT/models/data/squad/v2.0
 model_zoo/BERT/models/checkpoints/cased*
-model_zoo/BERT/models/results
 model_zoo/SSD_ResNet50/models_*
 logfile.txt

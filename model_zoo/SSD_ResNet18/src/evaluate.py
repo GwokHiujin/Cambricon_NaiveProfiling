@@ -126,7 +126,9 @@ def evaluate(model, coco, cocoGt, encoder, inv_map, args):
     cocoDt = cocoGt.loadRes(final_results)
 
     E = COCOeval(cocoGt, cocoDt, iouType='bbox')
+    eval_start = time.time()
     E.evaluate()
+    print("Evaluating Ended, total time: {:2f}s".format(time.time() - eval_start))
     E.accumulate()
     if args.local_rank == 0:
         E.summarize()

@@ -65,7 +65,7 @@ You can use `python main.py -h` to obtain the list of available options in the `
 ### 5. (Optional) Resume training from a checkpointed model
 
 ```bash
-python ./main.py --backbone resnet50 --checkpoint ${save_dir}/epoch_*.pt --data ${COCO_DIR}
+python ./main.py --backbone resnet18 --checkpoint ${save_dir}/epoch_*.pt --data ${COCO_DIR}
 ```
 
 ### 6. Start inference

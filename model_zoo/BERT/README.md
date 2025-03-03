@@ -183,6 +183,8 @@ bash run_scripts/BERT_FP32_2E_4MLUs_Train.sh
 
 Before running inference, set the `BERT_INFER_MODEL` environment variable to the trained model path (e.g., `models/output/pytorch_model.bin`).
 
+> Before Inferencing, you should run `export CNCL_MLU_DIRECT_LEVEL=1` to enable MLU Direct RDMA.
+
 | Models | Framework | MLU          | Data Precision | Description      | Run                            |
 | ------ | --------- | ------------ | -------------- | ---------------- | ------------------------------ |
 | BERT   | PyTorch   | MLU370-S4/X4 | FP32           | Inference script | `bash run_scripts/BERT_Infer.sh` |

@@ -37,7 +37,7 @@ set_configs "$config"
 args_cmd=" --data $COCO2017_TRAIN_DATASET --bs $batch_size \
     --checkpoint $PYTORCH_TRAIN_CHECKPOINT/ssd/epoch_31.pt \
     --seed $seed --epochs 33 --iterations $iters \
-    --backbone resnet50 \
+    --backbone resnet18 \
     --device $device \
     --num-workers $num_workers \
     --save ./models --backbone-path $PYTORCH_TRAIN_CHECKPOINT/ssd/resnet50-19c8e357.pth "

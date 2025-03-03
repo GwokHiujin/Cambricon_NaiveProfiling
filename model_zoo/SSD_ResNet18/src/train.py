@@ -23,7 +23,7 @@ import re
 import sys
 
 cur_dir = os.path.dirname(os.path.abspath(__file__))
-sys.path.append(cur_dir + "/../../../tools/utils/")
+sys.path.append(cur_dir + "/../../tools/utils/")
 from metric import MetricCollector
 
 def train_loop(model, loss_func, epoch, optim, train_dataloader, val_dataloader, encoder, iteration, logger, args, mean, std, scaler=None):

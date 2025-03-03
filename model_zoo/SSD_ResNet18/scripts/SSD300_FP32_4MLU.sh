@@ -22,7 +22,7 @@ start=$(date +%s)
 start_fmt=$(date +%Y-%m-%d\ %r)
 echo "STARTING TIMING RUN AT $start_fmt"
 
-/torch/venv3/pytorch/bin/python -m torch.distributed.launch --nproc_per_node=4 $1/main.py --backbone resnet50 --warmup 300 --bs $bs --data $2  --device $device ${@:4}
+/torch/venv3/pytorch/bin/python -m torch.distributed.launch --nproc_per_node=4 $1/main.py --backbone resnet18 --warmup 300 --bs $bs --data $2  --device $device ${@:4}
 
 # end timing
 end=$(date +%s)
@@ -31,5 +31,5 @@ echo "ENDING TIMING RUN AT $end_fmt"
 
 # report result
 result=$(( $end - $start ))
-result_name="SSD_resnet50"
+result_name="SSD_resnet"
 echo "RESULT: $result_name,$result s,$start_fmt"

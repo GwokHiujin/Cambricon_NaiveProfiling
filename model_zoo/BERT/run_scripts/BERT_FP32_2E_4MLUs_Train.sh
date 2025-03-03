@@ -17,7 +17,7 @@ fi
 bash models/scripts/run_squad.sh \
 $BERT_MODEL \
 2 \
-4 \
+1 \
 0.00003 \
 fp32 \
 4 \

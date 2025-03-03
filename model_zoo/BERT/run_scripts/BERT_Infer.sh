@@ -16,16 +16,16 @@ fi
 bash models/scripts/run_squad.sh \
 $BERT_INFER_MODEL \
 2 \
-4 \
+1 \
 0.00003 \
 fp32 \
 4 \
 1 \
 $SQUAD_DIR \
-checkpoints/cased_L-12_H-768_A-12/vocab.txt \
+checkpoints/squad/vocab.txt \
 output \
 eval \
-checkpoints/cased_L-12_H-768_A-12/bert_config.json \
+checkpoints/squad/bert_config.json \
 -1 \
 -1 \
 -1 \

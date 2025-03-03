@@ -1,0 +1,1 @@
+/torch/venv3/pytorch/bin/python ./lstm.py

@@ -22,10 +22,10 @@ fp32 \
 4 \
 1 \
 $SQUAD_DIR \
-checkpoints/squad/vocab.txt \
+checkpoints/cased_L-12_H-768_A-12/vocab.txt \
 output \
 eval \
-checkpoints/squad/bert_config.json \
+checkpoints/cased_L-12_H-768_A-12/bert_config.json \
 -1 \
 -1 \
 -1 \

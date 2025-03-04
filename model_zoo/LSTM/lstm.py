@@ -8,7 +8,7 @@ except ImportError:
     print("import torch_mlu failed!")
 
 class LSTMNetwork(nn.Module):
-    def __init__(self, input_size=10, hidden_size=256, num_layers=1, device='mlu'):
+    def __init__(self, input_size=10, hidden_size=256, num_layers=10, device='mlu'):
         super(LSTMNetwork, self).__init__()
         self.hidden_size = hidden_size
         self.num_layers = num_layers
@@ -30,7 +30,7 @@ class LSTMNetwork(nn.Module):
         out = self.fc(out[:, -1, :])
         return out
 
-def test_inference_time(model, sequence_length=256, warmup=10, repeats=100):
+def test_inference_time(model, sequence_length=100, warmup=10, repeats=100):
     device = next(model.parameters()).device
     dummy_input = torch.randn(1, sequence_length, model.lstm.input_size).to(device)  # batch_size=1
     

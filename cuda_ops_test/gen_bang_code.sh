@@ -18,6 +18,7 @@ mkdir $BANG_DIR
 
 total_files=$(find "$CU_SRC_DIR" -name '*.cu' | wc -l)  
 current_file=0  
+failed_count=0
 failed_files=()
 
 for cu_file in "$CU_SRC_DIR"/*.cu; do  
@@ -41,15 +42,18 @@ for cu_file in "$CU_SRC_DIR"/*.cu; do
         echo "Done"
     else
         echo "Fail"
+        ((failed_count++))
         failed_files+=("$filename_noext")
     fi
 
 done  
 
-echo "\n------------ All files processed ------------\n" 
+echo
+echo "------------ All files processed ------------" 
+echo
 
 if [ ${#failed_files[@]} -gt 0 ]; then  
-    echo "The following files failed to process, please check:"  
+    echo "$failed_count / $total_files files failed to process, please check:"  
     for failed_file in "${failed_files[@]}"; do  
         echo "$failed_file"
     done 

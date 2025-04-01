@@ -3,7 +3,7 @@
 #include <cuda_runtime.h>
 // #include <pybind11/pybind11.h>
 
-namespace py = pybind11;
+// namespace py = pybind11;
 
 // Helper device function for fast multiply-add operations
 template <typename scalar_t>

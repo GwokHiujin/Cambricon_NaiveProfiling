@@ -5,7 +5,7 @@
 #include <c10/util/Optional.h>
 #include <stdint.h>
 
-namespace py = pybind11;
+// namespace py = pybind11;
 
 // Helper functions for vectorized (128-bit) loads/stores
 __device__ __forceinline__ float4 load_float4(const float* addr) {

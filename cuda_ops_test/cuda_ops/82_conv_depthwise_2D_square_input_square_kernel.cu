@@ -188,7 +188,7 @@ __global__ void depthwiseConv2DKernel(
 //     return out;
 // }
 
-namespace py = pybind11;
+// namespace py = pybind11;
 
 // Wrapper to handle optional bias
 // torch::Tensor forward_wrap(

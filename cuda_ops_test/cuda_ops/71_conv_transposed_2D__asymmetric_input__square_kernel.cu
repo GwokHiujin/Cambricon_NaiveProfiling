@@ -3,7 +3,7 @@
 // #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 
-namespace py = pybind11;
+// namespace py = pybind11;
 
 inline std::vector<int64_t> parseIntArrayRef(const py::object& obj) {
     std::vector<int64_t> result;

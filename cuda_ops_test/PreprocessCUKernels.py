@@ -79,6 +79,7 @@ def sanitize_cuda_code(file_path):
     patterns = [
         (r'^#include\s*<torch/extension\.h>\s*$', 0),
         (r'^#include\s*<pybind11/pybind11\.h>\s*$', 0),
+        (r'^(namespace\s+\w+.*?)\s*$', 0),
         (r'^(torch::Tensor\s+\w+.*?)\s*$', 1),
         (r'^(at::Tensor\s+\w+.*?)\s*$', 1),
         (r'^PYBIND11_MODULE\s*\(.*?\)\s*{', 1)
@@ -137,10 +138,10 @@ def preprocess_cuda_files(directory):
 
 
 if __name__ == "__main__":
-    ORIGIN_URL = "https://pub.sakana.ai/ai-cuda-engineer/leaderboard?show_kernels=1&level=1&sort_by=level_task&experiment=all"  # 替换实际URL
+    ORIGIN_URL = "https://pub.sakana.ai/ai-cuda-engineer/leaderboard?show_kernels=1&level=1&sort_by=level_task&experiment=all"
     DOWNLOAD_DIR = "./cuda_ops"  
 
-    download_cuda_kernels(ORIGIN_URL, DOWNLOAD_DIR)
+    # download_cuda_kernels(ORIGIN_URL, DOWNLOAD_DIR)
     print("\n------------ All Downloaded! ------------")
     preprocess_cuda_files(DOWNLOAD_DIR)
     print("\n------------ All Processed! ------------")

@@ -4,7 +4,7 @@
 // #include <pybind11/pybind11.h>
 #include <vector>
 
-namespace py = pybind11;
+// namespace py = pybind11;
 
 // Constant memory for weights
 __constant__ float c_weight[16384];

@@ -9,3 +9,20 @@
 ```bash
 bash gen_bang_code.sh
 ```
+
+---
+
+```
+@article{lange2025aicudaengineer,
+    title     = {The AI CUDA Engineer: Agentic CUDA Kernel Discovery,
+                 Optimization and Composition},
+    author    = {Lange, Robert Tjarko and
+                 Prasad, Aaditya and 
+                 Sun, Qi and
+                 Faldor, Maxence and
+                 Tang, Yujin and
+                 Ha, David},
+    journal   = {arXiv preprint},
+    year      = {2025}
+}
+```

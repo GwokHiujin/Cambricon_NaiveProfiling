@@ -1,0 +1,49 @@
+warning: CUDA version 12.1 is only partially supported
+./cuda_ops/10_3D_tensor_matrix_multiplication.cu:65:5: error: use of undeclared identifier 'torch'
+   65 |     torch::Tensor A,
+      |     ^
+./cuda_ops/10_3D_tensor_matrix_multiplication.cu:66:5: error: use of undeclared identifier 'torch'
+   66 |     torch::Tensor B,
+      |     ^
+./cuda_ops/10_3D_tensor_matrix_multiplication.cu:67:5: error: use of undeclared identifier 'torch'
+   67 |     torch::Tensor output) {
+      |     ^
+./cuda_ops/10_3D_tensor_matrix_multiplication.cu:79:31: error: use of undeclared identifier 'scalar_t'
+   79 |         unrolled_tiled_kernel<scalar_t><<<grid, threads>>>(
+      |                               ^
+./cuda_ops/10_3D_tensor_matrix_multiplication.cu:88:9: error: no matching function for call to 'printf'
+   88 |         printf("Error in module_fn_cuda_forward: %s\n", cudaGetErrorString(err));
+      |         ^~~~~~
+/CUDA2BANG/cuda2bang/polygeist/mlir-build/lib/clang/18/include/__clang_cuda_runtime_wrapper.h:426:16: note: candidate function not viable: call to __device__ function from __host__ function
+  426 | __device__ int printf(const char *, ...);
+      |                ^
+cgeist: /CUDA2BANG/cuda2bang/polygeist/tools/cgeist/Lib/ValueCategory.cc:37: mlir::Value ValueCategory::getValue(mlir::Location, mlir::OpBuilder&) const: Assertion `val && "must be not-null"' failed.
+PLEASE submit a bug report to https://github.com/llvm/llvm-project/issues/ and include the crash backtrace.
+Stack dump:
+0.	Program arguments: /CUDA2BANG/cuda2bang/polygeist/build/bin/cgeist --function=* -cuda-lower -output-intermediate-gpu -scal-rep=0 -raise-scf-to-affine --cuda-gpu-arch=sm_70 -parallel-licm=1 -gpu-kernel-structure-mode=block_thread_noops --enable-buffer-elim=0 -O2 -I /CUDA2BANG/cuda2bang/polygeist/mlir-build/projects/openmp/runtime/src/ -resource-dir=/CUDA2BANG/cuda2bang/polygeist/mlir-build/lib/clang/18/ -I /CUDA2BANG/cuda2bang/polygeist/mlir-build/projects/openmp/runtime/src/ -I /usr/local/cuda/include/ -use-original-gpu-block-size --emit-npu=distribute.mincut -use-my-pass -bang-dump-file=./gen_bang_results/10_3D_tensor_matrix_multiplication.mlu ./cuda_ops/10_3D_tensor_matrix_multiplication.cu -o 10_3D_tensor_matrix_multiplication.o
+1.	<eof> parser at end of file
+ #0 0x000055ae6db52b9f llvm::sys::PrintStackTrace(llvm::raw_ostream&, int) (/CUDA2BANG/cuda2bang/polygeist/build/bin/cgeist+0x3390b9f)
+ #1 0x000055ae6db50384 SignalHandler(int) Signals.cpp:0:0
+ #2 0x00007f445d410420 __restore_rt (/lib/x86_64-linux-gnu/libpthread.so.0+0x14420)
+ #3 0x00007f445cd9500b raise /build/glibc-SzIz7B/glibc-2.31/signal/../sysdeps/unix/sysv/linux/raise.c:51:1
+ #4 0x00007f445cd74859 abort /build/glibc-SzIz7B/glibc-2.31/stdlib/abort.c:81:7
+ #5 0x00007f445cd74729 get_sysdep_segment_value /build/glibc-SzIz7B/glibc-2.31/intl/loadmsgcat.c:509:8
+ #6 0x00007f445cd74729 _nl_load_domain /build/glibc-SzIz7B/glibc-2.31/intl/loadmsgcat.c:970:34
+ #7 0x00007f445cd85fd6 (/lib/x86_64-linux-gnu/libc.so.6+0x33fd6)
+ #8 0x000055ae6b363770 ValueCategory::getValue(mlir::Location, mlir::OpBuilder&) const /CUDA2BANG/cuda2bang/polygeist/tools/cgeist/Lib/ValueCategory.cc:37:3
+ #9 0x000055ae6b377b2c MLIRScanner::VisitCallExpr(clang::CallExpr*) /CUDA2BANG/cuda2bang/polygeist/tools/cgeist/Lib/CGCall.cc:1679:70
+#10 0x000055ae6b259837 clang::StmtVisitorBase<std::add_pointer, MLIRScanner, ValueCategory>::Visit(clang::Stmt*) /CUDA2BANG/cuda2bang/polygeist/mlir-build/tools/clang/include/clang/AST/StmtNodes.inc:950:0
+#11 0x000055ae6b1f71f5 MLIRScanner::VisitVarDecl(clang::VarDecl*) /CUDA2BANG/cuda2bang/polygeist/tools/cgeist/Lib/clang-mlir.cc:960:0
+#12 0x000055ae6b3237f8 MLIRScanner::VisitDeclStmt(clang::DeclStmt*) /CUDA2BANG/cuda2bang/polygeist/tools/cgeist/Lib/CGStmt.cc:1031:22
+#13 0x000055ae6b258bd7 clang::StmtVisitorBase<std::add_pointer, MLIRScanner, ValueCategory>::Visit(clang::Stmt*) /CUDA2BANG/cuda2bang/polygeist/mlir-build/tools/clang/include/clang/AST/StmtNodes.inc:98:0
+#14 0x000055ae6b323aa4 MLIRScanner::VisitCompoundStmt(clang::CompoundStmt*) /CUDA2BANG/cuda2bang/polygeist/tools/cgeist/Lib/CGStmt.cc:1052:24
+#15 0x000055ae6b258b77 clang::StmtVisitorBase<std::add_pointer, MLIRScanner, ValueCategory>::Visit(clang::Stmt*) /CUDA2BANG/cuda2bang/polygeist/mlir-build/tools/clang/include/clang/AST/StmtNodes.inc:74:0
+#16 0x000055ae6b1f3309 MLIRScanner::init(mlir::func::FuncOp, clang::FunctionDecl const*) /CUDA2BANG/cuda2bang/polygeist/tools/cgeist/Lib/clang-mlir.cc:457:0
+#17 0x000055ae6b216e2e MLIRASTConsumer::run() /CUDA2BANG/cuda2bang/polygeist/tools/cgeist/Lib/clang-mlir.cc:5300:0
+#18 0x000055ae6b217d6a MLIRASTConsumer::HandleTranslationUnit(clang::ASTContext&) /CUDA2BANG/cuda2bang/polygeist/tools/cgeist/Lib/clang-mlir.cc:5456:0
+#19 0x000055ae72dd95a9 clang::ParseAST(clang::Sema&, bool, bool) (/CUDA2BANG/cuda2bang/polygeist/build/bin/cgeist+0x86175a9)
+#20 0x000055ae6f80e841 clang::FrontendAction::Execute() (/CUDA2BANG/cuda2bang/polygeist/build/bin/cgeist+0x504c841)
+#21 0x000055ae6b21cc9c parseMLIR(char const*, std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char>>, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char>>>>, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char>>, std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char>>, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char>>>>, std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char>>, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char>>>>, mlir::OwningOpRef<mlir::ModuleOp>&, llvm::Triple&, llvm::DataLayout&, llvm::Triple&, llvm::DataLayout&) /CUDA2BANG/cuda2bang/polygeist/tools/cgeist/Lib/clang-mlir.cc:6190:0
+#22 0x000055ae6b21e3aa main /CUDA2BANG/cuda2bang/polygeist/tools/cgeist/driver.cc:602:0
+#23 0x00007f445cd76083 __libc_start_main /build/glibc-SzIz7B/glibc-2.31/csu/../csu/libc-start.c:342:3
+#24 0x000055ae6b1ef84e _start (/CUDA2BANG/cuda2bang/polygeist/build/bin/cgeist+0xa2d84e)

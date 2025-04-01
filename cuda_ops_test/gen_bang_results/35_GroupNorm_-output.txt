@@ -1,0 +1,4 @@
+warning: CUDA version 12.1 is only partially supported
+./cuda_ops/35_GroupNorm_.cu:4:10: fatal error: 'ATen/cuda/CUDAContext.h' file not found
+    4 | #include <ATen/cuda/CUDAContext.h>
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~

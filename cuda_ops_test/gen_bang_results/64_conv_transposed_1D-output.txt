@@ -1,0 +1,4 @@
+warning: CUDA version 12.1 is only partially supported
+./cuda_ops/64_conv_transposed_1D.cu:2:10: fatal error: 'ATen/ATen.h' file not found
+    2 | #include <ATen/ATen.h>
+      |          ^~~~~~~~~~~~~

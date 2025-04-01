@@ -1,0 +1,2 @@
+#include <bang.h>
+__mlu_global__ void warp_argmax_nosm_kernel(float* v1, 

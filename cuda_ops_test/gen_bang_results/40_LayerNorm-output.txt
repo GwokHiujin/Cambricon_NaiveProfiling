@@ -1,0 +1,4 @@
+warning: CUDA version 12.1 is only partially supported
+./cuda_ops/40_LayerNorm.cu:5:10: fatal error: 'ATen/AccumulateType.h' file not found
+    5 | #include <ATen/AccumulateType.h>
+      |          ^~~~~~~~~~~~~~~~~~~~~~~

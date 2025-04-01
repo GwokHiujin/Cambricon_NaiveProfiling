@@ -1,0 +1,4 @@
+warning: CUDA version 12.1 is only partially supported
+./cuda_ops/86_conv_depthwise_separable_2D.cu:6:16: error: expected namespace name
+    6 | namespace py = pybind11;
+      |                ^

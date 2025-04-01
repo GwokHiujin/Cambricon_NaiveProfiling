@@ -1,0 +1,42 @@
+#include <bang.h>
+__mlu_global__ void add_bias_kernel_optimized(float* v1, float* v2, int32_t v3, int32_t v4, int32_t v5, int32_t v6) {
+  int32_t c32_7 = 32;
+  size_t c18446744073709551615_8 = -1;
+  size_t c0_9 = 0;
+  size_t c1_10 = 1;
+  size_t c32_11 = 32;
+  size_t v12 = (size_t) v4;
+  int32_t v13 = (v5) * (v6);
+  size_t v14 = (size_t) v13;
+  int64_t v15 = taskId;
+  int32_t v16 = (int32_t) v15;
+  int32_t v17 = (v16) * (c32_7);
+  for (size_t v18 = c0_9; v18 < c32_11; v18 += c1_10) {
+    int64_t v19 = (int64_t)v18;
+    int32_t v20 = (int32_t) v19;
+    int32_t v21 = (v17) + (v20);
+    size_t v22 = (size_t) v21;
+    size_t v23 = (c18446744073709551615_8) - (v22);
+    bool v24 = v22 < c0_9;
+    size_t v25 = (v24) ? (v23) : (v22);
+    size_t v26 = (v25) / (v14);
+    size_t v27 = (c18446744073709551615_8) - (v26);
+    size_t v28 = (v24) ? (v27) : (v26);
+    size_t v29 = (v28) % (v12);
+    size_t v30 = (v29) + (v12);
+    bool v31 = v29 < c0_9;
+    size_t v32 = (v31) ? (v30) : (v29);
+    bool v33 = v21 < v3;
+    if (v33) {
+      float v34 = v2[v32];
+      float v35 = v1[v22];
+      float v36 = v35 + v34;
+      v1[v22] = v36;
+    };
+  }
+  return;
+}
+
+
+
+

@@ -1,0 +1,27 @@
+#include <bang.h>
+__mlu_global__ void conv2d_cuda_kernel(float* v1, float* v2, float* v3, float* v4, int32_t v5, int32_t v6, int32_t v7, int32_t v8, int32_t v9, int32_t v10, int32_t v11, int32_t v12, int32_t v13, int32_t v14, int32_t v15, int32_t v16, int32_t v17, int32_t v18, int32_t v19, int32_t v20) {
+  int32_t c32_21 = 32;
+  size_t c32_22 = 32;
+  size_t c1_23 = 1;
+  size_t c0_24 = 0;
+  size_t c4_25 = 4;
+  size_t c18446744073709551615_26 = -1;
+  float v27 = (float)0.0e+00;
+  int32_t c0_28 = 0;
+  int32_t c4_29 = 4;
+  int32_t c1_30 = 1;
+  uint8_t* v31 = (uint8_t*)v3;
+  size_t v32 = (size_t) v8;
+  size_t v33 = (size_t) v19;
+  size_t v34 = (size_t) v17;
+  size_t v35 = (size_t) v7;
+  size_t v36 = (size_t) v18;
+  size_t v37 = (size_t) v16;
+  size_t v38 = (size_t) v20;
+  size_t v39 = (size_t) v6;
+  size_t v40 = (c18446744073709551615_26) - (v39);
+  bool v41 = v39 < c0_24;
+  size_t v42 = (v41) ? (v40) : (v39);
+  size_t v43 = (size_t) v12;
+  size_t v44 = (size_t) v13;
+  size_t v45 = (size_t) v11;

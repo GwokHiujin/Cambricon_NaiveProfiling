@@ -1,0 +1,92 @@
+#include <bang.h>
+__mlu_global__ void prod_reduce_kernel(float* v1, float* v2, int32_t v3, int32_t v4) {
+  float v5 = (float)1.000000000e+00;
+  int32_t c256_6 = 256;
+  size_t c50_7 = 50;
+  size_t c10_8 = 10;
+  size_t c2_9 = 2;
+  size_t c3_10 = 3;
+  size_t c4_11 = 4;
+  size_t c5_12 = 5;
+  size_t c6_13 = 6;
+  size_t c7_14 = 7;
+  size_t c8_15 = 8;
+  size_t c9_16 = 9;
+  size_t c0_17 = 0;
+  size_t c1_18 = 1;
+  size_t c32_19 = 32;
+  size_t v20 = (size_t) v3;
+  int64_t v21 = taskId;
+  int32_t v22 = (int32_t) v21;
+  int32_t v23 = (v22) * (c256_6);
+  for (size_t v24 = c0_17; v24 < c32_19; v24 += c1_18) {
+    int64_t v25 = (int64_t)v24;
+    int32_t v26 = (int32_t) v25;
+    int32_t v27 = (v23) + (v26);
+    size_t v28 = (size_t) v27;
+    bool v29 = v27 < v4;
+    if (v29) {
+      float v30;
+      float v31 = v5;
+      for (size_t v32 = c0_17; v32 < c50_7; v32 += c10_8) {
+        size_t v33 = (v32) * (v20);
+        size_t v34 = (v33) + (v28);
+        float v35 = v1[v34];
+        float v36 = v31 * v35;
+        size_t v37 = (v32) + (c1_18);
+        size_t v38 = (v37) * (v20);
+        size_t v39 = (v38) + (v28);
+        float v40 = v1[v39];
+        float v41 = v36 * v40;
+        size_t v42 = (v32) + (c2_9);
+        size_t v43 = (v42) * (v20);
+        size_t v44 = (v43) + (v28);
+        float v45 = v1[v44];
+        float v46 = v41 * v45;
+        size_t v47 = (v32) + (c3_10);
+        size_t v48 = (v47) * (v20);
+        size_t v49 = (v48) + (v28);
+        float v50 = v1[v49];
+        float v51 = v46 * v50;
+        size_t v52 = (v32) + (c4_11);
+        size_t v53 = (v52) * (v20);
+        size_t v54 = (v53) + (v28);
+        float v55 = v1[v54];
+        float v56 = v51 * v55;
+        size_t v57 = (v32) + (c5_12);
+        size_t v58 = (v57) * (v20);
+        size_t v59 = (v58) + (v28);
+        float v60 = v1[v59];
+        float v61 = v56 * v60;
+        size_t v62 = (v32) + (c6_13);
+        size_t v63 = (v62) * (v20);
+        size_t v64 = (v63) + (v28);
+        float v65 = v1[v64];
+        float v66 = v61 * v65;
+        size_t v67 = (v32) + (c7_14);
+        size_t v68 = (v67) * (v20);
+        size_t v69 = (v68) + (v28);
+        float v70 = v1[v69];
+        float v71 = v66 * v70;
+        size_t v72 = (v32) + (c8_15);
+        size_t v73 = (v72) * (v20);
+        size_t v74 = (v73) + (v28);
+        float v75 = v1[v74];
+        float v76 = v71 * v75;
+        size_t v77 = (v32) + (c9_16);
+        size_t v78 = (v77) * (v20);
+        size_t v79 = (v78) + (v28);
+        float v80 = v1[v79];
+        float v81 = v76 * v80;
+        v31 = v81;
+      }
+      v30 = v31;;
+      v2[v28] = v30;
+    };
+  }
+  return;
+}
+
+
+
+

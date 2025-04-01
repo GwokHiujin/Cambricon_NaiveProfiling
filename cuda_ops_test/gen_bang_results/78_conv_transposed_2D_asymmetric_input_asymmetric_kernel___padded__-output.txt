@@ -1,0 +1,95 @@
+warning: CUDA version 12.1 is only partially supported
+./cuda_ops/78_conv_transposed_2D_asymmetric_input_asymmetric_kernel___padded__.cu:7:16: error: expected namespace name
+    7 | namespace py = pybind11;
+      |                ^
+cleanup of materialized not handledCXXOperatorCallExpr 0x56451c104c60 'dim3':'struct dim3' lvalue '='
+|-ImplicitCastExpr 0x56451c104c48 'dim3 &(*)(dim3 &&) noexcept' <FunctionToPointerDecay>
+| `-DeclRefExpr 0x56451c1047d0 'dim3 &(dim3 &&) noexcept' lvalue CXXMethod 0x56451c1045a8 'operator=' 'dim3 &(dim3 &&) noexcept'
+|-DeclRefExpr 0x56451c104270 'dim3':'struct dim3' lvalue ParmVar 0x56451c103d90 'block_dim' 'dim3 &'
+`-MaterializeTemporaryExpr 0x56451c1047b8 'dim3':'struct dim3' xvalue
+  `-CXXTemporaryObjectExpr 0x56451c104330 'dim3':'struct dim3' 'void (unsigned int, unsigned int, unsigned int)'
+    |-ImplicitCastExpr 0x56451c1042e0 'unsigned int' <IntegralCast>
+    | `-IntegerLiteral 0x56451c1042a0 'int' 8
+    |-ImplicitCastExpr 0x56451c1042f8 'unsigned int' <IntegralCast>
+    | `-IntegerLiteral 0x56451c1042c0 'int' 8
+    `-CXXDefaultArgExpr 0x56451c104310 'unsigned int'
+cleanup not handled
+cleanup of materialized not handledCXXOperatorCallExpr 0x56451c104f30 'dim3':'struct dim3' lvalue '='
+|-ImplicitCastExpr 0x56451c104f18 'dim3 &(*)(dim3 &&) noexcept' <FunctionToPointerDecay>
+| `-DeclRefExpr 0x56451c104ef8 'dim3 &(dim3 &&) noexcept' lvalue CXXMethod 0x56451c1045a8 'operator=' 'dim3 &(dim3 &&) noexcept'
+|-DeclRefExpr 0x56451c104dd8 'dim3':'struct dim3' lvalue ParmVar 0x56451c103d90 'block_dim' 'dim3 &'
+`-MaterializeTemporaryExpr 0x56451c104ee0 'dim3':'struct dim3' xvalue
+  `-CXXTemporaryObjectExpr 0x56451c104e98 'dim3':'struct dim3' 'void (unsigned int, unsigned int, unsigned int)'
+    |-ImplicitCastExpr 0x56451c104e48 'unsigned int' <IntegralCast>
+    | `-IntegerLiteral 0x56451c104e08 'int' 16
+    |-ImplicitCastExpr 0x56451c104e60 'unsigned int' <IntegralCast>
+    | `-IntegerLiteral 0x56451c104e28 'int' 8
+    `-CXXDefaultArgExpr 0x56451c104e78 'unsigned int'
+cleanup not handled
+cleanup of materialized not handledCXXOperatorCallExpr 0x56451c105200 'dim3':'struct dim3' lvalue '='
+|-ImplicitCastExpr 0x56451c1051e8 'dim3 &(*)(dim3 &&) noexcept' <FunctionToPointerDecay>
+| `-DeclRefExpr 0x56451c1051c8 'dim3 &(dim3 &&) noexcept' lvalue CXXMethod 0x56451c1045a8 'operator=' 'dim3 &(dim3 &&) noexcept'
+|-DeclRefExpr 0x56451c1050a8 'dim3':'struct dim3' lvalue ParmVar 0x56451c103d90 'block_dim' 'dim3 &'
+`-MaterializeTemporaryExpr 0x56451c1051b0 'dim3':'struct dim3' xvalue
+  `-CXXTemporaryObjectExpr 0x56451c105168 'dim3':'struct dim3' 'void (unsigned int, unsigned int, unsigned int)'
+    |-ImplicitCastExpr 0x56451c105118 'unsigned int' <IntegralCast>
+    | `-IntegerLiteral 0x56451c1050d8 'int' 16
+    |-ImplicitCastExpr 0x56451c105130 'unsigned int' <IntegralCast>
+    | `-IntegerLiteral 0x56451c1050f8 'int' 16
+    `-CXXDefaultArgExpr 0x56451c105148 'unsigned int'
+cleanup not handled
+cleanup of materialized not handledCXXOperatorCallExpr 0x56451c1053c0 'dim3':'struct dim3' lvalue '='
+|-ImplicitCastExpr 0x56451c1053a8 'dim3 &(*)(dim3 &&) noexcept' <FunctionToPointerDecay>
+| `-DeclRefExpr 0x56451c105388 'dim3 &(dim3 &&) noexcept' lvalue CXXMethod 0x56451c1045a8 'operator=' 'dim3 &(dim3 &&) noexcept'
+|-DeclRefExpr 0x56451c105268 'dim3':'struct dim3' lvalue ParmVar 0x56451c103d90 'block_dim' 'dim3 &'
+`-MaterializeTemporaryExpr 0x56451c105370 'dim3':'struct dim3' xvalue
+  `-CXXTemporaryObjectExpr 0x56451c105328 'dim3':'struct dim3' 'void (unsigned int, unsigned int, unsigned int)'
+    |-ImplicitCastExpr 0x56451c1052d8 'unsigned int' <IntegralCast>
+    | `-IntegerLiteral 0x56451c105298 'int' 32
+    |-ImplicitCastExpr 0x56451c1052f0 'unsigned int' <IntegralCast>
+    | `-IntegerLiteral 0x56451c1052b8 'int' 16
+    `-CXXDefaultArgExpr 0x56451c105308 'unsigned int'
+cleanup not handled
+cleanup of materialized not handledCXXOperatorCallExpr 0x56451c1059d8 'dim3':'struct dim3' lvalue '='
+|-ImplicitCastExpr 0x56451c1059c0 'dim3 &(*)(dim3 &&) noexcept' <FunctionToPointerDecay>
+| `-DeclRefExpr 0x56451c1059a0 'dim3 &(dim3 &&) noexcept' lvalue CXXMethod 0x56451c1045a8 'operator=' 'dim3 &(dim3 &&) noexcept'
+|-DeclRefExpr 0x56451c1054b8 'dim3':'struct dim3' lvalue ParmVar 0x56451c103e10 'grid_dim' 'dim3 &'
+`-MaterializeTemporaryExpr 0x56451c105988 'dim3':'struct dim3' xvalue
+  `-CXXTemporaryObjectExpr 0x56451c105940 'dim3':'struct dim3' 'void (unsigned int, unsigned int, unsigned int)'
+    |-BinaryOperator 0x56451c1056a0 'unsigned int' '/'
+    | |-ParenExpr 0x56451c105618 'unsigned int'
+    | | `-BinaryOperator 0x56451c1055f8 'unsigned int' '-'
+    | |   |-BinaryOperator 0x56451c1055a0 'unsigned int' '+'
+    | |   | |-ImplicitCastExpr 0x56451c105588 'unsigned int' <IntegralCast>
+    | |   | | `-ImplicitCastExpr 0x56451c105558 'int' <LValueToRValue>
+    | |   | |   `-DeclRefExpr 0x56451c1054e8 'int' lvalue ParmVar 0x56451c103cb0 'W_out' 'int'
+    | |   | `-ImplicitCastExpr 0x56451c105570 'unsigned int' <LValueToRValue>
+    | |   |   `-MemberExpr 0x56451c105528 'unsigned int' lvalue .x 0x56451b83ff58
+    | |   |     `-DeclRefExpr 0x56451c105508 'dim3':'struct dim3' lvalue ParmVar 0x56451c103d90 'block_dim' 'dim3 &'
+    | |   `-ImplicitCastExpr 0x56451c1055e0 'unsigned int' <IntegralCast>
+    | |     `-IntegerLiteral 0x56451c1055c0 'int' 1
+    | `-ImplicitCastExpr 0x56451c105688 'unsigned int' <LValueToRValue>
+    |   `-MemberExpr 0x56451c105658 'unsigned int' lvalue .x 0x56451b83ff58
+    |     `-DeclRefExpr 0x56451c105638 'dim3':'struct dim3' lvalue ParmVar 0x56451c103d90 'block_dim' 'dim3 &'
+    |-BinaryOperator 0x56451c105878 'unsigned int' '/'
+    | |-ParenExpr 0x56451c1057f0 'unsigned int'
+    | | `-BinaryOperator 0x56451c1057d0 'unsigned int' '-'
+    | |   |-BinaryOperator 0x56451c105778 'unsigned int' '+'
+    | |   | |-ImplicitCastExpr 0x56451c105760 'unsigned int' <IntegralCast>
+    | |   | | `-ImplicitCastExpr 0x56451c105730 'int' <LValueToRValue>
+    | |   | |   `-DeclRefExpr 0x56451c1056c0 'int' lvalue ParmVar 0x56451c103c30 'H_out' 'int'
+    | |   | `-ImplicitCastExpr 0x56451c105748 'unsigned int' <LValueToRValue>
+    | |   |   `-MemberExpr 0x56451c105700 'unsigned int' lvalue .y 0x56451b83ffc0
+    | |   |     `-DeclRefExpr 0x56451c1056e0 'dim3':'struct dim3' lvalue ParmVar 0x56451c103d90 'block_dim' 'dim3 &'
+    | |   `-ImplicitCastExpr 0x56451c1057b8 'unsigned int' <IntegralCast>
+    | |     `-IntegerLiteral 0x56451c105798 'int' 1
+    | `-ImplicitCastExpr 0x56451c105860 'unsigned int' <LValueToRValue>
+    |   `-MemberExpr 0x56451c105830 'unsigned int' lvalue .y 0x56451b83ffc0
+    |     `-DeclRefExpr 0x56451c105810 'dim3':'struct dim3' lvalue ParmVar 0x56451c103d90 'block_dim' 'dim3 &'
+    `-ImplicitCastExpr 0x56451c105928 'unsigned int' <IntegralCast>
+      `-BinaryOperator 0x56451c105908 'int' '*'
+        |-ImplicitCastExpr 0x56451c1058d8 'int' <LValueToRValue>
+        | `-DeclRefExpr 0x56451c105898 'int' lvalue ParmVar 0x56451c103e90 'N' 'int'
+        `-ImplicitCastExpr 0x56451c1058f0 'int' <LValueToRValue>
+          `-DeclRefExpr 0x56451c1058b8 'int' lvalue ParmVar 0x56451c103f10 'C_out' 'int'
+cleanup not handled

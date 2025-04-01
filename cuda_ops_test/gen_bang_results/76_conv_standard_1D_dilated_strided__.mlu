@@ -1,0 +1,24 @@
+#include <bang.h>
+__mlu_global__ void conv1d_kernel(float* v1, float* v2, float* v3, float* v4, int32_t v5, int32_t v6, int32_t v7, int32_t v8, int32_t v9, int32_t v10, int32_t v11, int32_t v12) {
+  int32_t c32_13 = 32;
+  size_t c32_14 = 32;
+  size_t c1_15 = 1;
+  size_t c0_16 = 0;
+  int32_t c4294967295_17 = -1;
+  float v18 = (float)0.0e+00;
+  uint8_t* v19 = (uint8_t*)v3;
+  size_t v20 = (size_t) v7;
+  size_t v21 = (size_t) v12;
+  int32_t v22 = (v6) * (v7);
+  size_t v23 = (size_t) v9;
+  int32_t v24 = (v6) * (v9);
+  size_t v25 = (size_t) v6;
+  size_t v26 = (size_t) v10;
+  int32_t v27 = (v8) * (v10);
+  int64_t v28 = taskId;
+  int32_t v29 = (int32_t) v28;
+  int32_t v30 = (v29) * (c32_13);
+  int32_t v31 = (v5) * (v8);
+  int32_t v32 = (v31) * (v10);
+  int32_t v33 = (v9) + (c4294967295_17);
+  int32_t v34 = (v33) * (v12);

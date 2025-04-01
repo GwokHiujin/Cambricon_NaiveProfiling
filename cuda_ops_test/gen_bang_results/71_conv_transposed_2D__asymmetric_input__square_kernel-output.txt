@@ -1,0 +1,4 @@
+warning: CUDA version 12.1 is only partially supported
+./cuda_ops/71_conv_transposed_2D__asymmetric_input__square_kernel.cu:4:10: fatal error: 'pybind11/stl.h' file not found
+    4 | #include <pybind11/stl.h>
+      |          ^~~~~~~~~~~~~~~~

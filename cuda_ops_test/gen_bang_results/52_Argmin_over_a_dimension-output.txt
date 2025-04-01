@@ -1,0 +1,4 @@
+warning: CUDA version 12.1 is only partially supported
+./cuda_ops/52_Argmin_over_a_dimension.cu:31:26: error: use of undeclared identifier 'FLT_MAX'
+   31 |     scalar_t local_min = FLT_MAX;
+      |                          ^

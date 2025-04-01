@@ -1,0 +1,32 @@
+warning: CUDA version 12.1 is only partially supported
+warning: CUDA version 12.1 is only partially supported
+cgeist: /CUDA2BANG/cuda2bang/polygeist/lib/polygeist/Passes/AffineCFG.cpp:534: AffineApplyNormalizer::AffineApplyNormalizer(mlir::AffineMap, llvm::ArrayRef<mlir::Value>, mlir::PatternRewriter&, mlir::DominanceInfo&): Assertion `isValidSymbolInt(t, false)' failed.
+PLEASE submit a bug report to https://github.com/llvm/llvm-project/issues/ and include the crash backtrace.
+Stack dump:
+0.	Program arguments: /CUDA2BANG/cuda2bang/polygeist/build/bin/cgeist --function=* -cuda-lower -output-intermediate-gpu -scal-rep=0 -raise-scf-to-affine --cuda-gpu-arch=sm_70 -parallel-licm=1 -gpu-kernel-structure-mode=block_thread_noops --enable-buffer-elim=0 -O2 -I /CUDA2BANG/cuda2bang/polygeist/mlir-build/projects/openmp/runtime/src/ -resource-dir=/CUDA2BANG/cuda2bang/polygeist/mlir-build/lib/clang/18/ -I /CUDA2BANG/cuda2bang/polygeist/mlir-build/projects/openmp/runtime/src/ -I /usr/local/cuda/include/ -use-original-gpu-block-size --emit-npu=distribute.mincut -use-my-pass -bang-dump-file=./gen_bang_results/37_FrobeniusNorm_.mlu ./cuda_ops/37_FrobeniusNorm_.cu -o 37_FrobeniusNorm_.o
+ #0 0x000055e1bfa4cb9f llvm::sys::PrintStackTrace(llvm::raw_ostream&, int) (/CUDA2BANG/cuda2bang/polygeist/build/bin/cgeist+0x3390b9f)
+ #1 0x000055e1bfa4a384 SignalHandler(int) Signals.cpp:0:0
+ #2 0x00007fe078b5e420 __restore_rt (/lib/x86_64-linux-gnu/libpthread.so.0+0x14420)
+ #3 0x00007fe0784e300b raise /build/glibc-SzIz7B/glibc-2.31/signal/../sysdeps/unix/sysv/linux/raise.c:51:1
+ #4 0x00007fe0784c2859 abort /build/glibc-SzIz7B/glibc-2.31/stdlib/abort.c:81:7
+ #5 0x00007fe0784c2729 get_sysdep_segment_value /build/glibc-SzIz7B/glibc-2.31/intl/loadmsgcat.c:509:8
+ #6 0x00007fe0784c2729 _nl_load_domain /build/glibc-SzIz7B/glibc-2.31/intl/loadmsgcat.c:970:34
+ #7 0x00007fe0784d3fd6 (/lib/x86_64-linux-gnu/libc.so.6+0x33fd6)
+ #8 0x000055e1c03efdbf AffineApplyNormalizer::AffineApplyNormalizer(mlir::AffineMap, llvm::ArrayRef<mlir::Value>, mlir::PatternRewriter&, mlir::DominanceInfo&) /CUDA2BANG/cuda2bang/polygeist/lib/polygeist/Passes/AffineCFG.cpp:536:13
+ #9 0x000055e1c03f0362 composeAffineMapAndOperands(mlir::AffineMap*, llvm::SmallVectorImpl<mlir::Value>*, mlir::PatternRewriter&, mlir::DominanceInfo&) /CUDA2BANG/cuda2bang/polygeist/lib/polygeist/Passes/AffineCFG.cpp:588:48
+#10 0x000055e1c03f0999 fully2ComposeAffineMapAndOperands(mlir::PatternRewriter&, mlir::AffineMap*, llvm::SmallVectorImpl<mlir::Value>*, mlir::DominanceInfo&) /CUDA2BANG/cuda2bang/polygeist/lib/polygeist/Passes/AffineCFG.cpp:641:5
+#11 0x000055e1c0584bbb ForOpRaising::matchAndRewrite(mlir::scf::ForOp, mlir::PatternRewriter&) const /CUDA2BANG/cuda2bang/polygeist/lib/polygeist/Passes/RaiseToAffine.cpp:140:43
+#12 0x000055e1c3a6d5c2 mlir::PatternApplicator::matchAndRewrite(mlir::Operation*, mlir::PatternRewriter&, llvm::function_ref<bool (mlir::Pattern const&)>, llvm::function_ref<void (mlir::Pattern const&)>, llvm::function_ref<mlir::LogicalResult (mlir::Pattern const&)>) (/CUDA2BANG/cuda2bang/polygeist/build/bin/cgeist+0x73b15c2)
+#13 0x000055e1c0882239 (anonymous namespace)::GreedyPatternRewriteDriver::processWorklist() GreedyPatternRewriteDriver.cpp:0:0
+#14 0x000055e1c088a8a0 mlir::applyPatternsAndFoldGreedily(mlir::Region&, mlir::FrozenRewritePatternSet const&, mlir::GreedyRewriteConfig, bool*) (/CUDA2BANG/cuda2bang/polygeist/build/bin/cgeist+0x41ce8a0)
+#15 0x000055e1c03f6056 mlir::applyPatternsAndFoldGreedily(mlir::Operation*, mlir::FrozenRewritePatternSet const&, mlir::GreedyRewriteConfig, bool*) /CUDA2BANG/cuda2bang/polygeist/llvm-project/mlir/include/mlir/Transforms/GreedyPatternRewriteDriver.h:123:78
+#16 0x000055e1c058374a (anonymous namespace)::RaiseSCFToAffine::runOnOperation() /CUDA2BANG/cuda2bang/polygeist/lib/polygeist/Passes/RaiseToAffine.cpp:283:44
+#17 0x000055e1c0849881 mlir::detail::OpToOpPassAdaptor::run(mlir::Pass*, mlir::Operation*, mlir::AnalysisManager, bool, unsigned int) (/CUDA2BANG/cuda2bang/polygeist/build/bin/cgeist+0x418d881)
+#18 0x000055e1c0849e01 mlir::detail::OpToOpPassAdaptor::runPipeline(mlir::OpPassManager&, mlir::Operation*, mlir::AnalysisManager, bool, unsigned int, mlir::PassInstrumentor*, mlir::PassInstrumentation::PipelineParentInfo const*) (/CUDA2BANG/cuda2bang/polygeist/build/bin/cgeist+0x418de01)
+#19 0x000055e1c084aca8 mlir::detail::OpToOpPassAdaptor::runOnOperationImpl(bool) (/CUDA2BANG/cuda2bang/polygeist/build/bin/cgeist+0x418eca8)
+#20 0x000055e1c08499b5 mlir::detail::OpToOpPassAdaptor::run(mlir::Pass*, mlir::Operation*, mlir::AnalysisManager, bool, unsigned int) (/CUDA2BANG/cuda2bang/polygeist/build/bin/cgeist+0x418d9b5)
+#21 0x000055e1c0849e01 mlir::detail::OpToOpPassAdaptor::runPipeline(mlir::OpPassManager&, mlir::Operation*, mlir::AnalysisManager, bool, unsigned int, mlir::PassInstrumentor*, mlir::PassInstrumentation::PipelineParentInfo const*) (/CUDA2BANG/cuda2bang/polygeist/build/bin/cgeist+0x418de01)
+#22 0x000055e1c084a97e mlir::PassManager::run(mlir::Operation*) (/CUDA2BANG/cuda2bang/polygeist/build/bin/cgeist+0x418e97e)
+#23 0x000055e1bd119143 main /CUDA2BANG/cuda2bang/polygeist/tools/cgeist/driver.cc:716:0
+#24 0x00007fe0784c4083 __libc_start_main /build/glibc-SzIz7B/glibc-2.31/csu/../csu/libc-start.c:342:3
+#25 0x000055e1bd0e984e _start (/CUDA2BANG/cuda2bang/polygeist/build/bin/cgeist+0xa2d84e)

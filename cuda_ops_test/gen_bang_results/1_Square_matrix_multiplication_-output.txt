@@ -1,0 +1,4 @@
+warning: CUDA version 12.1 is only partially supported
+./cuda_ops/1_Square_matrix_multiplication_.cu:4:10: fatal error: 'c10/cuda/CUDAException.h' file not found
+    4 | #include <c10/cuda/CUDAException.h>
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~

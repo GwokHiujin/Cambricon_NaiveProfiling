@@ -1,0 +1,362 @@
+warning: CUDA version 12.1 is only partially supported
+warning: CUDA version 12.1 is only partially supported
+[ict-debug] driver.cc: After return 5, module:
+
+module attributes {dlti.dl_spec = #dlti.dl_spec<#dlti.dl_entry<!llvm.ptr<272>, dense<64> : vector<4xi32>>, #dlti.dl_entry<!llvm.ptr<271>, dense<32> : vector<4xi32>>, #dlti.dl_entry<i64, dense<64> : vector<2xi32>>, #dlti.dl_entry<f80, dense<128> : vector<2xi32>>, #dlti.dl_entry<!llvm.ptr, dense<64> : vector<4xi32>>, #dlti.dl_entry<i8, dense<8> : vector<2xi32>>, #dlti.dl_entry<i1, dense<8> : vector<2xi32>>, #dlti.dl_entry<i32, dense<32> : vector<2xi32>>, #dlti.dl_entry<i16, dense<16> : vector<2xi32>>, #dlti.dl_entry<f64, dense<64> : vector<2xi32>>, #dlti.dl_entry<f16, dense<16> : vector<2xi32>>, #dlti.dl_entry<!llvm.ptr<270>, dense<32> : vector<4xi32>>, #dlti.dl_entry<f128, dense<128> : vector<2xi32>>, #dlti.dl_entry<"dlti.stack_alignment", 128 : i32>, #dlti.dl_entry<"dlti.endianness", "little">>, llvm.data_layout = "e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128", llvm.target_triple = "x86_64-unknown-linux-gnu", polygeist.gpu_module.llvm.data_layout = "e-i64:64-i128:128-v16:16-v32:32-n16:32:64", polygeist.gpu_module.llvm.target_triple = "nvptx64-nvidia-cuda", "polygeist.target-cpu" = "x86-64", "polygeist.target-features" = "+cmov,+cx8,+fxsr,+mmx,+sse,+sse2,+x87", "polygeist.tune-cpu" = "generic"} {
+  func.func private @_Z38__device_stub__tiledDoubleOutputKernelPKfS0_Pfiii(%arg0: memref<?xf32>, %arg1: memref<?xf32>, %arg2: memref<?xf32>, %arg3: i32, %arg4: i32, %arg5: i32) attributes {llvm.linkage = #llvm.linkage<external>, polygeist.device_only_func = "1"} {
+    call @_Z23tiledDoubleOutputKernelPKfS0_Pfiii(%arg0, %arg1, %arg2, %arg3, %arg4, %arg5) : (memref<?xf32>, memref<?xf32>, memref<?xf32>, i32, i32, i32) -> ()
+    return
+  }
+  func.func private @_Z23tiledDoubleOutputKernelPKfS0_Pfiii(%arg0: memref<?xf32>, %arg1: memref<?xf32>, %arg2: memref<?xf32>, %arg3: i32, %arg4: i32, %arg5: i32) attributes {llvm.linkage = #llvm.linkage<external>, polygeist.device_only_func = "1"} {
+    %c16_i32 = arith.constant 16 : i32
+    %c32_i32 = arith.constant 32 : i32
+    %c2_i32 = arith.constant 2 : i32
+    %cst = arith.constant 0.000000e+00 : f32
+    %c1_i32 = arith.constant 1 : i32
+    %false = arith.constant false
+    %c15_i32 = arith.constant 15 : i32
+    %0 = arith.index_cast %arg4 : i32 to index
+    %1 = arith.index_cast %arg3 : i32 to index
+    %2 = arith.index_cast %arg5 : i32 to index
+    %3 = arith.index_cast %arg5 : i32 to index
+    %alloca = memref.alloca() : memref<16x32xf32, 5>
+    %alloca_0 = memref.alloca() : memref<16x16xf32, 5>
+    %4 = gpu.block_id  y
+    %5 = arith.index_cast %4 : index to i32
+    %6 = arith.muli %5, %c16_i32 : i32
+    %7 = gpu.thread_id  y
+    %8 = arith.index_cast %7 : index to i32
+    %9 = arith.addi %6, %8 : i32
+    %10 = arith.index_cast %9 : i32 to index
+    %11 = arith.muli %9, %arg5 : i32
+    %12 = arith.index_cast %11 : i32 to index
+    %13 = arith.muli %9, %arg5 : i32
+    %14 = arith.index_cast %13 : i32 to index
+    %15 = gpu.block_id  x
+    %16 = arith.index_cast %15 : index to i32
+    %17 = arith.muli %16, %c32_i32 : i32
+    %18 = gpu.thread_id  x
+    %19 = arith.index_cast %18 : index to i32
+    %20 = arith.muli %19, %c2_i32 : i32
+    %21 = arith.addi %17, %20 : i32
+    %22 = arith.index_cast %21 : i32 to index
+    %23 = arith.index_cast %21 : i32 to index
+    %24 = arith.index_cast %21 : i32 to index
+    %25 = arith.index_cast %21 : i32 to index
+    %26 = arith.index_cast %21 : i32 to index
+    %27 = arith.addi %arg3, %c15_i32 : i32
+    %28 = arith.divsi %27, %c16_i32 : i32
+    %29 = arith.index_cast %28 : i32 to index
+    %30 = gpu.thread_id  x
+    %31 = gpu.thread_id  y
+    %32 = gpu.thread_id  y
+    %33 = gpu.thread_id  x
+    %34 = gpu.thread_id  x
+    %35 = arith.cmpi slt, %9, %arg4 : i32
+    %36 = gpu.thread_id  y
+    %37 = gpu.thread_id  x
+    %38 = gpu.thread_id  y
+    %39 = gpu.thread_id  x
+    %40 = gpu.thread_id  y
+    %41 = gpu.thread_id  x
+    %42 = gpu.thread_id  y
+    %43 = gpu.thread_id  x
+    %44 = gpu.thread_id  y
+    %45 = gpu.thread_id  x
+    %46 = gpu.thread_id  y
+    %47 = gpu.thread_id  x
+    %48 = gpu.thread_id  y
+    %49 = gpu.thread_id  x
+    %50 = gpu.thread_id  y
+    %51 = gpu.thread_id  x
+    %52:2 = affine.for %arg6 = 0 to %29 iter_args(%arg7 = %cst, %arg8 = %cst) -> (f32, f32) {
+      %54 = affine.if affine_set<(d0)[s0, s1] : (d0 * -16 - s0 + s1 - 1 >= 0)>(%arg6)[%30, %1] -> i1 {
+        affine.yield %35 : i1
+      } else {
+        affine.yield %false : i1
+      }
+      scf.if %54 {
+        %56 = affine.load %arg0[(%arg6 * 16 + symbol(%30)) * symbol(%0) + symbol(%10)] : memref<?xf32>
+        affine.store %56, %alloca_0[symbol(%36), symbol(%37)] : memref<16x16xf32, 5>
+      } else {
+        affine.store %cst, %alloca_0[symbol(%38), symbol(%39)] : memref<16x16xf32, 5>
+      }
+      affine.if affine_set<(d0)[s0, s1] : (d0 * -16 - s0 + s1 - 1 >= 0)>(%arg6)[%31, %1] {
+        affine.if affine_set<()[s0, s1] : (-s0 + s1 - 1 >= 0)>()[%22, %2] {
+          %56 = affine.load %arg1[(%arg6 * 16 + symbol(%31)) * symbol(%2) + symbol(%22)] : memref<?xf32>
+          affine.store %56, %alloca[symbol(%40), symbol(%41) * 2] : memref<16x32xf32, 5>
+        } else {
+          affine.store %cst, %alloca[symbol(%42), symbol(%43) * 2] : memref<16x32xf32, 5>
+        }
+        affine.if affine_set<()[s0, s1] : (-s0 + s1 - 2 >= 0)>()[%23, %3] {
+          %56 = affine.load %arg1[(%arg6 * 16 + symbol(%31)) * symbol(%3) + symbol(%24) + 1] : memref<?xf32>
+          affine.store %56, %alloca[symbol(%44), symbol(%45) * 2 + 1] : memref<16x32xf32, 5>
+        } else {
+          affine.store %cst, %alloca[symbol(%46), symbol(%47) * 2 + 1] : memref<16x32xf32, 5>
+        }
+      } else {
+        affine.store %cst, %alloca[symbol(%48), symbol(%49) * 2] : memref<16x32xf32, 5>
+        affine.store %cst, %alloca[symbol(%50), symbol(%51) * 2 + 1] : memref<16x32xf32, 5>
+      }
+      nvvm.barrier0
+      %55:2 = affine.for %arg9 = 0 to 16 iter_args(%arg10 = %arg7, %arg11 = %arg8) -> (f32, f32) {
+        %56 = affine.load %alloca_0[symbol(%32), %arg9] : memref<16x16xf32, 5>
+        %57 = affine.load %alloca[%arg9, symbol(%33) * 2] : memref<16x32xf32, 5>
+        %58 = arith.mulf %56, %57 : f32
+        %59 = arith.addf %arg11, %58 : f32
+        %60 = affine.load %alloca[%arg9, symbol(%34) * 2 + 1] : memref<16x32xf32, 5>
+        %61 = arith.mulf %56, %60 : f32
+        %62 = arith.addf %arg10, %61 : f32
+        affine.yield %62, %59 : f32, f32
+      }
+      nvvm.barrier0
+      affine.yield %55#0, %55#1 : f32, f32
+    }
+    %53 = arith.cmpi slt, %9, %arg4 : i32
+    scf.if %53 {
+      %54 = arith.cmpi slt, %21, %arg5 : i32
+      scf.if %54 {
+        affine.store %52#1, %arg2[symbol(%12) + symbol(%25)] : memref<?xf32>
+      }
+      %55 = arith.addi %21, %c1_i32 : i32
+      %56 = arith.cmpi slt, %55, %arg5 : i32
+      scf.if %56 {
+        affine.store %52#0, %arg2[symbol(%14) + symbol(%26) + 1] : memref<?xf32>
+      }
+    }
+    return
+  }
+}
+[ict-debug] driver.cc: After return 5, module: end
+
+[ict-debug] driver.cc: After return 6, module:
+
+module attributes {dlti.dl_spec = #dlti.dl_spec<#dlti.dl_entry<!llvm.ptr<272>, dense<64> : vector<4xi32>>, #dlti.dl_entry<!llvm.ptr<271>, dense<32> : vector<4xi32>>, #dlti.dl_entry<i64, dense<64> : vector<2xi32>>, #dlti.dl_entry<f80, dense<128> : vector<2xi32>>, #dlti.dl_entry<!llvm.ptr, dense<64> : vector<4xi32>>, #dlti.dl_entry<i8, dense<8> : vector<2xi32>>, #dlti.dl_entry<i1, dense<8> : vector<2xi32>>, #dlti.dl_entry<i32, dense<32> : vector<2xi32>>, #dlti.dl_entry<i16, dense<16> : vector<2xi32>>, #dlti.dl_entry<f64, dense<64> : vector<2xi32>>, #dlti.dl_entry<f16, dense<16> : vector<2xi32>>, #dlti.dl_entry<!llvm.ptr<270>, dense<32> : vector<4xi32>>, #dlti.dl_entry<f128, dense<128> : vector<2xi32>>, #dlti.dl_entry<"dlti.stack_alignment", 128 : i32>, #dlti.dl_entry<"dlti.endianness", "little">>, llvm.data_layout = "e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128", llvm.target_triple = "x86_64-unknown-linux-gnu", polygeist.gpu_module.llvm.data_layout = "e-i64:64-i128:128-v16:16-v32:32-n16:32:64", polygeist.gpu_module.llvm.target_triple = "nvptx64-nvidia-cuda", "polygeist.target-cpu" = "x86-64", "polygeist.target-features" = "+cmov,+cx8,+fxsr,+mmx,+sse,+sse2,+x87", "polygeist.tune-cpu" = "generic"} {
+  func.func private @_Z23tiledDoubleOutputKernelPKfS0_Pfiii(%arg0: memref<?xf32>, %arg1: memref<?xf32>, %arg2: memref<?xf32>, %arg3: i32, %arg4: i32, %arg5: i32) attributes {llvm.linkage = #llvm.linkage<external>, polygeist.device_only_func = "1"} {
+    %c16_i32 = arith.constant 16 : i32
+    %c32_i32 = arith.constant 32 : i32
+    %c2_i32 = arith.constant 2 : i32
+    %cst = arith.constant 0.000000e+00 : f32
+    %c1_i32 = arith.constant 1 : i32
+    %c15_i32 = arith.constant 15 : i32
+    %0 = arith.index_cast %arg4 : i32 to index
+    %1 = arith.index_cast %arg3 : i32 to index
+    %2 = arith.index_cast %arg5 : i32 to index
+    %alloca = memref.alloca() : memref<16x32xf32, 5>
+    %alloca_0 = memref.alloca() : memref<16x16xf32, 5>
+    %3 = gpu.block_id  y
+    %4 = arith.index_cast %3 : index to i32
+    %5 = arith.muli %4, %c16_i32 : i32
+    %6 = gpu.thread_id  y
+    %7 = arith.index_cast %6 : index to i32
+    %8 = arith.addi %5, %7 : i32
+    %9 = arith.index_cast %8 : i32 to index
+    %10 = arith.muli %8, %arg5 : i32
+    %11 = arith.index_cast %10 : i32 to index
+    %12 = gpu.block_id  x
+    %13 = arith.index_cast %12 : index to i32
+    %14 = arith.muli %13, %c32_i32 : i32
+    %15 = gpu.thread_id  x
+    %16 = arith.index_cast %15 : index to i32
+    %17 = arith.muli %16, %c2_i32 : i32
+    %18 = arith.addi %14, %17 : i32
+    %19 = arith.index_cast %18 : i32 to index
+    %20 = arith.addi %arg3, %c15_i32 : i32
+    %21 = arith.divsi %20, %c16_i32 : i32
+    %22 = arith.index_cast %21 : i32 to index
+    %23 = arith.cmpi slt, %8, %arg4 : i32
+    %24:2 = affine.for %arg6 = 0 to %22 iter_args(%arg7 = %cst, %arg8 = %cst) -> (f32, f32) {
+      affine.if affine_set<(d0)[s0, s1, s2, s3] : (d0 * -16 - s0 + s1 - 1 >= 0, -s2 + s3 - 1 >= 0)>(%arg6)[%15, %1, %9, %0] {
+        %26 = affine.load %arg0[(%arg6 * 16 + symbol(%15)) * symbol(%0) + symbol(%9)] : memref<?xf32>
+        affine.store %26, %alloca_0[symbol(%6), symbol(%15)] : memref<16x16xf32, 5>
+      } else {
+        affine.store %cst, %alloca_0[symbol(%6), symbol(%15)] : memref<16x16xf32, 5>
+      }
+      affine.if affine_set<(d0)[s0, s1] : (d0 * -16 - s0 + s1 - 1 >= 0)>(%arg6)[%6, %1] {
+        affine.if affine_set<()[s0, s1] : (s0 - s1 - 1 >= 0)>()[%2, %19] {
+          %26 = affine.load %arg1[(%arg6 * 16 + symbol(%6)) * symbol(%2) + symbol(%19)] : memref<?xf32>
+          affine.store %26, %alloca[symbol(%6), symbol(%15) * 2] : memref<16x32xf32, 5>
+        } else {
+          affine.store %cst, %alloca[symbol(%6), symbol(%15) * 2] : memref<16x32xf32, 5>
+        }
+        affine.if affine_set<()[s0, s1] : (s0 - s1 - 2 >= 0)>()[%2, %19] {
+          %26 = affine.load %arg1[(%arg6 * 16 + symbol(%6)) * symbol(%2) + symbol(%19) + 1] : memref<?xf32>
+          affine.store %26, %alloca[symbol(%6), symbol(%15) * 2 + 1] : memref<16x32xf32, 5>
+        } else {
+          affine.store %cst, %alloca[symbol(%6), symbol(%15) * 2 + 1] : memref<16x32xf32, 5>
+        }
+      } else {
+        affine.store %cst, %alloca[symbol(%6), symbol(%15) * 2] : memref<16x32xf32, 5>
+        affine.store %cst, %alloca[symbol(%6), symbol(%15) * 2 + 1] : memref<16x32xf32, 5>
+      }
+      nvvm.barrier0
+      %25:2 = affine.for %arg9 = 0 to 16 iter_args(%arg10 = %arg7, %arg11 = %arg8) -> (f32, f32) {
+        %26 = affine.load %alloca_0[symbol(%6), %arg9] : memref<16x16xf32, 5>
+        %27 = affine.load %alloca[%arg9, symbol(%15) * 2] : memref<16x32xf32, 5>
+        %28 = arith.mulf %26, %27 : f32
+        %29 = arith.addf %arg11, %28 : f32
+        %30 = affine.load %alloca[%arg9, symbol(%15) * 2 + 1] : memref<16x32xf32, 5>
+        %31 = arith.mulf %26, %30 : f32
+        %32 = arith.addf %arg10, %31 : f32
+        affine.yield %32, %29 : f32, f32
+      }
+      nvvm.barrier0
+      affine.yield %25#0, %25#1 : f32, f32
+    }
+    scf.if %23 {
+      %25 = arith.cmpi slt, %18, %arg5 : i32
+      scf.if %25 {
+        affine.store %24#1, %arg2[symbol(%11) + symbol(%19)] : memref<?xf32>
+      }
+      %26 = arith.addi %18, %c1_i32 : i32
+      %27 = arith.cmpi slt, %26, %arg5 : i32
+      scf.if %27 {
+        affine.store %24#0, %arg2[symbol(%11) + symbol(%19) + 1] : memref<?xf32>
+      }
+    }
+    return
+  }
+}
+[ict-debug] driver.cc: After return 6, module: end
+
+WrapAndReplaceBarrierPass::runOnOperation(): before execute: 
+module attributes {dlti.dl_spec = #dlti.dl_spec<#dlti.dl_entry<!llvm.ptr<272>, dense<64> : vector<4xi32>>, #dlti.dl_entry<!llvm.ptr<271>, dense<32> : vector<4xi32>>, #dlti.dl_entry<i64, dense<64> : vector<2xi32>>, #dlti.dl_entry<f80, dense<128> : vector<2xi32>>, #dlti.dl_entry<!llvm.ptr, dense<64> : vector<4xi32>>, #dlti.dl_entry<i8, dense<8> : vector<2xi32>>, #dlti.dl_entry<i1, dense<8> : vector<2xi32>>, #dlti.dl_entry<i32, dense<32> : vector<2xi32>>, #dlti.dl_entry<i16, dense<16> : vector<2xi32>>, #dlti.dl_entry<f64, dense<64> : vector<2xi32>>, #dlti.dl_entry<f16, dense<16> : vector<2xi32>>, #dlti.dl_entry<!llvm.ptr<270>, dense<32> : vector<4xi32>>, #dlti.dl_entry<f128, dense<128> : vector<2xi32>>, #dlti.dl_entry<"dlti.stack_alignment", 128 : i32>, #dlti.dl_entry<"dlti.endianness", "little">>, llvm.data_layout = "e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128", llvm.target_triple = "x86_64-unknown-linux-gnu", polygeist.gpu_module.llvm.data_layout = "e-i64:64-i128:128-v16:16-v32:32-n16:32:64", polygeist.gpu_module.llvm.target_triple = "nvptx64-nvidia-cuda", "polygeist.target-cpu" = "x86-64", "polygeist.target-features" = "+cmov,+cx8,+fxsr,+mmx,+sse,+sse2,+x87", "polygeist.tune-cpu" = "generic"} {
+  func.func private @_Z23tiledDoubleOutputKernelPKfS0_Pfiii(%arg0: memref<?xf32>, %arg1: memref<?xf32>, %arg2: memref<?xf32>, %arg3: i32, %arg4: i32, %arg5: i32) attributes {llvm.linkage = #llvm.linkage<external>, polygeist.device_only_func = "1"} {
+    %c-2 = arith.constant -2 : index
+    %c2 = arith.constant 2 : index
+    %c16 = arith.constant 16 : index
+    %c-1 = arith.constant -1 : index
+    %c-16 = arith.constant -16 : index
+    %c1 = arith.constant 1 : index
+    %c0 = arith.constant 0 : index
+    %c16_i32 = arith.constant 16 : i32
+    %c32_i32 = arith.constant 32 : i32
+    %c2_i32 = arith.constant 2 : i32
+    %cst = arith.constant 0.000000e+00 : f32
+    %c1_i32 = arith.constant 1 : i32
+    %c15_i32 = arith.constant 15 : i32
+    %0 = arith.index_cast %arg4 : i32 to index
+    %1 = arith.index_cast %arg3 : i32 to index
+    %2 = arith.index_cast %arg5 : i32 to index
+    %alloca = memref.alloca() : memref<16x32xf32, 5>
+    %alloca_0 = memref.alloca() : memref<16x16xf32, 5>
+    %3 = gpu.block_id  y
+    %4 = arith.index_cast %3 : index to i32
+    %5 = arith.muli %4, %c16_i32 : i32
+    %6 = gpu.thread_id  y
+    %7 = arith.index_cast %6 : index to i32
+    %8 = arith.addi %5, %7 : i32
+    %9 = arith.index_cast %8 : i32 to index
+    %10 = arith.muli %8, %arg5 : i32
+    %11 = arith.index_cast %10 : i32 to index
+    %12 = gpu.block_id  x
+    %13 = arith.index_cast %12 : index to i32
+    %14 = arith.muli %13, %c32_i32 : i32
+    %15 = gpu.thread_id  x
+    %16 = arith.index_cast %15 : index to i32
+    %17 = arith.muli %16, %c2_i32 : i32
+    %18 = arith.addi %14, %17 : i32
+    %19 = arith.index_cast %18 : i32 to index
+    %20 = arith.addi %arg3, %c15_i32 : i32
+    %21 = arith.divsi %20, %c16_i32 : i32
+    %22 = arith.index_cast %21 : i32 to index
+    %23 = arith.cmpi slt, %8, %arg4 : i32
+    %24:2 = scf.for %arg6 = %c0 to %22 step %c1 iter_args(%arg7 = %cst, %arg8 = %cst) -> (f32, f32) {
+      %25 = arith.muli %arg6, %c-16 : index
+      %26 = arith.subi %25, %15 : index
+      %27 = arith.addi %26, %1 : index
+      %28 = arith.addi %27, %c-1 : index
+      %29 = arith.cmpi sge, %28, %c0 : index
+      %30 = arith.subi %0, %9 : index
+      %31 = arith.addi %30, %c-1 : index
+      %32 = arith.cmpi sge, %31, %c0 : index
+      %33 = arith.andi %29, %32 : i1
+      scf.if %33 {
+        %39 = arith.muli %arg6, %c16 : index
+        %40 = arith.addi %39, %15 : index
+        %41 = arith.muli %40, %0 : index
+        %42 = arith.addi %41, %9 : index
+        %43 = memref.load %arg0[%42] : memref<?xf32>
+        memref.store %43, %alloca_0[%6, %15] : memref<16x16xf32, 5>
+      } else {
+        memref.store %cst, %alloca_0[%6, %15] : memref<16x16xf32, 5>
+      }
+      %34 = arith.subi %25, %6 : index
+      %35 = arith.addi %34, %1 : index
+      %36 = arith.addi %35, %c-1 : index
+      %37 = arith.cmpi sge, %36, %c0 : index
+      scf.if %37 {
+        %39 = arith.subi %2, %19 : index
+        %40 = arith.addi %39, %c-1 : index
+        %41 = arith.cmpi sge, %40, %c0 : index
+        scf.if %41 {
+          %44 = arith.muli %arg6, %c16 : index
+          %45 = arith.addi %44, %6 : index
+          %46 = arith.muli %45, %2 : index
+          %47 = arith.addi %46, %19 : index
+          %48 = memref.load %arg1[%47] : memref<?xf32>
+          %49 = arith.muli %15, %c2 : index
+          memref.store %48, %alloca[%6, %49] : memref<16x32xf32, 5>
+        } else {
+          %44 = arith.muli %15, %c2 : index
+          memref.store %cst, %alloca[%6, %44] : memref<16x32xf32, 5>
+        }
+        %42 = arith.addi %39, %c-2 : index
+        %43 = arith.cmpi sge, %42, %c0 : index
+        scf.if %43 {
+          %44 = arith.muli %arg6, %c16 : index
+          %45 = arith.addi %44, %6 : index
+          %46 = arith.muli %45, %2 : index
+          %47 = arith.addi %46, %19 : index
+          %48 = arith.addi %47, %c1 : index
+          %49 = memref.load %arg1[%48] : memref<?xf32>
+          %50 = arith.muli %15, %c2 : index
+          %51 = arith.addi %50, %c1 : index
+          memref.store %49, %alloca[%6, %51] : memref<16x32xf32, 5>
+        } else {
+          %44 = arith.muli %15, %c2 : index
+          %45 = arith.addi %44, %c1 : index
+          memref.store %cst, %alloca[%6, %45] : memref<16x32xf32, 5>
+        }
+      } else {
+        %39 = arith.muli %15, %c2 : index
+        memref.store %cst, %alloca[%6, %39] : memref<16x32xf32, 5>
+        %40 = arith.addi %39, %c1 : index
+        memref.store %cst, %alloca[%6, %40] : memref<16x32xf32, 5>
+      }
+      nvvm.barrier0
+      %38:2 = scf.for %arg9 = %c0 to %c16 step %c1 iter_args(%arg10 = %arg7, %arg11 = %arg8) -> (f32, f32) {
+        %39 = memref.load %alloca_0[%6, %arg9] : memref<16x16xf32, 5>
+        %40 = arith.muli %15, %c2 : index
+        %41 = memref.load %alloca[%arg9, %40] : memref<16x32xf32, 5>
+        %42 = arith.mulf %39, %41 : f32
+        %43 = arith.addf %arg11, %42 : f32
+        %44 = arith.addi %40, %c1 : index
+        %45 = memref.load %alloca[%arg9, %44] : memref<16x32xf32, 5>
+        %46 = arith.mulf %39, %45 : f32
+        %47 = arith.addf %arg10, %46 : f32
+        scf.yield %47, %43 : f32, f32
+      }
+      nvvm.barrier0
+      scf.yield %38#0, %38#1 : f32, f32
+    }
+    scf.if %23 {
+      %25 = arith.cmpi slt, %18, %arg5 : i32
+      scf.if %25 {
+        %28 = arith.addi %11, %19 : index
+        memref.store %24#1, %arg2[%28] : memref<?xf32>
+      }
+      %26 = arith.addi %18, %c1_i32 : i32
+      %27 = arith.cmpi slt, %26, %arg5 : i32
+      scf.if %27 {
+        %28 = arith.addi %11, %19 : index
+        %29 = arith.addi %28, %c1 : index
+        memref.store %24#0, %arg2[%29] : memref<?xf32>
+      }
+    }
+    return
+  }
+}
+WrapAndReplaceBarrierPass::runOnOperation(): before execute: end
+[ict-error] WrapAndReplaceBarrierPass::runOnOperation(): gpuThreadIdOp.getDimension() != gpu::Dimension::x
+

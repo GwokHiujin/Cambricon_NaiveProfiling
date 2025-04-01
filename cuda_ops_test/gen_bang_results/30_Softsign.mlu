@@ -1,0 +1,28 @@
+#include <bang.h>
+__mlu_global__ void softsign_kernel_shared(float* v1, float* v2, int32_t v3) {
+  int32_t c32_4 = 32;
+  float v5 = (float)1.000000000e+00;
+  size_t c0_6 = 0;
+  size_t c1_7 = 1;
+  size_t c32_8 = 32;
+  int64_t v9 = taskId;
+  int32_t v10 = (int32_t) v9;
+  int32_t v11 = (v10) * (c32_4);
+  bool v12 = v11 < v3;
+  if (v12) {
+    __nram__ int8_t v13[32];
+    float* v14 = (float*)v13;
+    for (size_t v15 = c0_6; v15 < c32_8; v15 += c1_7) {
+      int64_t v16 = (int64_t)v15;
+      int32_t v17 = (int32_t) v16;
+      int32_t v18 = (v11) + (v17);
+      size_t v19 = (size_t) v18;
+      float v20 = v1[v19];
+      v14[v15] = v20;
+    };
+    for (size_t v21 = c0_6; v21 < c32_8; v21 += c1_7) {
+      int64_t v22 = (int64_t)v21;
+      float v23 = v14[v21];
+      int32_t v24 = (int32_t) v22;
+      int32_t v25 = (v11) + (v24);
+      size_t v26 = (size_t) v25;

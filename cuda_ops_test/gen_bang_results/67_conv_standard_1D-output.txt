@@ -1,0 +1,4 @@
+warning: CUDA version 12.1 is only partially supported
+./cuda_ops/67_conv_standard_1D.cu:5:10: fatal error: 'c10/util/Optional.h' file not found
+    5 | #include <c10/util/Optional.h>
+      |          ^~~~~~~~~~~~~~~~~~~~~

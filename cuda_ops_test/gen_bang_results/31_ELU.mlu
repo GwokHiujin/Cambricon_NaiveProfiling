@@ -1,0 +1,51 @@
+#include <bang.h>
+__mlu_global__ void elu_kernel_shared(float* v1, float* v2, float v3, int32_t v4) {
+  int32_t c32_5 = 32;
+  float v6 = (float)0.0e+00;
+  float v7 = (float)1.000000000e+00;
+  size_t c0_8 = 0;
+  size_t c1_9 = 1;
+  size_t c32_10 = 32;
+  __nram__ int8_t v11[32];
+  float* v12 = (float*)v11;
+  int64_t v13 = taskId;
+  int32_t v14 = (int32_t) v13;
+  int32_t v15 = (v14) * (c32_5);
+  for (size_t v16 = c0_8; v16 < c32_10; v16 += c1_9) {
+    int64_t v17 = (int64_t)v16;
+    int32_t v18 = (int32_t) v17;
+    int32_t v19 = (v15) + (v18);
+    size_t v20 = (size_t) v19;
+    bool v21 = v19 < v4;
+    if (v21) {
+      float v22 = v1[v20];
+      v12[v16] = v22;
+    };
+  }
+  for (size_t v23 = c0_8; v23 < c32_10; v23 += c1_9) {
+    int64_t v24 = (int64_t)v23;
+    int32_t v25 = (int32_t) v24;
+    int32_t v26 = (v15) + (v25);
+    bool v27 = v26 < v4;
+    if (v27) {
+      size_t v28 = (size_t) v26;
+      float v29 = v12[v23];
+      bool v30 = v29 > v6;
+      float v31;
+      if (v30) {
+        v31 = v29;
+      } else {
+        float v32 = expf(v29);
+        float v33 = v32 - v7;
+        float v34 = v3 * v33;
+        v31 = v34;
+      };
+      v2[v28] = v31;
+    };
+  }
+  return;
+}
+
+
+
+

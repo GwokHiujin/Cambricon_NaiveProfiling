@@ -1,0 +1,4 @@
+warning: CUDA version 12.1 is only partially supported
+./cuda_ops/53_Min_reduction_over_a_dimension.cu:6:10: fatal error: 'c10/cuda/CUDAStream.h' file not found
+    6 | #include <c10/cuda/CUDAStream.h>
+      |          ^~~~~~~~~~~~~~~~~~~~~~~

@@ -1,0 +1,74 @@
+#include <bang.h>
+__mlu_global__ void gelu_kernel_shared(float* v1, float* v2, int32_t v3) {
+  int32_t c128_4 = 128;
+  size_t c18446744073709551584_5 = -32;
+  float v6 = (float)1.000000000e+00;
+  float v7 = (float)5.000000000e-01;
+  float v8 = (float)4.471499850e-02;
+  float v9 = (float)7.978845830e-01;
+  size_t c4_10 = 4;
+  size_t c18446744073709551615_11 = -1;
+  size_t c0_12 = 0;
+  size_t c1_13 = 1;
+  size_t c32_14 = 32;
+  __nram__ int8_t v15[32];
+  float* v16 = (float*)v15;
+  size_t v17 = (size_t) v3;
+  int64_t v18 = taskId;
+  int32_t v19 = (int32_t) v18;
+  int32_t v20 = (v19) * (c128_4);
+  for (size_t v21 = c0_12; v21 < c32_14; v21 += c1_13) {
+    int64_t v22 = (int64_t)v21;
+    int32_t v23 = (int32_t) v22;
+    int32_t v24 = (v20) + (v23);
+    size_t v25 = (size_t) v24;
+    for (size_t v26 = c0_12; v26 < c4_10; v26 += c1_13) {
+      size_t v27 = (v26) * (c32_14);
+      size_t v28 = (v26) * (c18446744073709551584_5);
+      size_t v29 = (v28) - (v25);
+      size_t v30 = (v29) + (v17);
+      size_t v31 = (v30) + (c18446744073709551615_11);
+      bool v32 = v31 >= c0_12;
+      if (v32) {
+        size_t v33 = (v27) + (v25);
+        float v34 = v1[v33];
+        size_t v35 = (v27) + (v21);
+        v16[v35] = v34;
+      };
+    };
+  }
+  for (size_t v36 = c0_12; v36 < c32_14; v36 += c1_13) {
+    int64_t v37 = (int64_t)v36;
+    int32_t v38 = (int32_t) v37;
+    int32_t v39 = (v20) + (v38);
+    size_t v40 = (size_t) v39;
+    for (size_t v41 = c0_12; v41 < c4_10; v41 += c1_13) {
+      size_t v42 = (v41) * (c32_14);
+      size_t v43 = (v41) * (c18446744073709551584_5);
+      size_t v44 = (v43) - (v40);
+      size_t v45 = (v44) + (v17);
+      size_t v46 = (v45) + (c18446744073709551615_11);
+      bool v47 = v46 >= c0_12;
+      if (v47) {
+        size_t v48 = (v42) + (v36);
+        float v49 = v16[v48];
+        float v50 = v49 * v49;
+        float v51 = v50 * v49;
+        float v52 = v51 * v8;
+        float v53 = v49 + v52;
+        float v54 = v53 * v9;
+        float v55 = tanhf(v54);
+        float v56 = v49 * v7;
+        float v57 = v55 + v6;
+        float v58 = v56 * v57;
+        size_t v59 = (v42) + (v40);
+        v2[v59] = v58;
+      };
+    };
+  }
+  return;
+}
+
+
+
+

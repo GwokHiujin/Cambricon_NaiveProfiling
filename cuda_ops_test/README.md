@@ -7,6 +7,7 @@
 2. 将 cuda kernels 批量转换为 BANG code
 
 ```bash
+# 注意：需要根据实际情况修改脚本中的 polygeist 路径
 bash gen_bang_code.sh
 ```
 

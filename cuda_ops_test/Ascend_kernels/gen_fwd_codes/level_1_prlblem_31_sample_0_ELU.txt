@@ -1,0 +1,12 @@
+
+torch::Tensor elu_forward_cuda(torch::Tensor input, float alpha) {
+    int size = input.numel();
+    auto output = torch::empty_like(input);
+
+    const int threads = 1024;
+    const int blocks = (size + threads - 1) / threads;
+
+    elu_forward_kernel<<<blocks, threads>>>(input.data_ptr<float>(), output.data_ptr<float>(), alpha, size);
+
+    return output;
+}

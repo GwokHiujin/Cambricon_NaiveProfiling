@@ -1,0 +1,16 @@
+
+torch::Tensor reverse_cumsum_cuda(torch::Tensor x) {
+    auto N = x.size(0);
+    auto M = x.size(1);
+    auto y = torch::zeros_like(x);
+
+    const int threads = 1;  // one thread per block
+    const int blocks = N;
+
+    reverse_cumsum_kernel<<<blocks, threads>>>(x.data_ptr<float>(), y.data_ptr<float>(), N, M);
+
+    // Wait for the CUDA kernel to finish
+    cudaDeviceSynchronize();
+
+    return y;
+}

@@ -1,0 +1,19 @@
+
+
+torch::Tensor smooth_l1_loss_cuda(torch::Tensor predictions, torch::Tensor targets) {
+  AT_ASSERTM(predictions.dim() == 1 || predictions.dim() == 2, "predictions must be 1D or 2D");
+  AT_ASSERTM(targets.dim() == 1 || targets.dim() == 2, "targets must be 1D or 2D");
+  AT_ASSERTM(predictions.sizes() == targets.sizes(), "predictions and targets must have the same size");
+  AT_ASSERTM(predictions.scalar_type() == at::ScalarType::Float, "predictions must be float");
+  AT_ASSERTM(targets.scalar_type() == at::ScalarType::Float, "targets must be float");
+
+  auto size = predictions.numel();
+  auto output = torch::zeros_like(predictions);
+
+  const int block_size = 256;
+  const int num_blocks = (size + block_size - 1) / block_size;
+
+  smooth_l1_loss_kernel_launcher<<<num_blocks, block_size>>>(predictions.data_ptr<float>(), targets.data_ptr<float>(), output.data_ptr<float>(), size);
+
+  return torch::mean(output);
+}

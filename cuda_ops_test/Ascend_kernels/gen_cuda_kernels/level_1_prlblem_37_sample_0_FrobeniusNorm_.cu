@@ -1,10 +1,6 @@
 #include <cuda_runtime.h>
+
 __global__ void frobenius_norm_kernel(const float* input, float* output, float norm, int size) {
-    int idx = blockIdx.x * blockDim.x + threadIdx.x;
-    if (idx < size) {
-        output[idx] = input[idx] / norm;
-    }
-}
 __global__ void square_sum_kernel(const float* input, float* partial_sums, int size) {
     extern __shared__ float shared_mem[];
     
@@ -32,3 +28,4 @@ __global__ void square_sum_kernel(const float* input, float* partial_sums, int s
         partial_sums[blockIdx.x] = shared_mem[0];
     }
 }
+

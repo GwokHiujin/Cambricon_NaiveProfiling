@@ -3,8 +3,9 @@ POLYGEIST_BUILD_DIR=$PROJECT_ROOT_DIR/polygeist/build
 LLVM_BUILD_DIR=$PROJECT_ROOT_DIR/polygeist/mlir-build
 CGEIST=$POLYGEIST_BUILD_DIR/bin/cgeist
 CUDA_GPU_ARCH=sm_70
-CU_SRC_DIR=./Ascend_kernels/gen_cuda_kernels
-BANG_DIR=./Ascend_kernels/gen_bang_results
+
+CU_SRC_DIR=${1:-"./Ascend_kernels/gen_cuda_kernels"}  
+BANG_DIR=${2:-"./Ascend_kernels/gen_bang_results"} 
 
 export POLYGEIST_GPU_KERNEL_COARSEN_THREADS=1
 export POLYGEIST_GPU_KERNEL_COARSEN_BLOCKS=1
@@ -44,6 +45,9 @@ for cu_file in "$CU_SRC_DIR"/*.cu; do
         echo "Fail"
         ((failed_count++))
         failed_files+=("$filename_noext")
+        if [ -e "$BANG_DIR/$filename_noext.mlu" ]; then  
+            rm "$BANG_DIR/$filename_noext.mlu"
+        fi
     fi
 
 done  

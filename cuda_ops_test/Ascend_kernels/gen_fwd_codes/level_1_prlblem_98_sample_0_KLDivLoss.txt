@@ -1,0 +1,13 @@
+
+torch::Tensor kl_div_cuda(torch::Tensor log_predictions, torch::Tensor targets) {
+    auto batch_size = log_predictions.size(0);
+    auto num_classes = log_predictions.size(1);
+    auto out = torch::zeros_like(log_predictions);
+
+    const int block_size = 256;
+    const int num_blocks = (batch_size * num_classes + block_size - 1) / block_size;
+
+    kl_div_kernel<<<num_blocks, block_size>>>(log_predictions.data_ptr<float>(), targets.data_ptr<float>(), out.data_ptr<float>(), batch_size, num_classes);
+
+    return out.sum(1).mean();
+}

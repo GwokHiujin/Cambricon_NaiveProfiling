@@ -1,0 +1,17 @@
+
+torch::Tensor matrix_multiply_cuda(torch::Tensor A, torch::Tensor B) {
+    const int N = A.size(0);
+    auto C = torch::zeros({N, N}, A.options());
+
+    dim3 threadsPerBlock(TILE_SIZE, TILE_SIZE);
+    dim3 numBlocks((N + TILE_SIZE - 1) / TILE_SIZE, (N + TILE_SIZE - 1) / TILE_SIZE);
+
+    matrix_multiply_kernel<<<numBlocks, threadsPerBlock>>>(
+        A.data_ptr<float>(),
+        B.data_ptr<float>(),
+        C.data_ptr<float>(),
+        N
+    );
+
+    return C;
+}

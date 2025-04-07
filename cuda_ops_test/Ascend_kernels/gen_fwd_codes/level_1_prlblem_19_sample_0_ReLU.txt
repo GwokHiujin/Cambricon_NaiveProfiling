@@ -1,0 +1,12 @@
+
+torch::Tensor relu_cuda(torch::Tensor input) {
+  auto size = input.numel();
+  auto output = torch::zeros_like(input);
+
+  int threadsPerBlock = 256;
+  int blocksPerGrid = (size + threadsPerBlock - 1) / threadsPerBlock;
+
+  relu_kernel<<<blocksPerGrid, threadsPerBlock>>>(input.data_ptr<float>(), output.data_ptr<float>(), size);
+
+  return output;
+}

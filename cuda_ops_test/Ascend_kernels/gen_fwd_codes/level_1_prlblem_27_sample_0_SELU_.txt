@@ -1,0 +1,12 @@
+
+torch::Tensor selu_forward_cuda(torch::Tensor x) {
+    auto y = torch::empty_like(x);
+    int N = x.numel();
+
+    const int threads = 256;
+    const int blocks = (N + threads - 1) / threads;
+
+    selu_forward_kernel<<<blocks, threads>>>(x.data_ptr<float>(), y.data_ptr<float>(), N);
+
+    return y;
+}

@@ -1,10 +1,10 @@
 warning: CUDA version 12.1 is only partially supported
-./Ascend_kernels/gen_cuda_kernels/level_1_prlblem_52_sample_0_Argmin_over_a_dimension.cu:2:37: error: unknown type name 'scalar_t'
+/CUDA2BANG/Cambricon_NaiveProfiling/cuda_ops_test/Ascend_kernels/gen_cuda_kernels/level_1_prlblem_52_sample_0_Argmin_over_a_dimension.cu:2:37: error: unknown type name 'scalar_t'
     2 | __global__ void argmin_kernel(const scalar_t* input, int64_t* output, 
       |                                     ^
-./Ascend_kernels/gen_cuda_kernels/level_1_prlblem_52_sample_0_Argmin_over_a_dimension.cu:10:9: error: unknown type name 'scalar_t'
+/CUDA2BANG/Cambricon_NaiveProfiling/cuda_ops_test/Ascend_kernels/gen_cuda_kernels/level_1_prlblem_52_sample_0_Argmin_over_a_dimension.cu:10:9: error: unknown type name 'scalar_t'
    10 |         scalar_t min_val = input[batch_idx * dim1 * dim2 + col_idx];
       |         ^
-./Ascend_kernels/gen_cuda_kernels/level_1_prlblem_52_sample_0_Argmin_over_a_dimension.cu:14:13: error: unknown type name 'scalar_t'
+/CUDA2BANG/Cambricon_NaiveProfiling/cuda_ops_test/Ascend_kernels/gen_cuda_kernels/level_1_prlblem_52_sample_0_Argmin_over_a_dimension.cu:14:13: error: unknown type name 'scalar_t'
    14 |             scalar_t curr_val = input[batch_idx * dim1 * dim2 + i * dim2 + col_idx];
       |             ^

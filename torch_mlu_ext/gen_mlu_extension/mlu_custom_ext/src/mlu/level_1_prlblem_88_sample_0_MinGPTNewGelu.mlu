@@ -1,0 +1,54 @@
+#include <bang.h>
+__mlu_global__ void gelu_kernel(float* v1, float* v2, int32_t v3) {
+  int32_t c32_4 = 32;
+  float v5 = (float)4.471499850e-02;
+  float v6 = (float)7.978845830e-01;
+  float v7 = (float)5.000000000e-01;
+  float v8 = (float)1.000000000e+00;
+  size_t c0_9 = 0;
+  size_t c1_10 = 1;
+  size_t c32_11 = 32;
+  int64_t v12 = taskId;
+  int32_t v13 = (int32_t) v12;
+  int32_t v14 = (v13) * (c32_4);
+  for (size_t v15 = c0_9; v15 < c32_11; v15 += c1_10) {
+    int64_t v16 = (int64_t)v15;
+    int32_t v17 = (int32_t) v16;
+    int32_t v18 = (v14) + (v17);
+    size_t v19 = (size_t) v18;
+    bool v20 = v18 < v3;
+    if (v20) {
+      float v21 = v1[v19];
+      float v22 = v21 * v21;
+      float v23 = v22 * v21;
+      float v24 = v23 * v5;
+      float v25 = v21 + v24;
+      float v26 = v25 * v6;
+      float v27 = tanhf(v26);
+      float v28 = v21 * v7;
+      float v29 = v27 + v8;
+      float v30 = v28 * v29;
+      v2[v19] = v30;
+    };
+  }
+  return;
+}
+
+
+
+
+
+
+// ********** Entry Functions **********
+
+// Auto-generated entry function for gelu_kernel
+void gelu_kernel_entry(float* v1, float* v2, int32_t v3) {
+    cnrtQueue_t queue;
+    cnrtQueueCreate(&queue);
+    cnrtDim3_t dim = {1, 1, 1};
+    cnrtFunctionType_t c = CNRT_FUNC_TYPE_BLOCK;
+    dim.x = v3 / 32;
+    gelu_kernel<<<dim, c, queue>>>(v1, v2, v3);
+    cnrtQueueSync(queue);
+    cnrtQueueDestroy(queue);
+}

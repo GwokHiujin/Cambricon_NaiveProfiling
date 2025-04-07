@@ -9,3 +9,4 @@ __global__ void cumprod_kernel(const float* x, float* y, int64_t length) {
         y_batch[i] = cumprod;
     }
 }
+

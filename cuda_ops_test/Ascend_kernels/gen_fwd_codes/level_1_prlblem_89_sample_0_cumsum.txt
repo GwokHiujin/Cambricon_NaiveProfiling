@@ -1,0 +1,19 @@
+
+torch::Tensor scan_cuda(torch::Tensor input) {
+    auto batch_size = input.size(0);
+    auto seq_len = input.size(1);
+    auto output = torch::zeros_like(input);
+    
+    const int threads_per_block = 256;
+    const int total_elements = batch_size * seq_len;
+    const int blocks = (total_elements + threads_per_block - 1) / threads_per_block;
+    
+    scan_kernel<<<blocks, threads_per_block>>>(
+        input.data_ptr<float>(),
+        output.data_ptr<float>(),
+        batch_size,
+        seq_len
+    );
+    
+    return output;
+}

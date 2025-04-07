@@ -8,7 +8,7 @@
 
 ```bash
 # 注意：需要根据实际情况修改脚本中的 polygeist 路径
-bash gen_bang_code.sh
+bash gen_bang_code.sh $CU_SRC_DIR $BANG_DIR
 ```
 
 ---

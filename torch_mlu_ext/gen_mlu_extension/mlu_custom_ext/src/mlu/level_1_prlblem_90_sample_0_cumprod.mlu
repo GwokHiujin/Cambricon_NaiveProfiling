@@ -1,0 +1,42 @@
+#include <bang.h>
+__mlu_global__ void cumprod_kernel(float* v1, float* v2, int64_t v3) {
+  float v4 = (float)1.000000000e+00;
+  size_t c0_5 = 0;
+  size_t c1_6 = 1;
+  int64_t v7 = taskId;
+  int32_t v8 = (int32_t) v7;
+  int64_t v9 = (int64_t) v8;
+  int64_t v10 = (v9) * (v3);
+  size_t v11 = (size_t) v10;
+  size_t v12 = (size_t) v3;
+  float v13;
+  float v14 = v4;
+  for (size_t v15 = c0_5; v15 < v12; v15 += c1_6) {
+    size_t v16 = (v15) + (v11);
+    float v17 = v1[v16];
+    float v18 = v14 * v17;
+    v2[v16] = v18;
+    v14 = v18;
+  }
+  v13 = v14;
+  return;
+}
+
+
+
+
+
+
+// ********** Entry Functions **********
+
+// Auto-generated entry function for cumprod_kernel
+void cumprod_kernel_entry(float* v1, float* v2, int64_t v3) {
+    cnrtQueue_t queue;
+    cnrtQueueCreate(&queue);
+    cnrtDim3_t dim = {1, 1, 1};
+    cnrtFunctionType_t c = CNRT_FUNC_TYPE_BLOCK;
+    dim.x = v3 / 32;
+    cumprod_kernel<<<dim, c, queue>>>(v1, v2, v3);
+    cnrtQueueSync(queue);
+    cnrtQueueDestroy(queue);
+}

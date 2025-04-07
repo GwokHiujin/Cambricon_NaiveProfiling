@@ -1,0 +1,21 @@
+
+torch::Tensor cumprod_cuda(torch::Tensor x, int64_t dim) {
+    // Ensure input tensor is on CUDA and is contiguous
+    TORCH_CHECK(x.is_cuda(), "Input tensor must be on CUDA");
+    TORCH_CHECK(x.is_contiguous(), "Input tensor must be contiguous");
+    TORCH_CHECK(x.dim() == 2 && dim == 1, "Currently only supports 2D tensors with dim=1");
+
+    int64_t batch_size = x.size(0);
+    int64_t length = x.size(1);
+
+    auto y = torch::empty_like(x);
+
+    // Launch one kernel per batch
+    cumprod_kernel<<<batch_size, 1>>>(
+        x.data_ptr<float>(),
+        y.data_ptr<float>(),
+        length
+    );
+
+    return y;
+}

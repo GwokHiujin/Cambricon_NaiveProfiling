@@ -1,0 +1,62 @@
+#include <bang.h>
+__mlu_global__ void sum_reduction_kernel(float* v1, float* v2, int32_t v3, int32_t v4, int32_t v5) {
+  int32_t c32_6 = 32;
+  float v7 = (float)0.0e+00;
+  size_t c0_8 = 0;
+  size_t c1_9 = 1;
+  size_t c32_10 = 32;
+  size_t v11 = (size_t) v4;
+  size_t v12 = (size_t) v3;
+  int64_t v13 = taskId;
+  int32_t v14 = (int32_t) v13;
+  int32_t v15 = (v14) * (c32_6);
+  for (size_t v16 = c0_8; v16 < c32_10; v16 += c1_9) {
+    int64_t v17 = (int64_t)v16;
+    int32_t v18 = (int32_t) v17;
+    int32_t v19 = (v15) + (v18);
+    size_t v20 = (size_t) v19;
+    size_t v21 = (v20) % (v11);
+    size_t v22 = (v21) + (v11);
+    bool v23 = v21 < c0_8;
+    size_t v24 = (v23) ? (v22) : (v21);
+    int32_t v25 = (v19) / (v4);
+    int32_t v26 = (v25) * (v3);
+    int32_t v27 = (v26) * (v4);
+    size_t v28 = (size_t) v27;
+    bool v29 = v19 < v5;
+    if (v29) {
+      float v30;
+      float v31 = v7;
+      for (size_t v32 = c0_8; v32 < v12; v32 += c1_9) {
+        size_t v33 = (v32) * (v11);
+        size_t v34 = (v33) + (v28);
+        size_t v35 = (v34) + (v24);
+        float v36 = v1[v35];
+        float v37 = v31 + v36;
+        v31 = v37;
+      }
+      v30 = v31;;
+      v2[v20] = v30;
+    };
+  }
+  return;
+}
+
+
+
+
+
+
+// ********** Entry Functions **********
+
+// Auto-generated entry function for sum_reduction_kernel
+void sum_reduction_kernel_entry(float* v1, float* v2, int32_t v3, int32_t v4, int32_t v5) {
+    cnrtQueue_t queue;
+    cnrtQueueCreate(&queue);
+    cnrtDim3_t dim = {1, 1, 1};
+    cnrtFunctionType_t c = CNRT_FUNC_TYPE_BLOCK;
+    dim.x = v5 / 32;
+    sum_reduction_kernel<<<dim, c, queue>>>(v1, v2, v3, v4, v5);
+    cnrtQueueSync(queue);
+    cnrtQueueDestroy(queue);
+}

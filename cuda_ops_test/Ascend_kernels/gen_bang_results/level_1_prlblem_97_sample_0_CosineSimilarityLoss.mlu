@@ -102,7 +102,7 @@ __mlu_global__ void cosine_similarity_loss_kernel(float* v1, float* v2, float* v
       v66 = v69;
       v67 = v70;
       v68 = v71;;
-      v22[v65] = v64;
+      v24[v65] = v64;
       v16[v65] = v67;
     };
     for (size_t v86 = c0_12; v86 < v50; v86 += c1_13) {
@@ -152,7 +152,7 @@ __mlu_global__ void cosine_similarity_loss_kernel(float* v1, float* v2, float* v
       v101 = v104;
       v102 = v105;
       v103 = v106;;
-      v24[v100] = v99;
+      v22[v100] = v99;
       v16[v100] = v101;
     };
     for (size_t v121 = c0_12; v121 < v50; v121 += c1_13) {
@@ -180,14 +180,14 @@ __mlu_global__ void cosine_similarity_loss_kernel(float* v1, float* v2, float* v
       int64_t v138 = (int64_t)v137;
       float v139 = v24[v137];
       float v140 = v22[v137];
-      float v141 = v139 + v10;
+      float v141 = v140 + v10;
       float v142 = sqrtf(v141);
       int32_t v143 = (int32_t) v138;
       bool v144 = v143 == c0_9;
       if (v144) {
         float v145 = v142 * v136;
         float v146 = v145 + v10;
-        float v147 = v140 / v146;
+        float v147 = v139 / v146;
         float v148 = v11 - v147;
         v3[v18] = v148;
       };

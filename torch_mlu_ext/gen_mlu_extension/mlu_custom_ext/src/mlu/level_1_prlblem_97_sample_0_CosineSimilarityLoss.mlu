@@ -1,0 +1,216 @@
+#include <bang.h>
+__mlu_global__ void cosine_similarity_loss_kernel(float* v1, float* v2, float* v3, int32_t v4, int32_t v5) {
+  int32_t c27_6 = 27;
+  int32_t c16_7 = 16;
+  float v8 = (float)0.0e+00;
+  int32_t c0_9 = 0;
+  float v10 = (float)9.999999930e-09;
+  float v11 = (float)1.000000000e+00;
+  size_t c0_12 = 0;
+  size_t c1_13 = 1;
+  size_t c32_14 = 32;
+  __nram__ int8_t v15[32];
+  float* v16 = (float*)v15;
+  int64_t v17 = taskId;
+  size_t v18 = (size_t)v17;
+  int32_t v19 = (int32_t) v17;
+  bool v20 = v19 < v4;
+  if (v20) {
+    __nram__ int8_t v21[32];
+    float* v22 = (float*)v21;
+    __nram__ int8_t v23[32];
+    float* v24 = (float*)v23;
+    int32_t v25 = (v19) * (v5);
+    size_t v26 = (size_t) v25;
+    size_t v27 = (size_t) v5;
+    for (size_t v28 = c0_12; v28 < c32_14; v28 += c1_13) {
+      float v29;
+      float v30;
+      float v31;
+      float v32 = v8;
+      float v33 = v8;
+      float v34 = v8;
+      for (size_t v35 = v28; v35 < v27; v35 += c32_14) {
+        size_t v36 = (v35) - (v28);
+        size_t v37 = (v36) / (c32_14);
+        size_t v38 = (v37) * (c32_14);
+        size_t v39 = (v28) + (v38);
+        size_t v40 = (v39) + (v26);
+        float v41 = v1[v40];
+        float v42 = v2[v40];
+        float v43 = v41 * v42;
+        float v44 = v34 + v43;
+        float v45 = v41 * v41;
+        float v46 = v33 + v45;
+        float v47 = v42 * v42;
+        float v48 = v32 + v47;
+        v32 = v48;
+        v33 = v46;
+        v34 = v44;
+      }
+      v29 = v32;
+      v30 = v33;
+      v31 = v34;;
+      v16[v28] = v31;
+    };
+    size_t v49 = (size_t) c27_6;
+    size_t v50 = (c32_14) - (v49);
+    for (size_t v51 = c0_12; v51 < v50; v51 += c1_13) {
+      int64_t v52 = (int64_t)v51;
+      int32_t v53 = (int32_t) v52;
+      int32_t v54 = (c16_7) >> (v53);
+      for (size_t v55 = c0_12; v55 < c32_14; v55 += c1_13) {
+        int64_t v56 = (int64_t)v55;
+        int32_t v57 = (int32_t) v56;
+        bool v58 = v57 < v54;
+        if (v58) {
+          int32_t v59 = (v57) + (v54);
+          size_t v60 = (size_t) v59;
+          float v61 = v16[v60];
+          float v62 = v16[v55];
+          float v63 = v62 + v61;
+          v16[v55] = v63;
+        };
+      };
+    };
+    float v64 = v16[c0_12];
+    for (size_t v65 = c0_12; v65 < c32_14; v65 += c1_13) {
+      float v66;
+      float v67;
+      float v68;
+      float v69 = v8;
+      float v70 = v8;
+      float v71 = v8;
+      for (size_t v72 = v65; v72 < v27; v72 += c32_14) {
+        size_t v73 = (v72) - (v65);
+        size_t v74 = (v73) / (c32_14);
+        size_t v75 = (v74) * (c32_14);
+        size_t v76 = (v65) + (v75);
+        size_t v77 = (v76) + (v26);
+        float v78 = v1[v77];
+        float v79 = v2[v77];
+        float v80 = v78 * v79;
+        float v81 = v71 + v80;
+        float v82 = v78 * v78;
+        float v83 = v70 + v82;
+        float v84 = v79 * v79;
+        float v85 = v69 + v84;
+        v69 = v85;
+        v70 = v83;
+        v71 = v81;
+      }
+      v66 = v69;
+      v67 = v70;
+      v68 = v71;;
+      v24[v65] = v64;
+      v16[v65] = v67;
+    };
+    for (size_t v86 = c0_12; v86 < v50; v86 += c1_13) {
+      int64_t v87 = (int64_t)v86;
+      int32_t v88 = (int32_t) v87;
+      int32_t v89 = (c16_7) >> (v88);
+      for (size_t v90 = c0_12; v90 < c32_14; v90 += c1_13) {
+        int64_t v91 = (int64_t)v90;
+        int32_t v92 = (int32_t) v91;
+        bool v93 = v92 < v89;
+        if (v93) {
+          int32_t v94 = (v92) + (v89);
+          size_t v95 = (size_t) v94;
+          float v96 = v16[v95];
+          float v97 = v16[v90];
+          float v98 = v97 + v96;
+          v16[v90] = v98;
+        };
+      };
+    };
+    float v99 = v16[c0_12];
+    for (size_t v100 = c0_12; v100 < c32_14; v100 += c1_13) {
+      float v101;
+      float v102;
+      float v103;
+      float v104 = v8;
+      float v105 = v8;
+      float v106 = v8;
+      for (size_t v107 = v100; v107 < v27; v107 += c32_14) {
+        size_t v108 = (v107) - (v100);
+        size_t v109 = (v108) / (c32_14);
+        size_t v110 = (v109) * (c32_14);
+        size_t v111 = (v100) + (v110);
+        size_t v112 = (v111) + (v26);
+        float v113 = v1[v112];
+        float v114 = v2[v112];
+        float v115 = v113 * v114;
+        float v116 = v106 + v115;
+        float v117 = v113 * v113;
+        float v118 = v105 + v117;
+        float v119 = v114 * v114;
+        float v120 = v104 + v119;
+        v104 = v120;
+        v105 = v118;
+        v106 = v116;
+      }
+      v101 = v104;
+      v102 = v105;
+      v103 = v106;;
+      v22[v100] = v99;
+      v16[v100] = v101;
+    };
+    for (size_t v121 = c0_12; v121 < v50; v121 += c1_13) {
+      int64_t v122 = (int64_t)v121;
+      int32_t v123 = (int32_t) v122;
+      int32_t v124 = (c16_7) >> (v123);
+      for (size_t v125 = c0_12; v125 < c32_14; v125 += c1_13) {
+        int64_t v126 = (int64_t)v125;
+        int32_t v127 = (int32_t) v126;
+        bool v128 = v127 < v124;
+        if (v128) {
+          int32_t v129 = (v127) + (v124);
+          size_t v130 = (size_t) v129;
+          float v131 = v16[v130];
+          float v132 = v16[v125];
+          float v133 = v132 + v131;
+          v16[v125] = v133;
+        };
+      };
+    };
+    float v134 = v16[c0_12];
+    float v135 = v134 + v10;
+    float v136 = sqrtf(v135);
+    for (size_t v137 = c0_12; v137 < c32_14; v137 += c1_13) {
+      int64_t v138 = (int64_t)v137;
+      float v139 = v24[v137];
+      float v140 = v22[v137];
+      float v141 = v140 + v10;
+      float v142 = sqrtf(v141);
+      int32_t v143 = (int32_t) v138;
+      bool v144 = v143 == c0_9;
+      if (v144) {
+        float v145 = v142 * v136;
+        float v146 = v145 + v10;
+        float v147 = v139 / v146;
+        float v148 = v11 - v147;
+        v3[v18] = v148;
+      };
+    };
+  }
+  return;
+}
+
+
+
+
+
+
+// ********** Entry Functions **********
+
+// Auto-generated entry function for cosine_similarity_loss_kernel
+void cosine_similarity_loss_kernel_entry(float* v1, float* v2, float* v3, int32_t v4, int32_t v5) {
+    cnrtQueue_t queue;
+    cnrtQueueCreate(&queue);
+    cnrtDim3_t dim = {1, 1, 1};
+    cnrtFunctionType_t c = CNRT_FUNC_TYPE_BLOCK;
+    dim.x = v5 / 32;
+    cosine_similarity_loss_kernel<<<dim, c, queue>>>(v1, v2, v3, v4, v5);
+    cnrtQueueSync(queue);
+    cnrtQueueDestroy(queue);
+}

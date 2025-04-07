@@ -1,0 +1,18 @@
+
+torch::Tensor symmetric_matmul_cuda(torch::Tensor A, torch::Tensor B) {
+    const int N = A.size(0);
+    auto C = torch::zeros({N, N}, A.options());
+    
+    const int BLOCK_SIZE = 32;
+    dim3 threads(BLOCK_SIZE, BLOCK_SIZE);
+    dim3 grid((N + BLOCK_SIZE - 1) / BLOCK_SIZE, (N + BLOCK_SIZE - 1) / BLOCK_SIZE);
+    
+    symmetric_matmul_kernel<<<grid, threads>>>(
+        A.data_ptr<float>(),
+        B.data_ptr<float>(),
+        C.data_ptr<float>(),
+        N
+    );
+    
+    return C;
+}

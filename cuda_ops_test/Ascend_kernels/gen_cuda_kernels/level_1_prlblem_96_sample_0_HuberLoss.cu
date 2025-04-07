@@ -12,3 +12,4 @@ __global__ void smooth_l1_loss_kernel_launcher(const float* predictions, const f
     output[i] = smooth_l1_loss_kernel(predictions[i] - targets[i]);
   }
 }
+

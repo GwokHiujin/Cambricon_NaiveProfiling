@@ -1,0 +1,50 @@
+
+torch::Tensor conv_transpose2d_cuda(
+    torch::Tensor input,
+    torch::Tensor weight,
+    std::tuple<int, int> stride,
+    std::tuple<int, int> padding
+) {
+    const int batch_size = input.size(0);
+    const int in_channels = input.size(1);
+    const int height = input.size(2);
+    const int width = input.size(3);
+    
+    const int out_channels = weight.size(1);
+    const int kernel_h = weight.size(2);
+    const int kernel_w = weight.size(3);
+    
+    const int stride_h = std::get<0>(stride);
+    const int stride_w = std::get<1>(stride);
+    const int pad_h = std::get<0>(padding);
+    const int pad_w = std::get<1>(padding);
+    
+    const int out_h = (height - 1) * stride_h - 2 * pad_h + kernel_h;
+    const int out_w = (width - 1) * stride_w - 2 * pad_w + kernel_w;
+    
+    auto output = torch::zeros({batch_size, out_channels, out_h, out_w}, input.options());
+    
+    const int threads = 256;
+    const int blocks = (batch_size * out_channels * out_h * out_w + threads - 1) / threads;
+    
+    conv_transpose2d_kernel<<<blocks, threads>>>(
+        input.data_ptr<float>(),
+        weight.data_ptr<float>(),
+        output.data_ptr<float>(),
+        batch_size,
+        in_channels,
+        out_channels,
+        height,
+        width,
+        kernel_h,
+        kernel_w,
+        stride_h,
+        stride_w,
+        pad_h,
+        pad_w,
+        out_h,
+        out_w
+    );
+    
+    return output;
+}

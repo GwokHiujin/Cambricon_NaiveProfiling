@@ -1,0 +1,53 @@
+#include <bang.h>
+__mlu_global__ void elu_forward_kernel(float* v1, float* v2, float v3, int32_t v4) {
+  int32_t c32_5 = 32;
+  float v6 = (float)0.0e+00;
+  float v7 = (float)1.000000000e+00;
+  size_t c0_8 = 0;
+  size_t c1_9 = 1;
+  size_t c32_10 = 32;
+  int64_t v11 = taskId;
+  int32_t v12 = (int32_t) v11;
+  int32_t v13 = (v12) * (c32_5);
+  for (size_t v14 = c0_8; v14 < c32_10; v14 += c1_9) {
+    int64_t v15 = (int64_t)v14;
+    int32_t v16 = (int32_t) v15;
+    int32_t v17 = (v13) + (v16);
+    size_t v18 = (size_t) v17;
+    bool v19 = v17 < v4;
+    if (v19) {
+      float v20 = v1[v18];
+      bool v21 = v20 > v6;
+      float v22;
+      if (v21) {
+        v22 = v20;
+      } else {
+        float v23 = expf(v20);
+        float v24 = v23 - v7;
+        float v25 = v3 * v24;
+        v22 = v25;
+      };
+      v2[v18] = v22;
+    };
+  }
+  return;
+}
+
+
+
+
+
+
+// ********** Entry Functions **********
+
+// Auto-generated entry function for elu_forward_kernel
+void elu_forward_kernel_entry(float* v1, float* v2, float v3, int32_t v4) {
+    cnrtQueue_t queue;
+    cnrtQueueCreate(&queue);
+    cnrtDim3_t dim = {1, 1, 1};
+    cnrtFunctionType_t c = CNRT_FUNC_TYPE_BLOCK;
+    dim.x = v4 / 32;
+    elu_forward_kernel<<<dim, c, queue>>>(v1, v2, v3, v4);
+    cnrtQueueSync(queue);
+    cnrtQueueDestroy(queue);
+}

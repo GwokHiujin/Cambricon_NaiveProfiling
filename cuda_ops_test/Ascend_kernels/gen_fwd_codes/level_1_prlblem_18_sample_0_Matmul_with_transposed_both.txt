@@ -1,0 +1,27 @@
+
+torch::Tensor matmul_cuda(torch::Tensor A, torch::Tensor B) {
+
+    CHECK_INPUT(A);
+    CHECK_INPUT(B);
+
+    int M = A.size(0);
+    int K = A.size(1);
+    int K_B = B.size(0);
+    int N = B.size(1);
+
+    TORCH_CHECK(K == K_B, "Matrices have incompatible dimensions");
+
+    auto C = torch::zeros({M, N}, A.options());
+
+    dim3 dimBlock(BLOCK_SIZE, BLOCK_SIZE);
+    dim3 dimGrid((N + BLOCK_SIZE - 1) / BLOCK_SIZE, (M + BLOCK_SIZE - 1) / BLOCK_SIZE);
+
+    MatMulKernel<<<dimGrid, dimBlock>>>(
+        A.data_ptr<float>(),
+        B.data_ptr<float>(),
+        C.data_ptr<float>(),
+        M, N, K
+    );
+
+    return C;
+}

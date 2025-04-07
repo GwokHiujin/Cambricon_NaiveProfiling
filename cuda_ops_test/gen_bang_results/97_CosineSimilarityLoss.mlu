@@ -1,1 +1,24 @@
-
+#include <bang.h>
+__mlu_global__ void blocksize_tuning_cosine_similarity_loss_kernel(float* v1, float* v2, float* v3, int32_t v4, int32_t v5) {
+  float v6 = (float)0.0e+00;
+  int32_t c32_7 = 32;
+  int32_t c16_8 = 16;
+  int32_t c0_9 = 0;
+  int32_t c4294967295_10 = -1;
+  int32_t c2_11 = 2;
+  int32_t c1_12 = 1;
+  int32_t c31_13 = 31;
+  float v14 = (float)9.999999930e-09;
+  float v15 = (float)1.000000000e+00;
+  size_t c0_16 = 0;
+  size_t c1_17 = 1;
+  size_t c32_18 = 32;
+  __nram__ int8_t v19[32];
+  float* v20 = (float*)v19;
+  __nram__ int8_t v21[32];
+  float* v22 = (float*)v21;
+  __nram__ int8_t v23[32];
+  float* v24 = (float*)v23;
+  int64_t v25 = taskId;
+  int32_t v26 = (int32_t) v25;
+  int32_t v27 = (v26) * (v5);

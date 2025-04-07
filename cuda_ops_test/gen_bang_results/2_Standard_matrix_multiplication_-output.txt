@@ -13,25 +13,25 @@ PLEASE submit a bug report to https://github.com/llvm/llvm-project/issues/ and i
 Stack dump:
 0.	Program arguments: /CUDA2BANG/cuda2bang/polygeist/build/bin/cgeist --function=* -cuda-lower -output-intermediate-gpu -scal-rep=0 -raise-scf-to-affine --cuda-gpu-arch=sm_70 -parallel-licm=1 -gpu-kernel-structure-mode=block_thread_noops --enable-buffer-elim=0 -O2 -I /CUDA2BANG/cuda2bang/polygeist/mlir-build/projects/openmp/runtime/src/ -resource-dir=/CUDA2BANG/cuda2bang/polygeist/mlir-build/lib/clang/18/ -I /CUDA2BANG/cuda2bang/polygeist/mlir-build/projects/openmp/runtime/src/ -I /usr/local/cuda/include/ -use-original-gpu-block-size --emit-npu=distribute.mincut -use-my-pass -bang-dump-file=./gen_bang_results/2_Standard_matrix_multiplication_.mlu ./cuda_ops/2_Standard_matrix_multiplication_.cu -o 2_Standard_matrix_multiplication_.o
 1.	<eof> parser at end of file
- #0 0x0000564f5ececb9f llvm::sys::PrintStackTrace(llvm::raw_ostream&, int) (/CUDA2BANG/cuda2bang/polygeist/build/bin/cgeist+0x3390b9f)
- #1 0x0000564f5ecea384 SignalHandler(int) Signals.cpp:0:0
- #2 0x00007ff4089c6420 __restore_rt (/lib/x86_64-linux-gnu/libpthread.so.0+0x14420)
- #3 0x00007ff40834b00b raise /build/glibc-SzIz7B/glibc-2.31/signal/../sysdeps/unix/sysv/linux/raise.c:51:1
- #4 0x00007ff40832a859 abort /build/glibc-SzIz7B/glibc-2.31/stdlib/abort.c:81:7
- #5 0x00007ff40832a729 get_sysdep_segment_value /build/glibc-SzIz7B/glibc-2.31/intl/loadmsgcat.c:509:8
- #6 0x00007ff40832a729 _nl_load_domain /build/glibc-SzIz7B/glibc-2.31/intl/loadmsgcat.c:970:34
- #7 0x00007ff40833bfd6 (/lib/x86_64-linux-gnu/libc.so.6+0x33fd6)
- #8 0x0000564f5c4fd770 ValueCategory::getValue(mlir::Location, mlir::OpBuilder&) const /CUDA2BANG/cuda2bang/polygeist/tools/cgeist/Lib/ValueCategory.cc:37:3
- #9 0x0000564f5c511b2c MLIRScanner::VisitCallExpr(clang::CallExpr*) /CUDA2BANG/cuda2bang/polygeist/tools/cgeist/Lib/CGCall.cc:1679:70
-#10 0x0000564f5c3f3837 clang::StmtVisitorBase<std::add_pointer, MLIRScanner, ValueCategory>::Visit(clang::Stmt*) /CUDA2BANG/cuda2bang/polygeist/mlir-build/tools/clang/include/clang/AST/StmtNodes.inc:950:0
-#11 0x0000564f5c4bdaa4 MLIRScanner::VisitCompoundStmt(clang::CompoundStmt*) /CUDA2BANG/cuda2bang/polygeist/tools/cgeist/Lib/CGStmt.cc:1052:24
-#12 0x0000564f5c3f2b77 clang::StmtVisitorBase<std::add_pointer, MLIRScanner, ValueCategory>::Visit(clang::Stmt*) /CUDA2BANG/cuda2bang/polygeist/mlir-build/tools/clang/include/clang/AST/StmtNodes.inc:74:0
-#13 0x0000564f5c38d309 MLIRScanner::init(mlir::func::FuncOp, clang::FunctionDecl const*) /CUDA2BANG/cuda2bang/polygeist/tools/cgeist/Lib/clang-mlir.cc:457:0
-#14 0x0000564f5c3b0e2e MLIRASTConsumer::run() /CUDA2BANG/cuda2bang/polygeist/tools/cgeist/Lib/clang-mlir.cc:5300:0
-#15 0x0000564f5c3b1d6a MLIRASTConsumer::HandleTranslationUnit(clang::ASTContext&) /CUDA2BANG/cuda2bang/polygeist/tools/cgeist/Lib/clang-mlir.cc:5456:0
-#16 0x0000564f63f735a9 clang::ParseAST(clang::Sema&, bool, bool) (/CUDA2BANG/cuda2bang/polygeist/build/bin/cgeist+0x86175a9)
-#17 0x0000564f609a8841 clang::FrontendAction::Execute() (/CUDA2BANG/cuda2bang/polygeist/build/bin/cgeist+0x504c841)
-#18 0x0000564f5c3b6c9c parseMLIR(char const*, std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char>>, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char>>>>, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char>>, std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char>>, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char>>>>, std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char>>, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char>>>>, mlir::OwningOpRef<mlir::ModuleOp>&, llvm::Triple&, llvm::DataLayout&, llvm::Triple&, llvm::DataLayout&) /CUDA2BANG/cuda2bang/polygeist/tools/cgeist/Lib/clang-mlir.cc:6190:0
-#19 0x0000564f5c3b83aa main /CUDA2BANG/cuda2bang/polygeist/tools/cgeist/driver.cc:602:0
-#20 0x00007ff40832c083 __libc_start_main /build/glibc-SzIz7B/glibc-2.31/csu/../csu/libc-start.c:342:3
-#21 0x0000564f5c38984e _start (/CUDA2BANG/cuda2bang/polygeist/build/bin/cgeist+0xa2d84e)
+ #0 0x00005607333ebb9f llvm::sys::PrintStackTrace(llvm::raw_ostream&, int) (/CUDA2BANG/cuda2bang/polygeist/build/bin/cgeist+0x3390b9f)
+ #1 0x00005607333e9384 SignalHandler(int) Signals.cpp:0:0
+ #2 0x00007fe19e422420 __restore_rt (/lib/x86_64-linux-gnu/libpthread.so.0+0x14420)
+ #3 0x00007fe19dda700b raise /build/glibc-SzIz7B/glibc-2.31/signal/../sysdeps/unix/sysv/linux/raise.c:51:1
+ #4 0x00007fe19dd86859 abort /build/glibc-SzIz7B/glibc-2.31/stdlib/abort.c:81:7
+ #5 0x00007fe19dd86729 get_sysdep_segment_value /build/glibc-SzIz7B/glibc-2.31/intl/loadmsgcat.c:509:8
+ #6 0x00007fe19dd86729 _nl_load_domain /build/glibc-SzIz7B/glibc-2.31/intl/loadmsgcat.c:970:34
+ #7 0x00007fe19dd97fd6 (/lib/x86_64-linux-gnu/libc.so.6+0x33fd6)
+ #8 0x0000560730bfc770 ValueCategory::getValue(mlir::Location, mlir::OpBuilder&) const /CUDA2BANG/cuda2bang/polygeist/tools/cgeist/Lib/ValueCategory.cc:37:3
+ #9 0x0000560730c10b2c MLIRScanner::VisitCallExpr(clang::CallExpr*) /CUDA2BANG/cuda2bang/polygeist/tools/cgeist/Lib/CGCall.cc:1679:70
+#10 0x0000560730af2837 clang::StmtVisitorBase<std::add_pointer, MLIRScanner, ValueCategory>::Visit(clang::Stmt*) /CUDA2BANG/cuda2bang/polygeist/mlir-build/tools/clang/include/clang/AST/StmtNodes.inc:950:0
+#11 0x0000560730bbcaa4 MLIRScanner::VisitCompoundStmt(clang::CompoundStmt*) /CUDA2BANG/cuda2bang/polygeist/tools/cgeist/Lib/CGStmt.cc:1052:24
+#12 0x0000560730af1b77 clang::StmtVisitorBase<std::add_pointer, MLIRScanner, ValueCategory>::Visit(clang::Stmt*) /CUDA2BANG/cuda2bang/polygeist/mlir-build/tools/clang/include/clang/AST/StmtNodes.inc:74:0
+#13 0x0000560730a8c309 MLIRScanner::init(mlir::func::FuncOp, clang::FunctionDecl const*) /CUDA2BANG/cuda2bang/polygeist/tools/cgeist/Lib/clang-mlir.cc:457:0
+#14 0x0000560730aafe2e MLIRASTConsumer::run() /CUDA2BANG/cuda2bang/polygeist/tools/cgeist/Lib/clang-mlir.cc:5300:0
+#15 0x0000560730ab0d6a MLIRASTConsumer::HandleTranslationUnit(clang::ASTContext&) /CUDA2BANG/cuda2bang/polygeist/tools/cgeist/Lib/clang-mlir.cc:5456:0
+#16 0x00005607386725a9 clang::ParseAST(clang::Sema&, bool, bool) (/CUDA2BANG/cuda2bang/polygeist/build/bin/cgeist+0x86175a9)
+#17 0x00005607350a7841 clang::FrontendAction::Execute() (/CUDA2BANG/cuda2bang/polygeist/build/bin/cgeist+0x504c841)
+#18 0x0000560730ab5c9c parseMLIR(char const*, std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char>>, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char>>>>, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char>>, std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char>>, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char>>>>, std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char>>, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char>>>>, mlir::OwningOpRef<mlir::ModuleOp>&, llvm::Triple&, llvm::DataLayout&, llvm::Triple&, llvm::DataLayout&) /CUDA2BANG/cuda2bang/polygeist/tools/cgeist/Lib/clang-mlir.cc:6190:0
+#19 0x0000560730ab73aa main /CUDA2BANG/cuda2bang/polygeist/tools/cgeist/driver.cc:602:0
+#20 0x00007fe19dd88083 __libc_start_main /build/glibc-SzIz7B/glibc-2.31/csu/../csu/libc-start.c:342:3
+#21 0x0000560730a8884e _start (/CUDA2BANG/cuda2bang/polygeist/build/bin/cgeist+0xa2d84e)

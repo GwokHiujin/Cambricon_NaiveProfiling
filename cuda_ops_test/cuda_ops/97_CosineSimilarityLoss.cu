@@ -4,7 +4,7 @@
 #include <math.h>
 
 // Templated kernel that uses different block sizes for tuning performance
-template <int BLOCK_SIZE>
+// template <int 32>
 __global__ void blocksize_tuning_cosine_similarity_loss_kernel(const float* __restrict__ predictions,
                                                                  const float* __restrict__ targets,
                                                                  float* output,
@@ -18,8 +18,8 @@ __global__ void blocksize_tuning_cosine_similarity_loss_kernel(const float* __re
     float sum_pred_sq = 0.0f;
     float sum_target_sq = 0.0f;
 
-    // Iterate over the D dimension in strides of BLOCK_SIZE
-    for (int i = tid; i < D; i += BLOCK_SIZE) {
+    // Iterate over the D dimension in strides of 32
+    for (int i = tid; i < D; i += 32) {
         float p = predictions[row * D + i];
         float t = targets[row * D + i];
         sum_dot += p * t;
@@ -35,7 +35,7 @@ __global__ void blocksize_tuning_cosine_similarity_loss_kernel(const float* __re
     }
 
     // Allocate shared memory for partial results from each warp
-    constexpr int NUM_WARPS = BLOCK_SIZE / 32;
+    constexpr int NUM_WARPS = 32 / 32;
     __shared__ float s_dot[NUM_WARPS];
     __shared__ float s_pred_sq[NUM_WARPS];
     __shared__ float s_target_sq[NUM_WARPS];

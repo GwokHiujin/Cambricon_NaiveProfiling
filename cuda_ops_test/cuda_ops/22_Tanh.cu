@@ -2,7 +2,7 @@
 #include <cuda.h>
 #include <cuda_runtime.h>
 
-template <typename scalar_t>
+// template <typename float>
 __device__ __forceinline__ float4 tanh_vec4(float4 val) {
     float4 result;
     result.x = tanhf(val.x);
@@ -12,10 +12,10 @@ __device__ __forceinline__ float4 tanh_vec4(float4 val) {
     return result;
 }
 
-template <typename scalar_t>
+// template <typename float>
 __global__ void tanh_kernel_vectorized(
-    const scalar_t* __restrict__ input,
-    scalar_t* __restrict__ output,
+    const float* __restrict__ input,
+    float* __restrict__ output,
     const int size) {
     
     const int idx = blockIdx.x * blockDim.x + threadIdx.x;
@@ -28,7 +28,7 @@ __global__ void tanh_kernel_vectorized(
     
     for (int i = idx; i < vec4_size; i += stride) {
         float4 in4 = input4[i];
-        output4[i] = tanh_vec4<scalar_t>(in4);
+        output4[i] = tanh_vec4<float>(in4);
     }
     
     // Handle remaining elements
@@ -44,10 +44,10 @@ __global__ void tanh_kernel_vectorized(
 //     const int threads = 256;
 //     const int blocks = (input.numel() / 4 + threads - 1) / threads;
 //     
-//     AT_DISPATCH_FLOATING_TYPES(input.scalar_type(), "tanh_kernel_vectorized", ([&] {
-//         tanh_kernel_vectorized<scalar_t><<<blocks, threads>>>(
-//             input.data_ptr<scalar_t>(),
-//             output.data_ptr<scalar_t>(),
+//     AT_DISPATCH_FLOATING_TYPES(input.floatype(), "tanh_kernel_vectorized", ([&] {
+//         tanh_kernel_vectorized<float><<<blocks, threads>>>(
+//             input.data_ptr<float>(),
+//             output.data_ptr<float>(),
 //             input.numel()
 //         );
 //     }));

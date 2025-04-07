@@ -1,38 +1,38 @@
 warning: CUDA version 12.1 is only partially supported
 warning: CUDA version 12.1 is only partially supported
-cleanup of materialized not handledCXXOperatorCallExpr 0x55c71ac06910 'float4':'struct float4' lvalue '='
-|-ImplicitCastExpr 0x55c71ac068f8 'float4 &(*)(float4 &&) noexcept' <FunctionToPointerDecay>
-| `-DeclRefExpr 0x55c71abfc800 'float4 &(float4 &&) noexcept' lvalue CXXMethod 0x55c71abfc5d8 'operator=' 'float4 &(float4 &&) noexcept'
-|-DeclRefExpr 0x55c71abfbf50 'float4':'struct float4' lvalue Var 0x55c71abfba70 'A_vec' 'float4':'struct float4'
-`-MaterializeTemporaryExpr 0x55c71abfc7e8 'float4':'struct float4' xvalue
-  `-CallExpr 0x55c71abfc220 'float4':'struct float4'
-    |-ImplicitCastExpr 0x55c71abfc208 'float4 (*)(const float4 *)' <FunctionToPointerDecay>
-    | `-DeclRefExpr 0x55c71abfc188 'float4 (const float4 *)' lvalue Function 0x55c71ab83ec8 '__ldg' 'float4 (const float4 *)'
-    `-UnaryOperator 0x55c71abfc170 'const float4 *' prefix '&' cannot overflow
-      `-ArraySubscriptExpr 0x55c71abfc150 'const float4':'const struct float4' lvalue
-        |-ImplicitCastExpr 0x55c71abfc138 'const float4 *' <LValueToRValue>
-        | `-DeclRefExpr 0x55c71abfc0a0 'const float4 *' lvalue Var 0x55c71abfbcd0 'A_vec_ptr' 'const float4 *'
-        `-BinaryOperator 0x55c71abfc118 'int' '/'
-          |-ImplicitCastExpr 0x55c71abfc100 'int' <LValueToRValue>
-          | `-DeclRefExpr 0x55c71abfc0c0 'int' lvalue Var 0x55c71abfbde8 'index' 'int'
-          `-IntegerLiteral 0x55c71abfc0e0 'int' 4
+cleanup of materialized not handledCXXOperatorCallExpr 0x55970b170a70 'float4':'struct float4' lvalue '='
+|-ImplicitCastExpr 0x55970b170a58 'float4 &(*)(float4 &&) noexcept' <FunctionToPointerDecay>
+| `-DeclRefExpr 0x55970b165df0 'float4 &(float4 &&) noexcept' lvalue CXXMethod 0x55970b165bc8 'operator=' 'float4 &(float4 &&) noexcept'
+|-DeclRefExpr 0x55970b165540 'float4':'struct float4' lvalue Var 0x55970b165060 'A_vec' 'float4':'struct float4'
+`-MaterializeTemporaryExpr 0x55970b165dd8 'float4':'struct float4' xvalue
+  `-CallExpr 0x55970b165810 'float4':'struct float4'
+    |-ImplicitCastExpr 0x55970b1657f8 'float4 (*)(const float4 *)' <FunctionToPointerDecay>
+    | `-DeclRefExpr 0x55970b165778 'float4 (const float4 *)' lvalue Function 0x55970b0ed1a8 '__ldg' 'float4 (const float4 *)'
+    `-UnaryOperator 0x55970b165760 'const float4 *' prefix '&' cannot overflow
+      `-ArraySubscriptExpr 0x55970b165740 'const float4':'const struct float4' lvalue
+        |-ImplicitCastExpr 0x55970b165728 'const float4 *' <LValueToRValue>
+        | `-DeclRefExpr 0x55970b165690 'const float4 *' lvalue Var 0x55970b1652c0 'A_vec_ptr' 'const float4 *'
+        `-BinaryOperator 0x55970b165708 'int' '/'
+          |-ImplicitCastExpr 0x55970b1656f0 'int' <LValueToRValue>
+          | `-DeclRefExpr 0x55970b1656b0 'int' lvalue Var 0x55970b1653d8 'index' 'int'
+          `-IntegerLiteral 0x55970b1656d0 'int' 4
 cleanup not handled
-cleanup of materialized not handledCXXOperatorCallExpr 0x55c71ac09478 'float4':'struct float4' lvalue '='
-|-ImplicitCastExpr 0x55c71ac09460 'float4 &(*)(float4 &&) noexcept' <FunctionToPointerDecay>
-| `-DeclRefExpr 0x55c71ac09440 'float4 &(float4 &&) noexcept' lvalue CXXMethod 0x55c71abfc5d8 'operator=' 'float4 &(float4 &&) noexcept'
-|-DeclRefExpr 0x55c71ac09190 'float4':'struct float4' lvalue Var 0x55c71ac08cb0 'B_vec' 'float4':'struct float4'
-`-MaterializeTemporaryExpr 0x55c71ac09428 'float4':'struct float4' xvalue
-  `-CallExpr 0x55c71ac09400 'float4':'struct float4'
-    |-ImplicitCastExpr 0x55c71ac093e8 'float4 (*)(const float4 *)' <FunctionToPointerDecay>
-    | `-DeclRefExpr 0x55c71ac093c8 'float4 (const float4 *)' lvalue Function 0x55c71ab83ec8 '__ldg' 'float4 (const float4 *)'
-    `-UnaryOperator 0x55c71ac093b0 'const float4 *' prefix '&' cannot overflow
-      `-ArraySubscriptExpr 0x55c71ac09390 'const float4':'const struct float4' lvalue
-        |-ImplicitCastExpr 0x55c71ac09378 'const float4 *' <LValueToRValue>
-        | `-DeclRefExpr 0x55c71ac092e0 'const float4 *' lvalue Var 0x55c71ac08f10 'B_vec_ptr' 'const float4 *'
-        `-BinaryOperator 0x55c71ac09358 'int' '/'
-          |-ImplicitCastExpr 0x55c71ac09340 'int' <LValueToRValue>
-          | `-DeclRefExpr 0x55c71ac09300 'int' lvalue Var 0x55c71ac09028 'index' 'int'
-          `-IntegerLiteral 0x55c71ac09320 'int' 4
+cleanup of materialized not handledCXXOperatorCallExpr 0x55970b1735d8 'float4':'struct float4' lvalue '='
+|-ImplicitCastExpr 0x55970b1735c0 'float4 &(*)(float4 &&) noexcept' <FunctionToPointerDecay>
+| `-DeclRefExpr 0x55970b1735a0 'float4 &(float4 &&) noexcept' lvalue CXXMethod 0x55970b165bc8 'operator=' 'float4 &(float4 &&) noexcept'
+|-DeclRefExpr 0x55970b1732f0 'float4':'struct float4' lvalue Var 0x55970b172e10 'B_vec' 'float4':'struct float4'
+`-MaterializeTemporaryExpr 0x55970b173588 'float4':'struct float4' xvalue
+  `-CallExpr 0x55970b173560 'float4':'struct float4'
+    |-ImplicitCastExpr 0x55970b173548 'float4 (*)(const float4 *)' <FunctionToPointerDecay>
+    | `-DeclRefExpr 0x55970b173528 'float4 (const float4 *)' lvalue Function 0x55970b0ed1a8 '__ldg' 'float4 (const float4 *)'
+    `-UnaryOperator 0x55970b173510 'const float4 *' prefix '&' cannot overflow
+      `-ArraySubscriptExpr 0x55970b1734f0 'const float4':'const struct float4' lvalue
+        |-ImplicitCastExpr 0x55970b1734d8 'const float4 *' <LValueToRValue>
+        | `-DeclRefExpr 0x55970b173440 'const float4 *' lvalue Var 0x55970b173070 'B_vec_ptr' 'const float4 *'
+        `-BinaryOperator 0x55970b1734b8 'int' '/'
+          |-ImplicitCastExpr 0x55970b1734a0 'int' <LValueToRValue>
+          | `-DeclRefExpr 0x55970b173460 'int' lvalue Var 0x55970b173188 'index' 'int'
+          `-IntegerLiteral 0x55970b173480 'int' 4
 cleanup not handled
 warning: we failed to emit call to builtin function __nvvm_ldg_f4
 warning: we failed to emit call to builtin function __nvvm_ldg_f
@@ -40,29 +40,29 @@ cgeist: /CUDA2BANG/cuda2bang/polygeist/lib/polygeist/Passes/AffineCFG.cpp:534: A
 PLEASE submit a bug report to https://github.com/llvm/llvm-project/issues/ and include the crash backtrace.
 Stack dump:
 0.	Program arguments: /CUDA2BANG/cuda2bang/polygeist/build/bin/cgeist --function=* -cuda-lower -output-intermediate-gpu -scal-rep=0 -raise-scf-to-affine --cuda-gpu-arch=sm_70 -parallel-licm=1 -gpu-kernel-structure-mode=block_thread_noops --enable-buffer-elim=0 -O2 -I /CUDA2BANG/cuda2bang/polygeist/mlir-build/projects/openmp/runtime/src/ -resource-dir=/CUDA2BANG/cuda2bang/polygeist/mlir-build/lib/clang/18/ -I /CUDA2BANG/cuda2bang/polygeist/mlir-build/projects/openmp/runtime/src/ -I /usr/local/cuda/include/ -use-original-gpu-block-size --emit-npu=distribute.mincut -use-my-pass -bang-dump-file=./gen_bang_results/13_Matmul_for_symmetric_matrices.mlu ./cuda_ops/13_Matmul_for_symmetric_matrices.cu -o 13_Matmul_for_symmetric_matrices.o
- #0 0x000055c6e99b0b9f llvm::sys::PrintStackTrace(llvm::raw_ostream&, int) (/CUDA2BANG/cuda2bang/polygeist/build/bin/cgeist+0x3390b9f)
- #1 0x000055c6e99ae384 SignalHandler(int) Signals.cpp:0:0
- #2 0x00007fa5203d3420 __restore_rt (/lib/x86_64-linux-gnu/libpthread.so.0+0x14420)
- #3 0x00007fa51fd5800b raise /build/glibc-SzIz7B/glibc-2.31/signal/../sysdeps/unix/sysv/linux/raise.c:51:1
- #4 0x00007fa51fd37859 abort /build/glibc-SzIz7B/glibc-2.31/stdlib/abort.c:81:7
- #5 0x00007fa51fd37729 get_sysdep_segment_value /build/glibc-SzIz7B/glibc-2.31/intl/loadmsgcat.c:509:8
- #6 0x00007fa51fd37729 _nl_load_domain /build/glibc-SzIz7B/glibc-2.31/intl/loadmsgcat.c:970:34
- #7 0x00007fa51fd48fd6 (/lib/x86_64-linux-gnu/libc.so.6+0x33fd6)
- #8 0x000055c6ea353dbf AffineApplyNormalizer::AffineApplyNormalizer(mlir::AffineMap, llvm::ArrayRef<mlir::Value>, mlir::PatternRewriter&, mlir::DominanceInfo&) /CUDA2BANG/cuda2bang/polygeist/lib/polygeist/Passes/AffineCFG.cpp:536:13
- #9 0x000055c6ea354362 composeAffineMapAndOperands(mlir::AffineMap*, llvm::SmallVectorImpl<mlir::Value>*, mlir::PatternRewriter&, mlir::DominanceInfo&) /CUDA2BANG/cuda2bang/polygeist/lib/polygeist/Passes/AffineCFG.cpp:588:48
-#10 0x000055c6ea354999 fully2ComposeAffineMapAndOperands(mlir::PatternRewriter&, mlir::AffineMap*, llvm::SmallVectorImpl<mlir::Value>*, mlir::DominanceInfo&) /CUDA2BANG/cuda2bang/polygeist/lib/polygeist/Passes/AffineCFG.cpp:641:5
-#11 0x000055c6ea4e8bbb ForOpRaising::matchAndRewrite(mlir::scf::ForOp, mlir::PatternRewriter&) const /CUDA2BANG/cuda2bang/polygeist/lib/polygeist/Passes/RaiseToAffine.cpp:140:43
-#12 0x000055c6ed9d15c2 mlir::PatternApplicator::matchAndRewrite(mlir::Operation*, mlir::PatternRewriter&, llvm::function_ref<bool (mlir::Pattern const&)>, llvm::function_ref<void (mlir::Pattern const&)>, llvm::function_ref<mlir::LogicalResult (mlir::Pattern const&)>) (/CUDA2BANG/cuda2bang/polygeist/build/bin/cgeist+0x73b15c2)
-#13 0x000055c6ea7e6239 (anonymous namespace)::GreedyPatternRewriteDriver::processWorklist() GreedyPatternRewriteDriver.cpp:0:0
-#14 0x000055c6ea7ee8a0 mlir::applyPatternsAndFoldGreedily(mlir::Region&, mlir::FrozenRewritePatternSet const&, mlir::GreedyRewriteConfig, bool*) (/CUDA2BANG/cuda2bang/polygeist/build/bin/cgeist+0x41ce8a0)
-#15 0x000055c6ea35a056 mlir::applyPatternsAndFoldGreedily(mlir::Operation*, mlir::FrozenRewritePatternSet const&, mlir::GreedyRewriteConfig, bool*) /CUDA2BANG/cuda2bang/polygeist/llvm-project/mlir/include/mlir/Transforms/GreedyPatternRewriteDriver.h:123:78
-#16 0x000055c6ea4e774a (anonymous namespace)::RaiseSCFToAffine::runOnOperation() /CUDA2BANG/cuda2bang/polygeist/lib/polygeist/Passes/RaiseToAffine.cpp:283:44
-#17 0x000055c6ea7ad881 mlir::detail::OpToOpPassAdaptor::run(mlir::Pass*, mlir::Operation*, mlir::AnalysisManager, bool, unsigned int) (/CUDA2BANG/cuda2bang/polygeist/build/bin/cgeist+0x418d881)
-#18 0x000055c6ea7ade01 mlir::detail::OpToOpPassAdaptor::runPipeline(mlir::OpPassManager&, mlir::Operation*, mlir::AnalysisManager, bool, unsigned int, mlir::PassInstrumentor*, mlir::PassInstrumentation::PipelineParentInfo const*) (/CUDA2BANG/cuda2bang/polygeist/build/bin/cgeist+0x418de01)
-#19 0x000055c6ea7aeca8 mlir::detail::OpToOpPassAdaptor::runOnOperationImpl(bool) (/CUDA2BANG/cuda2bang/polygeist/build/bin/cgeist+0x418eca8)
-#20 0x000055c6ea7ad9b5 mlir::detail::OpToOpPassAdaptor::run(mlir::Pass*, mlir::Operation*, mlir::AnalysisManager, bool, unsigned int) (/CUDA2BANG/cuda2bang/polygeist/build/bin/cgeist+0x418d9b5)
-#21 0x000055c6ea7ade01 mlir::detail::OpToOpPassAdaptor::runPipeline(mlir::OpPassManager&, mlir::Operation*, mlir::AnalysisManager, bool, unsigned int, mlir::PassInstrumentor*, mlir::PassInstrumentation::PipelineParentInfo const*) (/CUDA2BANG/cuda2bang/polygeist/build/bin/cgeist+0x418de01)
-#22 0x000055c6ea7ae97e mlir::PassManager::run(mlir::Operation*) (/CUDA2BANG/cuda2bang/polygeist/build/bin/cgeist+0x418e97e)
-#23 0x000055c6e707d143 main /CUDA2BANG/cuda2bang/polygeist/tools/cgeist/driver.cc:716:0
-#24 0x00007fa51fd39083 __libc_start_main /build/glibc-SzIz7B/glibc-2.31/csu/../csu/libc-start.c:342:3
-#25 0x000055c6e704d84e _start (/CUDA2BANG/cuda2bang/polygeist/build/bin/cgeist+0xa2d84e)
+ #0 0x00005596c5fc3b9f llvm::sys::PrintStackTrace(llvm::raw_ostream&, int) (/CUDA2BANG/cuda2bang/polygeist/build/bin/cgeist+0x3390b9f)
+ #1 0x00005596c5fc1384 SignalHandler(int) Signals.cpp:0:0
+ #2 0x00007f49f3203420 __restore_rt (/lib/x86_64-linux-gnu/libpthread.so.0+0x14420)
+ #3 0x00007f49f2b8800b raise /build/glibc-SzIz7B/glibc-2.31/signal/../sysdeps/unix/sysv/linux/raise.c:51:1
+ #4 0x00007f49f2b67859 abort /build/glibc-SzIz7B/glibc-2.31/stdlib/abort.c:81:7
+ #5 0x00007f49f2b67729 get_sysdep_segment_value /build/glibc-SzIz7B/glibc-2.31/intl/loadmsgcat.c:509:8
+ #6 0x00007f49f2b67729 _nl_load_domain /build/glibc-SzIz7B/glibc-2.31/intl/loadmsgcat.c:970:34
+ #7 0x00007f49f2b78fd6 (/lib/x86_64-linux-gnu/libc.so.6+0x33fd6)
+ #8 0x00005596c6966dbf AffineApplyNormalizer::AffineApplyNormalizer(mlir::AffineMap, llvm::ArrayRef<mlir::Value>, mlir::PatternRewriter&, mlir::DominanceInfo&) /CUDA2BANG/cuda2bang/polygeist/lib/polygeist/Passes/AffineCFG.cpp:536:13
+ #9 0x00005596c6967362 composeAffineMapAndOperands(mlir::AffineMap*, llvm::SmallVectorImpl<mlir::Value>*, mlir::PatternRewriter&, mlir::DominanceInfo&) /CUDA2BANG/cuda2bang/polygeist/lib/polygeist/Passes/AffineCFG.cpp:588:48
+#10 0x00005596c6967999 fully2ComposeAffineMapAndOperands(mlir::PatternRewriter&, mlir::AffineMap*, llvm::SmallVectorImpl<mlir::Value>*, mlir::DominanceInfo&) /CUDA2BANG/cuda2bang/polygeist/lib/polygeist/Passes/AffineCFG.cpp:641:5
+#11 0x00005596c6afbbbb ForOpRaising::matchAndRewrite(mlir::scf::ForOp, mlir::PatternRewriter&) const /CUDA2BANG/cuda2bang/polygeist/lib/polygeist/Passes/RaiseToAffine.cpp:140:43
+#12 0x00005596c9fe45c2 mlir::PatternApplicator::matchAndRewrite(mlir::Operation*, mlir::PatternRewriter&, llvm::function_ref<bool (mlir::Pattern const&)>, llvm::function_ref<void (mlir::Pattern const&)>, llvm::function_ref<mlir::LogicalResult (mlir::Pattern const&)>) (/CUDA2BANG/cuda2bang/polygeist/build/bin/cgeist+0x73b15c2)
+#13 0x00005596c6df9239 (anonymous namespace)::GreedyPatternRewriteDriver::processWorklist() GreedyPatternRewriteDriver.cpp:0:0
+#14 0x00005596c6e018a0 mlir::applyPatternsAndFoldGreedily(mlir::Region&, mlir::FrozenRewritePatternSet const&, mlir::GreedyRewriteConfig, bool*) (/CUDA2BANG/cuda2bang/polygeist/build/bin/cgeist+0x41ce8a0)
+#15 0x00005596c696d056 mlir::applyPatternsAndFoldGreedily(mlir::Operation*, mlir::FrozenRewritePatternSet const&, mlir::GreedyRewriteConfig, bool*) /CUDA2BANG/cuda2bang/polygeist/llvm-project/mlir/include/mlir/Transforms/GreedyPatternRewriteDriver.h:123:78
+#16 0x00005596c6afa74a (anonymous namespace)::RaiseSCFToAffine::runOnOperation() /CUDA2BANG/cuda2bang/polygeist/lib/polygeist/Passes/RaiseToAffine.cpp:283:44
+#17 0x00005596c6dc0881 mlir::detail::OpToOpPassAdaptor::run(mlir::Pass*, mlir::Operation*, mlir::AnalysisManager, bool, unsigned int) (/CUDA2BANG/cuda2bang/polygeist/build/bin/cgeist+0x418d881)
+#18 0x00005596c6dc0e01 mlir::detail::OpToOpPassAdaptor::runPipeline(mlir::OpPassManager&, mlir::Operation*, mlir::AnalysisManager, bool, unsigned int, mlir::PassInstrumentor*, mlir::PassInstrumentation::PipelineParentInfo const*) (/CUDA2BANG/cuda2bang/polygeist/build/bin/cgeist+0x418de01)
+#19 0x00005596c6dc1ca8 mlir::detail::OpToOpPassAdaptor::runOnOperationImpl(bool) (/CUDA2BANG/cuda2bang/polygeist/build/bin/cgeist+0x418eca8)
+#20 0x00005596c6dc09b5 mlir::detail::OpToOpPassAdaptor::run(mlir::Pass*, mlir::Operation*, mlir::AnalysisManager, bool, unsigned int) (/CUDA2BANG/cuda2bang/polygeist/build/bin/cgeist+0x418d9b5)
+#21 0x00005596c6dc0e01 mlir::detail::OpToOpPassAdaptor::runPipeline(mlir::OpPassManager&, mlir::Operation*, mlir::AnalysisManager, bool, unsigned int, mlir::PassInstrumentor*, mlir::PassInstrumentation::PipelineParentInfo const*) (/CUDA2BANG/cuda2bang/polygeist/build/bin/cgeist+0x418de01)
+#22 0x00005596c6dc197e mlir::PassManager::run(mlir::Operation*) (/CUDA2BANG/cuda2bang/polygeist/build/bin/cgeist+0x418e97e)
+#23 0x00005596c3690143 main /CUDA2BANG/cuda2bang/polygeist/tools/cgeist/driver.cc:716:0
+#24 0x00007f49f2b69083 __libc_start_main /build/glibc-SzIz7B/glibc-2.31/csu/../csu/libc-start.c:342:3
+#25 0x00005596c366084e _start (/CUDA2BANG/cuda2bang/polygeist/build/bin/cgeist+0xa2d84e)

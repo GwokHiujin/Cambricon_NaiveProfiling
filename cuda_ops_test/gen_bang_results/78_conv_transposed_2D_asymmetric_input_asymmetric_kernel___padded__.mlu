@@ -1,0 +1,8 @@
+void _Z24get_optimal_block_configiiR4dim3S0_ii(int32_t v1, int32_t v2, dim3* v3, dim3* v4, int32_t v5, int32_t v6) {
+  size_t c0_7 = 0;
+  int32_t c4294967295_8 = -1;
+  int32_t c32_9 = 32;
+  int32_t c16_10 = 16;
+  int32_t c1_11 = 1;
+  bool c0_12 = false;
+  int32_t c8_13 = 8;

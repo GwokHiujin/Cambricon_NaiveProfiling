@@ -4,15 +4,15 @@
 
 #define TILE_WIDTH 32
 
-template <typename scalar_t>
-__global__ void matmul_double_buffered(const scalar_t* __restrict__ A, const scalar_t* __restrict__ B,
-                                      scalar_t* __restrict__ C, int M, int K, int N) {
-    __shared__ scalar_t sA[2][TILE_WIDTH][TILE_WIDTH];
-    __shared__ scalar_t sB[2][TILE_WIDTH][TILE_WIDTH];
+// template <typename float>
+__global__ void matmul_double_buffered(const float*  A, const float*  B,
+                                      float*  C, int M, int K, int N) {
+    float sA[2][TILE_WIDTH][TILE_WIDTH];
+    float sB[2][TILE_WIDTH][TILE_WIDTH];
 
     int row = blockIdx.y * TILE_WIDTH + threadIdx.y;
     int col = blockIdx.x * TILE_WIDTH + threadIdx.x;
-    scalar_t accum = 0;
+    float accum = 0;
 
     // Preload first tile
     int load_idx = 0;
@@ -27,7 +27,7 @@ __global__ void matmul_double_buffered(const scalar_t* __restrict__ A, const sca
     else
         sB[load_idx][threadIdx.y][threadIdx.x] = 0;
 
-    __syncthreads();
+    // __syncthreads();
 
     for (t = 0; t < (K + TILE_WIDTH - 1) / TILE_WIDTH - 1; ++t) {
         int compute_idx = load_idx;
@@ -49,7 +49,7 @@ __global__ void matmul_double_buffered(const scalar_t* __restrict__ A, const sca
             accum += sA[compute_idx][threadIdx.y][i] * sB[compute_idx][i][threadIdx.x];
         }
 
-        __syncthreads();
+        // __syncthreads();
     }
 
     // Process last tile
@@ -76,11 +76,11 @@ __global__ void matmul_double_buffered(const scalar_t* __restrict__ A, const sca
 //     dim3 threads(TILE_WIDTH, TILE_WIDTH);
 //     dim3 blocks((N + TILE_WIDTH - 1) / TILE_WIDTH, (M + TILE_WIDTH - 1) / TILE_WIDTH);
 // 
-//     AT_DISPATCH_FLOATING_TYPES(A.scalar_type(), "matmul_double_buffered", ([&] {
-//         matmul_double_buffered<scalar_t><<<blocks, threads>>>(
-//             A.data_ptr<scalar_t>(),
-//             B.data_ptr<scalar_t>(),
-//             C.data_ptr<scalar_t>(),
+//     AT_DISPATCH_FLOATING_TYPES(A.floatype(), "matmul_double_buffered", ([&] {
+//         matmul_double_buffered<float><<<blocks, threads>>>(
+//             A.data_ptr<float>(),
+//             B.data_ptr<float>(),
+//             C.data_ptr<float>(),
 //             M, K, N);
 //     }));
 // 

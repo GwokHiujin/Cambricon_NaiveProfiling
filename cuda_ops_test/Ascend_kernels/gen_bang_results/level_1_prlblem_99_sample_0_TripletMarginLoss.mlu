@@ -1,0 +1,53 @@
+#include <bang.h>
+__mlu_global__ void triplet_margin_loss_kernel(float* v1, float* v2, float* v3, float v4, float* v5, int32_t v6) {
+  int32_t c32_7 = 32;
+  float v8 = (float)0.0e+00;
+  size_t c4096_9 = 4096;
+  size_t c0_10 = 0;
+  size_t c1_11 = 1;
+  size_t c32_12 = 32;
+  int64_t v13 = taskId;
+  int32_t v14 = (int32_t) v13;
+  int32_t v15 = (v14) * (c32_7);
+  for (size_t v16 = c0_10; v16 < c32_12; v16 += c1_11) {
+    int64_t v17 = (int64_t)v16;
+    int32_t v18 = (int32_t) v17;
+    int32_t v19 = (v15) + (v18);
+    size_t v20 = (size_t) v19;
+    bool v21 = v19 < v6;
+    if (v21) {
+      size_t v22 = (v20) * (c4096_9);
+      float v23;
+      float v24;
+      float v25 = v8;
+      float v26 = v8;
+      for (size_t v27 = c0_10; v27 < c4096_9; v27 += c1_11) {
+        size_t v28 = (v27) + (v22);
+        float v29 = v1[v28];
+        float v30 = v2[v28];
+        float v31 = v29 - v30;
+        float v32 = v31 * v31;
+        float v33 = v26 + v32;
+        float v34 = v3[v28];
+        float v35 = v29 - v34;
+        float v36 = v35 * v35;
+        float v37 = v25 + v36;
+        v25 = v37;
+        v26 = v33;
+      }
+      v23 = v25;
+      v24 = v26;;
+      float v38 = sqrtf(v24);
+      float v39 = sqrtf(v23);
+      float v40 = v4 + v38;
+      float v41 = v40 - v39;
+      float v42 = __cn_scalar_max_f32(v41, v8);
+      v5[v20] = v42;
+    };
+  }
+  return;
+}
+
+
+
+

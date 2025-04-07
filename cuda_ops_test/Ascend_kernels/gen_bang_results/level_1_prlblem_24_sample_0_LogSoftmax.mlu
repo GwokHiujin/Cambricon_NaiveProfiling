@@ -1,0 +1,18 @@
+#include <bang.h>
+__mlu_global__ void log_softmax_kernel(float* v1, float* v2, int32_t v3, int32_t v4) {
+  size_t c31_5 = 31;
+  float v6 = (float)0.0e+00;
+  size_t c0_7 = 0;
+  size_t c1_8 = 1;
+  size_t c32_9 = 32;
+  __nram__ int8_t v10[32];
+  float* v11 = (float*)v10;
+  __nram__ int8_t v12[32];
+  float* v13 = (float*)v12;
+  int64_t v14 = taskId;
+  int32_t v15 = (int32_t) v14;
+  size_t v16 = (size_t) v4;
+  int32_t v17 = (v15) * (v4);
+  size_t v18 = (size_t) v17;
+  for (size_t v19 = c0_7; v19 < c32_9; v19 += c1_8) {
+    float v20 = __builtin_inff();

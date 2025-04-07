@@ -1,0 +1,35 @@
+#include <bang.h>
+__mlu_global__ void relu_kernel(float* v1, float* v2, int32_t v3) {
+  int32_t c32_4 = 32;
+  float v5 = (float)0.0e+00;
+  size_t c0_6 = 0;
+  size_t c1_7 = 1;
+  size_t c32_8 = 32;
+  int64_t v9 = taskId;
+  int32_t v10 = (int32_t) v9;
+  int32_t v11 = (v10) * (c32_4);
+  for (size_t v12 = c0_6; v12 < c32_8; v12 += c1_7) {
+    int64_t v13 = (int64_t)v12;
+    int32_t v14 = (int32_t) v13;
+    int32_t v15 = (v11) + (v14);
+    size_t v16 = (size_t) v15;
+    bool v17 = v15 < v3;
+    if (v17) {
+      float v18 = v1[v16];
+      bool v19 = v18 > v5;
+      float v20;
+      if (v19) {
+        float v21 = v1[v16];
+        v20 = v21;
+      } else {
+        v20 = v5;
+      };
+      v2[v16] = v20;
+    };
+  }
+  return;
+}
+
+
+
+

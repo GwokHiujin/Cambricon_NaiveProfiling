@@ -1,0 +1,86 @@
+#include <bang.h>
+__mlu_global__ void maxpool1d_cuda_kernel(float* v1, float* v2, int32_t v3, int32_t v4, int32_t v5, int32_t v6, int32_t v7, int32_t v8, int32_t v9, int32_t v10) {
+  int32_t c32_11 = 32;
+  float v12 = (float)-3.402823470e+38;
+  size_t c18446744073709551615_13 = -1;
+  size_t c0_14 = 0;
+  size_t c1_15 = 1;
+  size_t c32_16 = 32;
+  size_t v17 = (size_t) v5;
+  size_t v18 = (size_t) v10;
+  size_t v19 = (size_t) v9;
+  size_t v20 = (size_t) v7;
+  size_t v21 = (size_t) v6;
+  int32_t v22 = (v4) * (v6);
+  int64_t v23 = taskId;
+  int32_t v24 = (int32_t) v23;
+  int32_t v25 = (v24) * (c32_11);
+  int32_t v26 = (v3) * (v4);
+  int32_t v27 = (v26) * (v6);
+  for (size_t v28 = c0_14; v28 < c32_16; v28 += c1_15) {
+    int64_t v29 = (int64_t)v28;
+    int32_t v30 = (int32_t) v29;
+    int32_t v31 = (v25) + (v30);
+    int32_t v32 = (v31) % (v6);
+    int32_t v33 = (v32) * (v8);
+    size_t v34 = (size_t) v33;
+    size_t v35 = (size_t) v31;
+    size_t v36 = (v35) % (v21);
+    size_t v37 = (v36) + (v21);
+    bool v38 = v36 < c0_14;
+    size_t v39 = (v38) ? (v37) : (v36);
+    int32_t v40 = (v31) / (v6);
+    int32_t v41 = (v40) % (v4);
+    int32_t v42 = (v41) * (v5);
+    size_t v43 = (size_t) v42;
+    int32_t v44 = (v41) * (v6);
+    size_t v45 = (size_t) v44;
+    int32_t v46 = (v31) / (v22);
+    int32_t v47 = (v46) * (v4);
+    int32_t v48 = (v47) * (v5);
+    size_t v49 = (size_t) v48;
+    int32_t v50 = (v47) * (v6);
+    size_t v51 = (size_t) v50;
+    bool v52 = v31 < v27;
+    if (v52) {
+      size_t v53 = (v34) - (v19);
+      float v54;
+      float v55 = v12;
+      for (size_t v56 = c0_14; v56 < v20; v56 += c1_15) {
+        size_t v57 = (v56) * (v18);
+        size_t v58 = (v57) + (v53);
+        bool v59 = v58 >= c0_14;
+        size_t v60 = (v57) * (c18446744073709551615_13);
+        size_t v61 = (v60) - (v34);
+        size_t v62 = (v61) + (v19);
+        size_t v63 = (v62) + (v17);
+        size_t v64 = (v63) + (c18446744073709551615_13);
+        bool v65 = v64 >= c0_14;
+        bool v66 = (v59) & (v65);
+        float v67;
+        if (v66) {
+          size_t v68 = (v57) + (v49);
+          size_t v69 = (v68) + (v43);
+          size_t v70 = (v69) + (v34);
+          size_t v71 = (v70) - (v19);
+          float v72 = v1[v71];
+          bool v73 = v72 > v55;
+          float v74 = (v73) ? (v72) : (v55);
+          v67 = v74;
+        } else {
+          v67 = v55;
+        };
+        v55 = v67;
+      }
+      v54 = v55;;
+      size_t v75 = (v51) + (v45);
+      size_t v76 = (v75) + (v39);
+      v2[v76] = v54;
+    };
+  }
+  return;
+}
+
+
+
+

@@ -1,0 +1,18 @@
+#include <bang.h>
+__mlu_global__ void softsign_kernel(float* v1, float* v2, int32_t v3) {
+  float v4 = (float)1.000000000e+00;
+  size_t c0_5 = 0;
+  size_t c1_6 = 1;
+  size_t c32_7 = 32;
+  int32_t c32_8 = 32;
+  int64_t v9 = taskId;
+  int32_t v10 = (int32_t) v9;
+  int32_t v11 = (v10) * (c32_8);
+  for (size_t v12 = c0_5; v12 < c32_7; v12 += c1_6) {
+    int64_t v13 = (int64_t)v12;
+    int32_t v14 = (int32_t) v13;
+    int32_t v15 = (v11) + (v14);
+    size_t v16 = (size_t) v15;
+    bool v17 = v15 < v3;
+    if (v17) {
+      float v18 = v1[v16];

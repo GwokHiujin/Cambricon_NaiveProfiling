@@ -1,0 +1,19 @@
+#include <bang.h>
+__mlu_global__ void kl_div_kernel(float* v1, float* v2, float* v3, int32_t v4, int32_t v5) {
+  int32_t c32_6 = 32;
+  size_t c0_7 = 0;
+  size_t c1_8 = 1;
+  size_t c32_9 = 32;
+  int64_t v10 = taskId;
+  int32_t v11 = (int32_t) v10;
+  int32_t v12 = (v11) * (c32_6);
+  int32_t v13 = (v4) * (v5);
+  for (size_t v14 = c0_7; v14 < c32_9; v14 += c1_8) {
+    int64_t v15 = (int64_t)v14;
+    int32_t v16 = (int32_t) v15;
+    int32_t v17 = (v12) + (v16);
+    size_t v18 = (size_t) v17;
+    bool v19 = v17 < v13;
+    if (v19) {
+      float v20 = v1[v18];
+      float v21 = v2[v18];

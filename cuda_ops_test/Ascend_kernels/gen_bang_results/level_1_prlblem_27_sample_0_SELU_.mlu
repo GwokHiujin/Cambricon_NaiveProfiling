@@ -1,0 +1,41 @@
+#include <bang.h>
+__mlu_global__ void selu_forward_kernel(float* v1, float* v2, int32_t v3) {
+  int32_t c32_4 = 32;
+  float v5 = (float)1.673263190e+00;
+  float v6 = (float)1.050701020e+00;
+  float v7 = (float)0.0e+00;
+  float v8 = (float)1.000000000e+00;
+  size_t c0_9 = 0;
+  size_t c1_10 = 1;
+  size_t c32_11 = 32;
+  int64_t v12 = taskId;
+  int32_t v13 = (int32_t) v12;
+  int32_t v14 = (v13) * (c32_4);
+  for (size_t v15 = c0_9; v15 < c32_11; v15 += c1_10) {
+    int64_t v16 = (int64_t)v15;
+    int32_t v17 = (int32_t) v16;
+    int32_t v18 = (v17) + (v14);
+    size_t v19 = (size_t) v18;
+    bool v20 = v18 < v3;
+    if (v20) {
+      float v21 = v1[v19];
+      bool v22 = v21 > v7;
+      float v23;
+      if (v22) {
+        v23 = v21;
+      } else {
+        float v24 = expf(v21);
+        float v25 = v24 - v8;
+        float v26 = v25 * v5;
+        v23 = v26;
+      };
+      float v27 = v23 * v6;
+      v2[v19] = v27;
+    };
+  }
+  return;
+}
+
+
+
+

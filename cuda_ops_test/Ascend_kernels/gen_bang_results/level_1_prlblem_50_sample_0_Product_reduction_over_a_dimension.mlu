@@ -1,0 +1,52 @@
+#include <bang.h>
+__mlu_global__ void product_reduction_kernel(float* v1, float* v2, int32_t v3, int32_t v4, int32_t v5, int32_t v6) {
+  int32_t c32_7 = 32;
+  int32_t c1_8 = 1;
+  float v9 = (float)1.000000000e+00;
+  size_t c0_10 = 0;
+  size_t c1_11 = 1;
+  size_t c32_12 = 32;
+  size_t v13 = (size_t) v5;
+  size_t v14 = (size_t) v4;
+  int64_t v15 = taskId;
+  int32_t v16 = (int32_t) v15;
+  int32_t v17 = (v16) * (c32_7);
+  bool v18 = v6 == c1_8;
+  for (size_t v19 = c0_10; v19 < c32_12; v19 += c1_11) {
+    int64_t v20 = (int64_t)v19;
+    int32_t v21 = (int32_t) v20;
+    int32_t v22 = (v17) + (v21);
+    int32_t v23 = (v22) / (v5);
+    int32_t v24 = (v23) * (v4);
+    int32_t v25 = (v24) * (v5);
+    size_t v26 = (size_t) v25;
+    int32_t v27 = (v23) * (v5);
+    size_t v28 = (size_t) v27;
+    int32_t v29 = (v22) % (v5);
+    size_t v30 = (size_t) v29;
+    bool v31 = v23 < v3;
+    bool v32 = v29 < v5;
+    bool v33 = (v31) & (v32);
+    bool v34 = (v18) & (v33);
+    if (v34) {
+      float v35;
+      float v36 = v9;
+      for (size_t v37 = c0_10; v37 < v14; v37 += c1_11) {
+        size_t v38 = (v37) * (v13);
+        size_t v39 = (v38) + (v26);
+        size_t v40 = (v39) + (v30);
+        float v41 = v1[v40];
+        float v42 = v36 * v41;
+        v36 = v42;
+      }
+      v35 = v36;;
+      size_t v43 = (v28) + (v30);
+      v2[v43] = v35;
+    };
+  }
+  return;
+}
+
+
+
+

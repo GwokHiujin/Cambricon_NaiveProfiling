@@ -1,0 +1,322 @@
+warning: CUDA version 12.1 is only partially supported
+warning: CUDA version 12.1 is only partially supported
+[ict-debug] driver.cc: After return 5, module:
+
+module attributes {dlti.dl_spec = #dlti.dl_spec<#dlti.dl_entry<i64, dense<64> : vector<2xi32>>, #dlti.dl_entry<!llvm.ptr<272>, dense<64> : vector<4xi32>>, #dlti.dl_entry<!llvm.ptr<271>, dense<32> : vector<4xi32>>, #dlti.dl_entry<!llvm.ptr<270>, dense<32> : vector<4xi32>>, #dlti.dl_entry<i32, dense<32> : vector<2xi32>>, #dlti.dl_entry<f16, dense<16> : vector<2xi32>>, #dlti.dl_entry<i16, dense<16> : vector<2xi32>>, #dlti.dl_entry<f64, dense<64> : vector<2xi32>>, #dlti.dl_entry<i8, dense<8> : vector<2xi32>>, #dlti.dl_entry<f128, dense<128> : vector<2xi32>>, #dlti.dl_entry<i1, dense<8> : vector<2xi32>>, #dlti.dl_entry<!llvm.ptr, dense<64> : vector<4xi32>>, #dlti.dl_entry<f80, dense<128> : vector<2xi32>>, #dlti.dl_entry<"dlti.endianness", "little">, #dlti.dl_entry<"dlti.stack_alignment", 128 : i32>>, llvm.data_layout = "e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128", llvm.target_triple = "x86_64-unknown-linux-gnu", polygeist.gpu_module.llvm.data_layout = "e-i64:64-i128:128-v16:16-v32:32-n16:32:64", polygeist.gpu_module.llvm.target_triple = "nvptx64-nvidia-cuda", "polygeist.target-cpu" = "x86-64", "polygeist.target-features" = "+cmov,+cx8,+fxsr,+mmx,+sse,+sse2,+x87", "polygeist.tune-cpu" = "generic"} {
+  func.func private @_Z29__device_stub__cumprod_kernelPKfPfl(%arg0: memref<?xf32>, %arg1: memref<?xf32>, %arg2: i64) attributes {llvm.linkage = #llvm.linkage<external>, polygeist.device_only_func = "1"} {
+    call @_Z14cumprod_kernelPKfPfl(%arg0, %arg1, %arg2) : (memref<?xf32>, memref<?xf32>, i64) -> ()
+    return
+  }
+  func.func private @_Z14cumprod_kernelPKfPfl(%arg0: memref<?xf32>, %arg1: memref<?xf32>, %arg2: i64) attributes {llvm.linkage = #llvm.linkage<external>, polygeist.device_only_func = "1"} {
+    %cst = arith.constant 1.000000e+00 : f32
+    %0 = gpu.block_id  x
+    %1 = arith.index_cast %0 : index to i32
+    %2 = arith.extsi %1 : i32 to i64
+    %3 = arith.muli %2, %arg2 : i64
+    %4 = arith.index_cast %3 : i64 to index
+    %5 = arith.extsi %1 : i32 to i64
+    %6 = arith.muli %5, %arg2 : i64
+    %7 = arith.index_cast %6 : i64 to index
+    %8 = arith.index_cast %arg2 : i64 to index
+    %9 = affine.for %arg3 = 0 to %8 iter_args(%arg4 = %cst) -> (f32) {
+      %10 = affine.load %arg0[%arg3 + symbol(%4)] : memref<?xf32>
+      %11 = arith.mulf %arg4, %10 : f32
+      affine.store %11, %arg1[%arg3 + symbol(%7)] : memref<?xf32>
+      affine.yield %11 : f32
+    }
+    return
+  }
+}
+[ict-debug] driver.cc: After return 5, module: end
+
+[ict-debug] driver.cc: After return 6, module:
+
+module attributes {dlti.dl_spec = #dlti.dl_spec<#dlti.dl_entry<i64, dense<64> : vector<2xi32>>, #dlti.dl_entry<!llvm.ptr<272>, dense<64> : vector<4xi32>>, #dlti.dl_entry<!llvm.ptr<271>, dense<32> : vector<4xi32>>, #dlti.dl_entry<!llvm.ptr<270>, dense<32> : vector<4xi32>>, #dlti.dl_entry<i32, dense<32> : vector<2xi32>>, #dlti.dl_entry<f16, dense<16> : vector<2xi32>>, #dlti.dl_entry<i16, dense<16> : vector<2xi32>>, #dlti.dl_entry<f64, dense<64> : vector<2xi32>>, #dlti.dl_entry<i8, dense<8> : vector<2xi32>>, #dlti.dl_entry<f128, dense<128> : vector<2xi32>>, #dlti.dl_entry<i1, dense<8> : vector<2xi32>>, #dlti.dl_entry<!llvm.ptr, dense<64> : vector<4xi32>>, #dlti.dl_entry<f80, dense<128> : vector<2xi32>>, #dlti.dl_entry<"dlti.endianness", "little">, #dlti.dl_entry<"dlti.stack_alignment", 128 : i32>>, llvm.data_layout = "e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128", llvm.target_triple = "x86_64-unknown-linux-gnu", polygeist.gpu_module.llvm.data_layout = "e-i64:64-i128:128-v16:16-v32:32-n16:32:64", polygeist.gpu_module.llvm.target_triple = "nvptx64-nvidia-cuda", "polygeist.target-cpu" = "x86-64", "polygeist.target-features" = "+cmov,+cx8,+fxsr,+mmx,+sse,+sse2,+x87", "polygeist.tune-cpu" = "generic"} {
+  func.func private @_Z14cumprod_kernelPKfPfl(%arg0: memref<?xf32>, %arg1: memref<?xf32>, %arg2: i64) attributes {llvm.linkage = #llvm.linkage<external>, polygeist.device_only_func = "1"} {
+    %cst = arith.constant 1.000000e+00 : f32
+    %0 = gpu.block_id  x
+    %1 = arith.index_cast %0 : index to i32
+    %2 = arith.extsi %1 : i32 to i64
+    %3 = arith.muli %2, %arg2 : i64
+    %4 = arith.index_cast %3 : i64 to index
+    %5 = arith.index_cast %arg2 : i64 to index
+    %6 = affine.for %arg3 = 0 to %5 iter_args(%arg4 = %cst) -> (f32) {
+      %7 = affine.load %arg0[%arg3 + symbol(%4)] : memref<?xf32>
+      %8 = arith.mulf %arg4, %7 : f32
+      affine.store %8, %arg1[%arg3 + symbol(%4)] : memref<?xf32>
+      affine.yield %8 : f32
+    }
+    return
+  }
+}
+[ict-debug] driver.cc: After return 6, module: end
+
+WrapAndReplaceBarrierPass::runOnOperation(): before execute: 
+module attributes {dlti.dl_spec = #dlti.dl_spec<#dlti.dl_entry<i64, dense<64> : vector<2xi32>>, #dlti.dl_entry<!llvm.ptr<272>, dense<64> : vector<4xi32>>, #dlti.dl_entry<!llvm.ptr<271>, dense<32> : vector<4xi32>>, #dlti.dl_entry<!llvm.ptr<270>, dense<32> : vector<4xi32>>, #dlti.dl_entry<i32, dense<32> : vector<2xi32>>, #dlti.dl_entry<f16, dense<16> : vector<2xi32>>, #dlti.dl_entry<i16, dense<16> : vector<2xi32>>, #dlti.dl_entry<f64, dense<64> : vector<2xi32>>, #dlti.dl_entry<i8, dense<8> : vector<2xi32>>, #dlti.dl_entry<f128, dense<128> : vector<2xi32>>, #dlti.dl_entry<i1, dense<8> : vector<2xi32>>, #dlti.dl_entry<!llvm.ptr, dense<64> : vector<4xi32>>, #dlti.dl_entry<f80, dense<128> : vector<2xi32>>, #dlti.dl_entry<"dlti.endianness", "little">, #dlti.dl_entry<"dlti.stack_alignment", 128 : i32>>, llvm.data_layout = "e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128", llvm.target_triple = "x86_64-unknown-linux-gnu", polygeist.gpu_module.llvm.data_layout = "e-i64:64-i128:128-v16:16-v32:32-n16:32:64", polygeist.gpu_module.llvm.target_triple = "nvptx64-nvidia-cuda", "polygeist.target-cpu" = "x86-64", "polygeist.target-features" = "+cmov,+cx8,+fxsr,+mmx,+sse,+sse2,+x87", "polygeist.tune-cpu" = "generic"} {
+  func.func private @_Z14cumprod_kernelPKfPfl(%arg0: memref<?xf32>, %arg1: memref<?xf32>, %arg2: i64) attributes {llvm.linkage = #llvm.linkage<external>, polygeist.device_only_func = "1"} {
+    %c1 = arith.constant 1 : index
+    %c0 = arith.constant 0 : index
+    %cst = arith.constant 1.000000e+00 : f32
+    %0 = gpu.block_id  x
+    %1 = arith.index_cast %0 : index to i32
+    %2 = arith.extsi %1 : i32 to i64
+    %3 = arith.muli %2, %arg2 : i64
+    %4 = arith.index_cast %3 : i64 to index
+    %5 = arith.index_cast %arg2 : i64 to index
+    %6 = scf.for %arg3 = %c0 to %5 step %c1 iter_args(%arg4 = %cst) -> (f32) {
+      %7 = arith.addi %arg3, %4 : index
+      %8 = memref.load %arg0[%7] : memref<?xf32>
+      %9 = arith.mulf %arg4, %8 : f32
+      memref.store %9, %arg1[%7] : memref<?xf32>
+      scf.yield %9 : f32
+    }
+    return
+  }
+}
+WrapAndReplaceBarrierPass::runOnOperation(): before execute: end
+WrapAndReplaceBarrierPass::runOnOperation(): after execute: 
+module attributes {dlti.dl_spec = #dlti.dl_spec<#dlti.dl_entry<i64, dense<64> : vector<2xi32>>, #dlti.dl_entry<!llvm.ptr<272>, dense<64> : vector<4xi32>>, #dlti.dl_entry<!llvm.ptr<271>, dense<32> : vector<4xi32>>, #dlti.dl_entry<!llvm.ptr<270>, dense<32> : vector<4xi32>>, #dlti.dl_entry<i32, dense<32> : vector<2xi32>>, #dlti.dl_entry<f16, dense<16> : vector<2xi32>>, #dlti.dl_entry<i16, dense<16> : vector<2xi32>>, #dlti.dl_entry<f64, dense<64> : vector<2xi32>>, #dlti.dl_entry<i8, dense<8> : vector<2xi32>>, #dlti.dl_entry<f128, dense<128> : vector<2xi32>>, #dlti.dl_entry<i1, dense<8> : vector<2xi32>>, #dlti.dl_entry<!llvm.ptr, dense<64> : vector<4xi32>>, #dlti.dl_entry<f80, dense<128> : vector<2xi32>>, #dlti.dl_entry<"dlti.endianness", "little">, #dlti.dl_entry<"dlti.stack_alignment", 128 : i32>>, llvm.data_layout = "e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128", llvm.target_triple = "x86_64-unknown-linux-gnu", polygeist.gpu_module.llvm.data_layout = "e-i64:64-i128:128-v16:16-v32:32-n16:32:64", polygeist.gpu_module.llvm.target_triple = "nvptx64-nvidia-cuda", "polygeist.target-cpu" = "x86-64", "polygeist.target-features" = "+cmov,+cx8,+fxsr,+mmx,+sse,+sse2,+x87", "polygeist.tune-cpu" = "generic"} {
+  func.func @_Z14cumprod_kernelPKfPfl(%arg0: memref<?xf32>, %arg1: memref<?xf32>, %arg2: i64) attributes {llvm.linkage = #llvm.linkage<external>, polygeist.device_only_func = "1"} {
+    %c0 = arith.constant 0 : index
+    %c1 = arith.constant 1 : index
+    %c32 = arith.constant 32 : index
+    scf.parallel (%arg3) = (%c0) to (%c32) step (%c1) {
+      %c1_0 = arith.constant 1 : index
+      %c0_1 = arith.constant 0 : index
+      %cst = arith.constant 1.000000e+00 : f32
+      %0 = gpu.block_id  x
+      %1 = arith.index_cast %0 : index to i32
+      %2 = arith.extsi %1 : i32 to i64
+      %3 = arith.muli %2, %arg2 : i64
+      %4 = arith.index_cast %3 : i64 to index
+      %5 = arith.index_cast %arg2 : i64 to index
+      %6 = scf.for %arg4 = %c0_1 to %5 step %c1_0 iter_args(%arg5 = %cst) -> (f32) {
+        %7 = arith.addi %arg4, %4 : index
+        %8 = memref.load %arg0[%7] : memref<?xf32>
+        %9 = arith.mulf %arg5, %8 : f32
+        memref.store %9, %arg1[%7] : memref<?xf32>
+        scf.yield %9 : f32
+      }
+      scf.yield
+    }
+    return
+  }
+}
+WrapAndReplaceBarrierPass::runOnOperation(): after execute: end
+[ict-debug] driver.cc: After return 7, module:
+
+module attributes {dlti.dl_spec = #dlti.dl_spec<#dlti.dl_entry<i64, dense<64> : vector<2xi32>>, #dlti.dl_entry<!llvm.ptr<272>, dense<64> : vector<4xi32>>, #dlti.dl_entry<!llvm.ptr<271>, dense<32> : vector<4xi32>>, #dlti.dl_entry<!llvm.ptr<270>, dense<32> : vector<4xi32>>, #dlti.dl_entry<i32, dense<32> : vector<2xi32>>, #dlti.dl_entry<f16, dense<16> : vector<2xi32>>, #dlti.dl_entry<i16, dense<16> : vector<2xi32>>, #dlti.dl_entry<f64, dense<64> : vector<2xi32>>, #dlti.dl_entry<i8, dense<8> : vector<2xi32>>, #dlti.dl_entry<f128, dense<128> : vector<2xi32>>, #dlti.dl_entry<i1, dense<8> : vector<2xi32>>, #dlti.dl_entry<!llvm.ptr, dense<64> : vector<4xi32>>, #dlti.dl_entry<f80, dense<128> : vector<2xi32>>, #dlti.dl_entry<"dlti.endianness", "little">, #dlti.dl_entry<"dlti.stack_alignment", 128 : i32>>, llvm.data_layout = "e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128", llvm.target_triple = "x86_64-unknown-linux-gnu", polygeist.gpu_module.llvm.data_layout = "e-i64:64-i128:128-v16:16-v32:32-n16:32:64", polygeist.gpu_module.llvm.target_triple = "nvptx64-nvidia-cuda", "polygeist.target-cpu" = "x86-64", "polygeist.target-features" = "+cmov,+cx8,+fxsr,+mmx,+sse,+sse2,+x87", "polygeist.tune-cpu" = "generic"} {
+  func.func @_Z14cumprod_kernelPKfPfl(%arg0: memref<?xf32>, %arg1: memref<?xf32>, %arg2: i64) attributes {llvm.linkage = #llvm.linkage<external>, polygeist.device_only_func = "1"} {
+    %c0 = arith.constant 0 : index
+    %c1 = arith.constant 1 : index
+    %c32 = arith.constant 32 : index
+    scf.parallel (%arg3) = (%c0) to (%c32) step (%c1) {
+      %c1_0 = arith.constant 1 : index
+      %c0_1 = arith.constant 0 : index
+      %cst = arith.constant 1.000000e+00 : f32
+      %0 = gpu.block_id  x
+      %1 = arith.index_cast %0 : index to i32
+      %2 = arith.extsi %1 : i32 to i64
+      %3 = arith.muli %2, %arg2 : i64
+      %4 = arith.index_cast %3 : i64 to index
+      %5 = arith.index_cast %arg2 : i64 to index
+      %6 = scf.for %arg4 = %c0_1 to %5 step %c1_0 iter_args(%arg5 = %cst) -> (f32) {
+        %7 = arith.addi %arg4, %4 : index
+        %8 = memref.load %arg0[%7] : memref<?xf32>
+        %9 = arith.mulf %arg5, %8 : f32
+        memref.store %9, %arg1[%7] : memref<?xf32>
+        scf.yield %9 : f32
+      }
+      scf.yield
+    }
+    return
+  }
+}
+[ict-debug] driver.cc: After return 7, module: end
+
+[ict-debug] driver.cc: Before my pass process:
+
+module attributes {dlti.dl_spec = #dlti.dl_spec<#dlti.dl_entry<i64, dense<64> : vector<2xi32>>, #dlti.dl_entry<!llvm.ptr<272>, dense<64> : vector<4xi32>>, #dlti.dl_entry<!llvm.ptr<271>, dense<32> : vector<4xi32>>, #dlti.dl_entry<!llvm.ptr<270>, dense<32> : vector<4xi32>>, #dlti.dl_entry<i32, dense<32> : vector<2xi32>>, #dlti.dl_entry<f16, dense<16> : vector<2xi32>>, #dlti.dl_entry<i16, dense<16> : vector<2xi32>>, #dlti.dl_entry<f64, dense<64> : vector<2xi32>>, #dlti.dl_entry<i8, dense<8> : vector<2xi32>>, #dlti.dl_entry<f128, dense<128> : vector<2xi32>>, #dlti.dl_entry<i1, dense<8> : vector<2xi32>>, #dlti.dl_entry<!llvm.ptr, dense<64> : vector<4xi32>>, #dlti.dl_entry<f80, dense<128> : vector<2xi32>>, #dlti.dl_entry<"dlti.endianness", "little">, #dlti.dl_entry<"dlti.stack_alignment", 128 : i32>>, llvm.data_layout = "e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128", llvm.target_triple = "x86_64-unknown-linux-gnu", polygeist.gpu_module.llvm.data_layout = "e-i64:64-i128:128-v16:16-v32:32-n16:32:64", polygeist.gpu_module.llvm.target_triple = "nvptx64-nvidia-cuda", "polygeist.target-cpu" = "x86-64", "polygeist.target-features" = "+cmov,+cx8,+fxsr,+mmx,+sse,+sse2,+x87", "polygeist.tune-cpu" = "generic"} {
+  func.func @_Z14cumprod_kernelPKfPfl(%arg0: memref<?xf32>, %arg1: memref<?xf32>, %arg2: i64) attributes {llvm.linkage = #llvm.linkage<external>, polygeist.device_only_func = "1"} {
+    %cst = arith.constant 1.000000e+00 : f32
+    %c0 = arith.constant 0 : index
+    %c1 = arith.constant 1 : index
+    %c32 = arith.constant 32 : index
+    %0 = gpu.block_id  x
+    %1 = arith.index_cast %0 : index to i32
+    %2 = arith.extsi %1 : i32 to i64
+    %3 = arith.muli %2, %arg2 : i64
+    %4 = arith.index_cast %3 : i64 to index
+    %5 = arith.index_cast %arg2 : i64 to index
+    %6 = arith.cmpi slt, %c0, %c32 : index
+    scf.if %6 {
+      %7 = scf.for %arg3 = %c0 to %5 step %c1 iter_args(%arg4 = %cst) -> (f32) {
+        %8 = arith.addi %arg3, %4 : index
+        %9 = memref.load %arg0[%8] : memref<?xf32>
+        %10 = arith.mulf %arg4, %9 : f32
+        memref.store %10, %arg1[%8] : memref<?xf32>
+        scf.yield %10 : f32
+      }
+      scf.parallel (%arg3) = (%c0) to (%c32) step (%c1) {
+        scf.yield
+      }
+    }
+    return
+  }
+}
+[ict-debug] driver.cc: Before my pass process: end
+
+[ict-debug] driver.cc: vectorizeSize = 1
+
+[ict-debug] ConvertPolygeistToNPUPass::runOnOperation(): Before execute:
+
+module attributes {dlti.dl_spec = #dlti.dl_spec<#dlti.dl_entry<i64, dense<64> : vector<2xi32>>, #dlti.dl_entry<!llvm.ptr<272>, dense<64> : vector<4xi32>>, #dlti.dl_entry<!llvm.ptr<271>, dense<32> : vector<4xi32>>, #dlti.dl_entry<!llvm.ptr<270>, dense<32> : vector<4xi32>>, #dlti.dl_entry<i32, dense<32> : vector<2xi32>>, #dlti.dl_entry<f16, dense<16> : vector<2xi32>>, #dlti.dl_entry<i16, dense<16> : vector<2xi32>>, #dlti.dl_entry<f64, dense<64> : vector<2xi32>>, #dlti.dl_entry<i8, dense<8> : vector<2xi32>>, #dlti.dl_entry<f128, dense<128> : vector<2xi32>>, #dlti.dl_entry<i1, dense<8> : vector<2xi32>>, #dlti.dl_entry<!llvm.ptr, dense<64> : vector<4xi32>>, #dlti.dl_entry<f80, dense<128> : vector<2xi32>>, #dlti.dl_entry<"dlti.endianness", "little">, #dlti.dl_entry<"dlti.stack_alignment", 128 : i32>>, llvm.data_layout = "e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128", llvm.target_triple = "x86_64-unknown-linux-gnu", polygeist.gpu_module.llvm.data_layout = "e-i64:64-i128:128-v16:16-v32:32-n16:32:64", polygeist.gpu_module.llvm.target_triple = "nvptx64-nvidia-cuda", "polygeist.target-cpu" = "x86-64", "polygeist.target-features" = "+cmov,+cx8,+fxsr,+mmx,+sse,+sse2,+x87", "polygeist.tune-cpu" = "generic"} {
+  gpu.module @_Z14cumprod_kernelPKfPfl_0 {
+    gpu.func @_Z14cumprod_kernelPKfPfl(%arg0: memref<?xf32>, %arg1: memref<?xf32>, %arg2: i64) {
+      %cst = arith.constant 1.000000e+00 : f32
+      %c0 = arith.constant 0 : index
+      %c1 = arith.constant 1 : index
+      %0 = gpu.block_id  x
+      %1 = arith.index_cast %0 : index to i32
+      %2 = arith.extsi %1 : i32 to i64
+      %3 = arith.muli %2, %arg2 : i64
+      %4 = arith.index_cast %3 : i64 to index
+      %5 = arith.index_cast %arg2 : i64 to index
+      %6 = scf.for %arg3 = %c0 to %5 step %c1 iter_args(%arg4 = %cst) -> (f32) {
+        %7 = arith.addi %arg3, %4 : index
+        %8 = memref.load %arg0[%7] : memref<?xf32>
+        %9 = arith.mulf %arg4, %8 : f32
+        memref.store %9, %arg1[%7] : memref<?xf32>
+        scf.yield %9 : f32
+      }
+      gpu.return
+    }
+  }
+}
+[ict-debug] ConvertPolygeistToNPUPass::runOnOperation(): Before execute: end
+
+[ict-debug] ConvertPolygeistToNPUPass::runOnOperation(): After vectorize:
+
+module attributes {dlti.dl_spec = #dlti.dl_spec<#dlti.dl_entry<i64, dense<64> : vector<2xi32>>, #dlti.dl_entry<!llvm.ptr<272>, dense<64> : vector<4xi32>>, #dlti.dl_entry<!llvm.ptr<271>, dense<32> : vector<4xi32>>, #dlti.dl_entry<!llvm.ptr<270>, dense<32> : vector<4xi32>>, #dlti.dl_entry<i32, dense<32> : vector<2xi32>>, #dlti.dl_entry<f16, dense<16> : vector<2xi32>>, #dlti.dl_entry<i16, dense<16> : vector<2xi32>>, #dlti.dl_entry<f64, dense<64> : vector<2xi32>>, #dlti.dl_entry<i8, dense<8> : vector<2xi32>>, #dlti.dl_entry<f128, dense<128> : vector<2xi32>>, #dlti.dl_entry<i1, dense<8> : vector<2xi32>>, #dlti.dl_entry<!llvm.ptr, dense<64> : vector<4xi32>>, #dlti.dl_entry<f80, dense<128> : vector<2xi32>>, #dlti.dl_entry<"dlti.endianness", "little">, #dlti.dl_entry<"dlti.stack_alignment", 128 : i32>>, llvm.data_layout = "e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128", llvm.target_triple = "x86_64-unknown-linux-gnu", polygeist.gpu_module.llvm.data_layout = "e-i64:64-i128:128-v16:16-v32:32-n16:32:64", polygeist.gpu_module.llvm.target_triple = "nvptx64-nvidia-cuda", "polygeist.target-cpu" = "x86-64", "polygeist.target-features" = "+cmov,+cx8,+fxsr,+mmx,+sse,+sse2,+x87", "polygeist.tune-cpu" = "generic"} {
+  gpu.module @_Z14cumprod_kernelPKfPfl_0 {
+    gpu.func @_Z14cumprod_kernelPKfPfl(%arg0: memref<?xf32>, %arg1: memref<?xf32>, %arg2: i64) {
+      %cst = arith.constant 1.000000e+00 : f32
+      %c0 = arith.constant 0 : index
+      %c1 = arith.constant 1 : index
+      %0 = gpu.block_id  x
+      %1 = arith.index_cast %0 : index to i32
+      %2 = arith.extsi %1 : i32 to i64
+      %3 = arith.muli %2, %arg2 : i64
+      %4 = arith.index_cast %3 : i64 to index
+      %5 = arith.index_cast %arg2 : i64 to index
+      %6 = scf.for %arg3 = %c0 to %5 step %c1 iter_args(%arg4 = %cst) -> (f32) {
+        %7 = arith.addi %arg3, %4 : index
+        %8 = memref.load %arg0[%7] : memref<?xf32>
+        %9 = arith.mulf %arg4, %8 : f32
+        memref.store %9, %arg1[%7] : memref<?xf32>
+        scf.yield %9 : f32
+      }
+      gpu.return
+    }
+  }
+}
+[ict-debug] ConvertPolygeistToNPUPass::runOnOperation(): After vectorize: end
+
+[ict-debug] GPUBlockIdToNPULowering: process op: 
+
+%0 = gpu.block_id  x
+[ict-debug] CastLikeOpToNPULowering: process op: 
+
+%2 = arith.index_cast %1 : index to i32
+[ict-debug] CastLikeOpToNPULowering: process op: 
+
+%4 = arith.extsi %3 : i32 to i64
+[ict-debug] CastLikeOpToNPULowering: process op: 
+
+%7 = arith.index_cast %6 : i64 to index
+[ict-debug] CastLikeOpToNPULowering: process op: 
+
+%9 = arith.index_cast %arg2 : i64 to index
+[ict-debug] ConvertPolygeistToNPUPass::runOnOperation(): After convert to NPU:
+
+module attributes {dlti.dl_spec = #dlti.dl_spec<#dlti.dl_entry<i64, dense<64> : vector<2xi32>>, #dlti.dl_entry<!llvm.ptr<272>, dense<64> : vector<4xi32>>, #dlti.dl_entry<!llvm.ptr<271>, dense<32> : vector<4xi32>>, #dlti.dl_entry<!llvm.ptr<270>, dense<32> : vector<4xi32>>, #dlti.dl_entry<i32, dense<32> : vector<2xi32>>, #dlti.dl_entry<f16, dense<16> : vector<2xi32>>, #dlti.dl_entry<i16, dense<16> : vector<2xi32>>, #dlti.dl_entry<f64, dense<64> : vector<2xi32>>, #dlti.dl_entry<i8, dense<8> : vector<2xi32>>, #dlti.dl_entry<f128, dense<128> : vector<2xi32>>, #dlti.dl_entry<i1, dense<8> : vector<2xi32>>, #dlti.dl_entry<!llvm.ptr, dense<64> : vector<4xi32>>, #dlti.dl_entry<f80, dense<128> : vector<2xi32>>, #dlti.dl_entry<"dlti.endianness", "little">, #dlti.dl_entry<"dlti.stack_alignment", 128 : i32>>, llvm.data_layout = "e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128", llvm.target_triple = "x86_64-unknown-linux-gnu", polygeist.gpu_module.llvm.data_layout = "e-i64:64-i128:128-v16:16-v32:32-n16:32:64", polygeist.gpu_module.llvm.target_triple = "nvptx64-nvidia-cuda", "polygeist.target-cpu" = "x86-64", "polygeist.target-features" = "+cmov,+cx8,+fxsr,+mmx,+sse,+sse2,+x87", "polygeist.tune-cpu" = "generic"} {
+  gpu.module @_Z14cumprod_kernelPKfPfl_0 {
+    gpu.func @_Z14cumprod_kernelPKfPfl(%arg0: memref<?xf32>, %arg1: memref<?xf32>, %arg2: i64) {
+      %cst = arith.constant 1.000000e+00 : f32
+      %c0 = arith.constant 0 : index
+      %c1 = arith.constant 1 : index
+      %0 = "npu.block_id"() : () -> i64
+      %1 = emitc.cast %0 : i64 to i32
+      %2 = emitc.cast %1 : i32 to i64
+      %3 = arith.muli %2, %arg2 : i64
+      %4 = emitc.cast %3 : i64 to index
+      %5 = emitc.cast %arg2 : i64 to index
+      %6 = scf.for %arg3 = %c0 to %5 step %c1 iter_args(%arg4 = %cst) -> (f32) {
+        %7 = arith.addi %arg3, %4 : index
+        %8 = memref.load %arg0[%7] : memref<?xf32>
+        %9 = emitc.mul %arg4, %8 : (f32, f32) -> f32
+        memref.store %9, %arg1[%7] : memref<?xf32>
+        scf.yield %9 : f32
+      }
+      gpu.return
+    }
+  }
+}
+[ict-debug] ConvertPolygeistToNPUPass::runOnOperation(): After convert to NPU: end
+
+[ict-debug] driver.cc: Before convert to EmitC dialect:
+
+module attributes {dlti.dl_spec = #dlti.dl_spec<#dlti.dl_entry<i64, dense<64> : vector<2xi32>>, #dlti.dl_entry<!llvm.ptr<272>, dense<64> : vector<4xi32>>, #dlti.dl_entry<!llvm.ptr<271>, dense<32> : vector<4xi32>>, #dlti.dl_entry<!llvm.ptr<270>, dense<32> : vector<4xi32>>, #dlti.dl_entry<i32, dense<32> : vector<2xi32>>, #dlti.dl_entry<f16, dense<16> : vector<2xi32>>, #dlti.dl_entry<i16, dense<16> : vector<2xi32>>, #dlti.dl_entry<f64, dense<64> : vector<2xi32>>, #dlti.dl_entry<i8, dense<8> : vector<2xi32>>, #dlti.dl_entry<f128, dense<128> : vector<2xi32>>, #dlti.dl_entry<i1, dense<8> : vector<2xi32>>, #dlti.dl_entry<!llvm.ptr, dense<64> : vector<4xi32>>, #dlti.dl_entry<f80, dense<128> : vector<2xi32>>, #dlti.dl_entry<"dlti.endianness", "little">, #dlti.dl_entry<"dlti.stack_alignment", 128 : i32>>, llvm.data_layout = "e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128", llvm.target_triple = "x86_64-unknown-linux-gnu", polygeist.gpu_module.llvm.data_layout = "e-i64:64-i128:128-v16:16-v32:32-n16:32:64", polygeist.gpu_module.llvm.target_triple = "nvptx64-nvidia-cuda", "polygeist.target-cpu" = "x86-64", "polygeist.target-features" = "+cmov,+cx8,+fxsr,+mmx,+sse,+sse2,+x87", "polygeist.tune-cpu" = "generic"} {
+  gpu.module @_Z14cumprod_kernelPKfPfl_0 {
+    gpu.func @_Z14cumprod_kernelPKfPfl(%arg0: memref<?xf32>, %arg1: memref<?xf32>, %arg2: i64) {
+      %cst = arith.constant 1.000000e+00 : f32
+      %c0 = arith.constant 0 : index
+      %c1 = arith.constant 1 : index
+      %0 = "npu.block_id"() : () -> i64
+      %1 = emitc.cast %0 : i64 to i32
+      %2 = emitc.cast %1 : i32 to i64
+      %3 = arith.muli %2, %arg2 : i64
+      %4 = emitc.cast %3 : i64 to index
+      %5 = emitc.cast %arg2 : i64 to index
+      %6 = scf.for %arg3 = %c0 to %5 step %c1 iter_args(%arg4 = %cst) -> (f32) {
+        %7 = arith.addi %arg3, %4 : index
+        %8 = memref.load %arg0[%7] : memref<?xf32>
+        %9 = emitc.mul %arg4, %8 : (f32, f32) -> f32
+        memref.store %9, %arg1[%7] : memref<?xf32>
+        scf.yield %9 : f32
+      }
+      gpu.return
+    }
+  }
+}
+[ict-debug] driver.cc: Before convert to EmitC dialect: end
+
+[ict-debug] driver.cc: After convert to EmitC dialect:
+
+module attributes {dlti.dl_spec = #dlti.dl_spec<#dlti.dl_entry<i64, dense<64> : vector<2xi32>>, #dlti.dl_entry<!llvm.ptr<272>, dense<64> : vector<4xi32>>, #dlti.dl_entry<!llvm.ptr<271>, dense<32> : vector<4xi32>>, #dlti.dl_entry<!llvm.ptr<270>, dense<32> : vector<4xi32>>, #dlti.dl_entry<i32, dense<32> : vector<2xi32>>, #dlti.dl_entry<f16, dense<16> : vector<2xi32>>, #dlti.dl_entry<i16, dense<16> : vector<2xi32>>, #dlti.dl_entry<f64, dense<64> : vector<2xi32>>, #dlti.dl_entry<i8, dense<8> : vector<2xi32>>, #dlti.dl_entry<f128, dense<128> : vector<2xi32>>, #dlti.dl_entry<i1, dense<8> : vector<2xi32>>, #dlti.dl_entry<!llvm.ptr, dense<64> : vector<4xi32>>, #dlti.dl_entry<f80, dense<128> : vector<2xi32>>, #dlti.dl_entry<"dlti.endianness", "little">, #dlti.dl_entry<"dlti.stack_alignment", 128 : i32>>, llvm.data_layout = "e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128", llvm.target_triple = "x86_64-unknown-linux-gnu", polygeist.gpu_module.llvm.data_layout = "e-i64:64-i128:128-v16:16-v32:32-n16:32:64", polygeist.gpu_module.llvm.target_triple = "nvptx64-nvidia-cuda", "polygeist.target-cpu" = "x86-64", "polygeist.target-features" = "+cmov,+cx8,+fxsr,+mmx,+sse,+sse2,+x87", "polygeist.tune-cpu" = "generic"} {
+  gpu.module @_Z14cumprod_kernelPKfPfl_0 {
+    gpu.func @_Z14cumprod_kernelPKfPfl(%arg0: memref<?xf32>, %arg1: memref<?xf32>, %arg2: i64) {
+      %cst = arith.constant 1.000000e+00 : f32
+      %c0 = arith.constant 0 : index
+      %c1 = arith.constant 1 : index
+      %0 = "npu.block_id"() : () -> i64
+      %1 = emitc.cast %0 : i64 to i32
+      %2 = emitc.cast %1 : i32 to i64
+      %3 = arith.muli %2, %arg2 : i64
+      %4 = emitc.cast %3 : i64 to index
+      %5 = emitc.cast %arg2 : i64 to index
+      %6 = scf.for %arg3 = %c0 to %5 step %c1 iter_args(%arg4 = %cst) -> (f32) {
+        %7 = arith.addi %arg3, %4 : index
+        %8 = memref.load %arg0[%7] : memref<?xf32>
+        %9 = emitc.mul %arg4, %8 : (f32, f32) -> f32
+        memref.store %9, %arg1[%7] : memref<?xf32>
+        scf.yield %9 : f32
+      }
+      gpu.return
+    }
+  }
+}
+[ict-debug] driver.cc: After convert to EmitC dialect: end
+
+[ict-debug] driver.cc: After emitc::translateToCpp:
+

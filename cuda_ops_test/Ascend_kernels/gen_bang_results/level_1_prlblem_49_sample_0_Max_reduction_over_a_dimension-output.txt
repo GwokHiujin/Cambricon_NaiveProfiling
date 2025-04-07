@@ -1,0 +1,4 @@
+warning: CUDA version 12.1 is only partially supported
+./Ascend_kernels/gen_cuda_kernels/level_1_prlblem_49_sample_0_Max_reduction_over_a_dimension.cu:8:26: error: use of undeclared identifier 'FLT_MAX'
+    8 |         float max_val = -FLT_MAX;
+      |                          ^

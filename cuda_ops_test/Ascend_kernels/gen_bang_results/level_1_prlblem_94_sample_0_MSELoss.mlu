@@ -1,0 +1,29 @@
+#include <bang.h>
+__mlu_global__ void mse_kernel(float* v1, float* v2, float* v3, int32_t v4) {
+  int32_t c32_5 = 32;
+  size_t c0_6 = 0;
+  size_t c1_7 = 1;
+  size_t c32_8 = 32;
+  int64_t v9 = taskId;
+  int32_t v10 = (int32_t) v9;
+  int32_t v11 = (v10) * (c32_5);
+  for (size_t v12 = c0_6; v12 < c32_8; v12 += c1_7) {
+    int64_t v13 = (int64_t)v12;
+    int32_t v14 = (int32_t) v13;
+    int32_t v15 = (v11) + (v14);
+    size_t v16 = (size_t) v15;
+    bool v17 = v15 < v4;
+    if (v17) {
+      float v18 = v1[v16];
+      float v19 = v2[v16];
+      float v20 = v18 - v19;
+      float v21 = v20 * v20;
+      v3[v16] = v21;
+    };
+  }
+  return;
+}
+
+
+
+

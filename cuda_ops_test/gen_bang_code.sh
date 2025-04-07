@@ -3,8 +3,8 @@ POLYGEIST_BUILD_DIR=$PROJECT_ROOT_DIR/polygeist/build
 LLVM_BUILD_DIR=$PROJECT_ROOT_DIR/polygeist/mlir-build
 CGEIST=$POLYGEIST_BUILD_DIR/bin/cgeist
 CUDA_GPU_ARCH=sm_70
-CU_SRC_DIR=./cuda_ops
-BANG_DIR=./gen_bang_results
+CU_SRC_DIR=./Ascend_kernels/gen_cuda_kernels
+BANG_DIR=./Ascend_kernels/gen_bang_results
 
 export POLYGEIST_GPU_KERNEL_COARSEN_THREADS=1
 export POLYGEIST_GPU_KERNEL_COARSEN_BLOCKS=1

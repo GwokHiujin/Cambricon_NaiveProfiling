@@ -121,7 +121,8 @@ def process_fwd_codes(FWD_INPUT_DIR, FWD_FINAL_DIR, MLU_INPUT_DIR, REG_DIR):
         with open(txt_path, 'r', encoding='utf-8') as f:
             content = f.read()
 
-        content_ = content.replace("int ", "int64_t ")
+        content_ = content.replace("cudaDeviceSynchronize", "//cudaDeviceSynchronize")
+        # content_ = content.replace("int ", "int64_t ")
         content_ = content_.replace("float ", "double ")
 
         func_match = re.search(
@@ -136,10 +137,11 @@ def process_fwd_codes(FWD_INPUT_DIR, FWD_FINAL_DIR, MLU_INPUT_DIR, REG_DIR):
         func_name = func_match.group(1).replace("cuda", "mlu")
         params = func_match.group(2)
         body = get_func_body(content_)
+        task_id = mlu_file.name.split('prlblem_')[1].split('_')[0]
 
-        cpp_filename = f"/custom_{func_name}.cpp"
+        cpp_filename = f"/custom_{task_id}_{func_name}.cpp"
         cpp_path = FWD_FINAL_DIR + cpp_filename
-        header_filename = f"/custom_{func_name}.h"
+        header_filename = f"/custom_{task_id}_{func_name}.h"
         header_path = FWD_FINAL_DIR + header_filename
 
         tensor_params = []
@@ -172,7 +174,7 @@ def process_fwd_codes(FWD_INPUT_DIR, FWD_FINAL_DIR, MLU_INPUT_DIR, REG_DIR):
         print(f"Processing fwd function {func_name}...")
 
         # Start to Trans
-        header = f'''#include "custom_{func_name}.h"
+        header = f'''#include "{header_filename[1:]}"
 #include "mlu/gen_kernels.h"
 #include "ATen/Tensor.h"
 #include "torch/library.h"
@@ -254,15 +256,15 @@ using namespace torch_mlu;
 
         processed_params = re.sub(r'torch::Tensor\s+', 'Tensor ', params)
         processed_code.append(f'''
-    TORCH_LIBRARY_FRAGMENT(mlu_custom_ext, m) {{
-        m.def("{func_name}({processed_params}) -> Tensor");
-    }}
+TORCH_LIBRARY_FRAGMENT(mlu_custom_ext, m) {{
+    m.def("{func_name}({processed_params}) -> Tensor");
+}}
 
-    TORCH_LIBRARY_IMPL(mlu_custom_ext, PrivateUse1, m) {{
-        m.impl(
-            TORCH_SELECTIVE_NAME("mlu_custom_ext::{func_name}"),
-            TORCH_FN({func_name}));
-    }}
+TORCH_LIBRARY_IMPL(mlu_custom_ext, PrivateUse1, m) {{
+    m.impl(
+        TORCH_SELECTIVE_NAME("mlu_custom_ext::{func_name}"),
+        TORCH_FN({func_name}));
+}}
     ''')
 
         with open(cpp_path, 'w', encoding='utf-8') as f:
@@ -292,20 +294,20 @@ if __name__ == "__main__":
     print(f"FWD_FINAL_DIR: {args.FWD_FINAL_DIR}") 
     print(f"REG_DIR: {args.REG_DIR}") 
 
-    kernels_header_file = os.path.join(args.MLU_INPUT_DIR, 'gen_kernels.h') 
     os.makedirs(args.MLU_INPUT_DIR, exist_ok=True)
     os.makedirs(args.FWD_INPUT_DIR, exist_ok=True)
     os.makedirs(args.FWD_FINAL_DIR, exist_ok=True)
     os.makedirs(args.REG_DIR, exist_ok=True)
      
-    with open(kernels_header_file, 'w') as f:  
-        f.write("#pragma once\n")
-        f.write("#include <cnrt.h>\n\n")
-        f.write("// Auto-generated declarations\n")
+    # kernels_header_file = os.path.join(args.MLU_INPUT_DIR, 'gen_kernels.h') 
+    # with open(kernels_header_file, 'w') as f:  
+    #     f.write("#pragma once\n")
+    #     f.write("#include <cnrt.h>\n\n")
+    #     f.write("// Auto-generated declarations\n")
 
-    print("\nGenerating entry code for MLU Kernels...")
-    if process_mlu_files(args.MLU_INPUT_DIR, args.BANG_DIR, kernels_header_file):
-        print("\nDone")
+    # print("\nGenerating entry code for MLU Kernels...")
+    # if process_mlu_files(args.MLU_INPUT_DIR, args.BANG_DIR, kernels_header_file):
+    #     print("\nDone")
 
     print("\nGenerating forward code for Ops...")
     with open(f"{args.REG_DIR}/__init__.py", 'a', encoding='utf-8') as f:

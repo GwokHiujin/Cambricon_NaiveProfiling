@@ -18,7 +18,7 @@ rule bang_compile
 
 
 
-build /root/Cambricon_NaiveProfiling/torch_mlu_ext/mlu_extension/build/temp.linux-x86_64-3.10/root/Cambricon_NaiveProfiling/torch_mlu_ext/mlu_extension/mlu_custom_ext/src/100_HingeLoss.o: compile /root/Cambricon_NaiveProfiling/torch_mlu_ext/mlu_extension/mlu_custom_ext/src/100_HingeLoss.cpp
+build /root/Cambricon_NaiveProfiling/torch_mlu_ext/mlu_extension/build/temp.linux-x86_64-3.10/root/Cambricon_NaiveProfiling/torch_mlu_ext/mlu_extension/mlu_custom_ext/src/custom_100_HingeLoss.o: compile /root/Cambricon_NaiveProfiling/torch_mlu_ext/mlu_extension/mlu_custom_ext/src/custom_100_HingeLoss.cpp
 build /root/Cambricon_NaiveProfiling/torch_mlu_ext/mlu_extension/build/temp.linux-x86_64-3.10/root/Cambricon_NaiveProfiling/torch_mlu_ext/mlu_extension/mlu_custom_ext/src/custom_sigmoid.o: compile /root/Cambricon_NaiveProfiling/torch_mlu_ext/mlu_extension/mlu_custom_ext/src/custom_sigmoid.cpp
 build /root/Cambricon_NaiveProfiling/torch_mlu_ext/mlu_extension/build/temp.linux-x86_64-3.10/root/Cambricon_NaiveProfiling/torch_mlu_ext/mlu_extension/mlu_custom_ext/src/mlu/bang_100_HingeLoss.o: bang_compile /root/Cambricon_NaiveProfiling/torch_mlu_ext/mlu_extension/mlu_custom_ext/src/mlu/bang_100_HingeLoss.mlu
 build /root/Cambricon_NaiveProfiling/torch_mlu_ext/mlu_extension/build/temp.linux-x86_64-3.10/root/Cambricon_NaiveProfiling/torch_mlu_ext/mlu_extension/mlu_custom_ext/src/mlu/bang_sigmoid_sample.o: bang_compile /root/Cambricon_NaiveProfiling/torch_mlu_ext/mlu_extension/mlu_custom_ext/src/mlu/bang_sigmoid_sample.mlu

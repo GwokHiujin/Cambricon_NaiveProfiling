@@ -5,3 +5,4 @@
 1	31249	1743997406539143822	/root/Cambricon_NaiveProfiling/torch_mlu_ext/mlu_extension/build/temp.linux-x86_64-3.10/root/Cambricon_NaiveProfiling/torch_mlu_ext/mlu_extension/mlu_custom_ext/src/custom_sigmoid.o	759f519082a38122
 1	31378	1743997406675145921	/root/Cambricon_NaiveProfiling/torch_mlu_ext/mlu_extension/build/temp.linux-x86_64-3.10/root/Cambricon_NaiveProfiling/torch_mlu_ext/mlu_extension/mlu_custom_ext/src/100_HingeLoss.o	973d7565a2d3c10a
 1	1092	1744006620917351529	/root/Cambricon_NaiveProfiling/torch_mlu_ext/mlu_extension/build/temp.linux-x86_64-3.10/root/Cambricon_NaiveProfiling/torch_mlu_ext/mlu_extension/mlu_custom_ext/src/mlu/bang_100_HingeLoss.o	86058dea41409abe
+1	30187	1744083630100025027	/root/Cambricon_NaiveProfiling/torch_mlu_ext/mlu_extension/build/temp.linux-x86_64-3.10/root/Cambricon_NaiveProfiling/torch_mlu_ext/mlu_extension/mlu_custom_ext/src/custom_100_HingeLoss.o	ac1e9bdf86cf06d3

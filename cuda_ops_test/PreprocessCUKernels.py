@@ -1,11 +1,14 @@
 import os
-import time
 import requests
 from bs4 import BeautifulSoup
 from urllib.parse import urljoin
 
+
+ORIGIN_URL = "https://pub.sakana.ai/ai-cuda-engineer/leaderboard?show_kernels=1&level=1&sort_by=level_task&experiment=all"
+DOWNLOAD_DIR = "./cuda_ops"  
+
+
 def download_cuda_kernels(origin_url, download_dir):
-    os.makedirs(download_dir, exist_ok=True)
     head = "https://pub.sakana.ai"
     
     headers = {
@@ -21,7 +24,6 @@ def download_cuda_kernels(origin_url, download_dir):
         print(f"❌ Cannot Access: {e}")
         return
     
-    time.sleep(5)
     
     soup = BeautifulSoup(response.text, 'html.parser')
     kernel_links = soup.find_all('a', {'class': 'kernel-name'})
@@ -138,10 +140,9 @@ def preprocess_cuda_files(directory):
 
 
 if __name__ == "__main__":
-    ORIGIN_URL = "https://pub.sakana.ai/ai-cuda-engineer/leaderboard?show_kernels=1&level=1&sort_by=level_task&experiment=all"
-    DOWNLOAD_DIR = "./cuda_ops"  
-
+    os.makedirs(DOWNLOAD_DIR, exist_ok=True)
+    
     # download_cuda_kernels(ORIGIN_URL, DOWNLOAD_DIR)
-    print("\n------------ All Downloaded! ------------")
+    # print("\n------------ All Downloaded! ------------")
     preprocess_cuda_files(DOWNLOAD_DIR)
     print("\n------------ All Processed! ------------")

@@ -1,6 +1,6 @@
 README.md
 setup.py
-/root/Cambricon_NaiveProfiling/torch_mlu_ext/mlu_extension/mlu_custom_ext/src/100_HingeLoss.cpp
+/root/Cambricon_NaiveProfiling/torch_mlu_ext/mlu_extension/mlu_custom_ext/src/custom_100_HingeLoss.cpp
 /root/Cambricon_NaiveProfiling/torch_mlu_ext/mlu_extension/mlu_custom_ext/src/custom_sigmoid.cpp
 /root/Cambricon_NaiveProfiling/torch_mlu_ext/mlu_extension/mlu_custom_ext/src/mlu/bang_100_HingeLoss.mlu
 /root/Cambricon_NaiveProfiling/torch_mlu_ext/mlu_extension/mlu_custom_ext/src/mlu/bang_sigmoid_sample.mlu

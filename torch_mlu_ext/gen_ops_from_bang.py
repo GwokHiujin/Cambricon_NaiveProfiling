@@ -63,6 +63,9 @@ def process_mlu_files(MLU_INPUT_DIR, BANG_DIR, kernels_header_file):
         with open(mlu_file, 'r+', encoding='utf-8') as f:
             content = f.read()
 
+        if ((content.count('(') != content.count(')')) or (content.count('{') != content.count('}'))):
+            continue
+
         with open(os.path.join(MLU_INPUT_DIR, f'{mlu_file.stem}.mlu'), 'w', encoding='utf-8') as f:
             f.write(content)
             

@@ -30,13 +30,14 @@ torch::Tensor cosine_similarity_loss_mlu(torch::Tensor predictions, torch::Tenso
     auto losses_contiguous = torch_mlu::cnnl_contiguous(losses);
     auto losses_impl = getMluTensorImpl(losses_contiguous);
     auto losses_ptr = losses_impl->mlu_data_ptr();
+    auto size = predictions_contiguous.numel();
     cosine_similarity_loss_kernel_entry(
     reinterpret_cast<float*>(predictions_ptr),
     reinterpret_cast<float*>(targets_ptr),
     reinterpret_cast<float*>(losses_ptr),
     batch_size,
     input_size
-    );
+    , size);
     
     return losses;
     

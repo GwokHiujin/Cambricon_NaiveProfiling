@@ -6,6 +6,9 @@ from torch import Tensor
 def mse_mlu(predictions:Tensor,targets:Tensor,):
     return torch.ops.mlu_custom_ext.mse_mlu(predictions,targets,)
 
+def softplus_mlu(input:Tensor,):
+    return torch.ops.mlu_custom_ext.softplus_mlu(input,)
+
 def elu_forward_mlu(input:Tensor,alpha:double,):
     return torch.ops.mlu_custom_ext.elu_forward_mlu(input,alpha,)
 
@@ -50,6 +53,9 @@ def leaky_relu_mlu(input:Tensor,negative_slope:double,):
 
 def reverse_cumsum_mlu(x:Tensor,):
     return torch.ops.mlu_custom_ext.reverse_cumsum_mlu(x,)
+
+def gelu_mlu(x:Tensor,):
+    return torch.ops.mlu_custom_ext.gelu_mlu(x,)
 
 def tanh_mlu(input:Tensor,):
     return torch.ops.mlu_custom_ext.tanh_mlu(input,)

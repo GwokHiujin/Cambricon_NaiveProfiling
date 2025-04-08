@@ -30,9 +30,10 @@ torch::Tensor triplet_margin_loss_mlu(torch::Tensor anchor, torch::Tensor positi
     auto out_contiguous = torch_mlu::cnnl_contiguous(out);
     auto out_impl = getMluTensorImpl(out_contiguous);
     auto out_ptr = out_impl->mlu_data_ptr();
-    triplet_margin_loss_kernel_entry(reinterpret_cast<float*>(anchor_ptr), reinterpret_cast<float*>(positive_ptr), reinterpret_cast<float*>(negative_ptr), margin, reinterpret_cast<float*>(out_ptr), size);
+    auto size = anchor_contiguous.numel();
+    triplet_margin_loss_kernel_entry(reinterpret_cast<float*>(anchor_ptr), reinterpret_cast<float*>(positive_ptr), reinterpret_cast<float*>(negative_ptr), margin, reinterpret_cast<float*>(out_ptr), size, size);
     
-    return out.mean();
+    return out.mean(, size);
     
 }
 

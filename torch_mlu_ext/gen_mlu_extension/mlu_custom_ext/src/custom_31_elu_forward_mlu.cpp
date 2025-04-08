@@ -24,7 +24,8 @@ torch::Tensor elu_forward_mlu(torch::Tensor input, double alpha) {
     auto output_contiguous = torch_mlu::cnnl_contiguous(output);
     auto output_impl = getMluTensorImpl(output_contiguous);
     auto output_ptr = output_impl->mlu_data_ptr();
-    elu_forward_kernel_entry(reinterpret_cast<float*>(input_ptr), reinterpret_cast<float*>(output_ptr), alpha, size);
+    auto size = input_contiguous.numel();
+    elu_forward_kernel_entry(reinterpret_cast<float*>(input_ptr), reinterpret_cast<float*>(output_ptr), alpha, size, size);
     
     return output;
     

@@ -38,13 +38,13 @@ __mlu_global__ void reverse_cumsum_kernel(float* v1, float* v2, int32_t v3, int3
 // ********** Entry Functions **********
 
 // Auto-generated entry function for reverse_cumsum_kernel
-void reverse_cumsum_kernel_entry(float* v1, float* v2, int32_t v3, int32_t v4) {
+void reverse_cumsum_kernel_entry(float* v1, float* v2, int32_t v3, int32_t v4, int size) {
     cnrtQueue_t queue;
     cnrtQueueCreate(&queue);
     cnrtDim3_t dim = {1, 1, 1};
     cnrtFunctionType_t c = CNRT_FUNC_TYPE_BLOCK;
-    dim.x = v4 / 32;
-    reverse_cumsum_kernel<<<dim, c, queue>>>(v1, v2, v3, v4);
+    dim.x = size / 32;
+    reverse_cumsum_kernel<<<dim, c, queue>>>(v1, v2, v3, v4, size);
     cnrtQueueSync(queue);
     cnrtQueueDestroy(queue);
 }

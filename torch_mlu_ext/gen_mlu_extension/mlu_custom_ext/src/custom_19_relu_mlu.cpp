@@ -24,7 +24,8 @@ torch::Tensor relu_mlu(torch::Tensor input) {
     auto output_contiguous = torch_mlu::cnnl_contiguous(output);
     auto output_impl = getMluTensorImpl(output_contiguous);
     auto output_ptr = output_impl->mlu_data_ptr();
-    relu_kernel_entry(reinterpret_cast<float*>(input_ptr), reinterpret_cast<float*>(output_ptr), size);
+    auto size = input_contiguous.numel();
+    relu_kernel_entry(reinterpret_cast<float*>(input_ptr), reinterpret_cast<float*>(output_ptr), size, size);
     
     return output;
     

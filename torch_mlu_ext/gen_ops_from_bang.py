@@ -78,18 +78,17 @@ def process_mlu_files(MLU_INPUT_DIR, BANG_DIR, kernels_header_file):
             header_decls = []
             
             for func_name, params in matches:
+                params = params + ", int size"
                 entry_func = f"void {func_name}_entry({params})"
                 header_decls.append(f"{entry_func};")
 
                 params_list = split_parameters(params)
                 params_name_list = []
-                size_param = ''
 
                 for p in params_list:
                     last_space_index = p.rfind(' ')
                     name = p[last_space_index + 1:].strip()
                     params_name_list.append(name)
-                    size_param = name
                 
                 entry_code.append(f"\n// Auto-generated entry function for {func_name}")
                 entry_code.append(entry_func + " {")
@@ -97,7 +96,7 @@ def process_mlu_files(MLU_INPUT_DIR, BANG_DIR, kernels_header_file):
                 entry_code.append("    cnrtQueueCreate(&queue);")
                 entry_code.append("    cnrtDim3_t dim = {1, 1, 1};")
                 entry_code.append("    cnrtFunctionType_t c = CNRT_FUNC_TYPE_BLOCK;")
-                entry_code.append(f"    dim.x = {size_param} / 32;")
+                entry_code.append(f"    dim.x = size / 32;")
                 entry_code.append(f"    {func_name}<<<dim, c, queue>>>({', '.join(p for p in params_name_list)});")
                 entry_code.append("    cnrtQueueSync(queue);")
                 entry_code.append("    cnrtQueueDestroy(queue);")
@@ -190,11 +189,14 @@ using namespace torch_mlu;
         kernel_call_body = []
         tensor_param_init = []
         new_tensor_init = []
+        first_inp = ""
 
         tensor_param_init.append(f'torch::Tensor {func_name}({params}) {{')
         tensor_param_init.append(f'    const torch_mlu::mlu::MLUGuard device_guard({tensor_params[0]}.device());')
 
         for param in tensor_params:
+            if first_inp == "":
+                first_inp = param
             tensor_param_init.extend([
                 f'    auto {param}_contiguous = torch_mlu::cnnl_contiguous({param});',
                 f'    auto {param}_impl = getMluTensorImpl({param}_contiguous);',
@@ -243,6 +245,7 @@ using namespace torch_mlu;
             line = re.sub(r'(\w+)\.data_ptr<float>\(\)', r'reinterpret_cast<float*>(\1_ptr)', line)
             
             if kernel_start:
+                line = line.replace(");", ", size);")
                 kernel_call_body.append(f"    {line.strip()}")
             else:
                 modified_body.append(f"    {line.strip()}")  
@@ -252,6 +255,7 @@ using namespace torch_mlu;
         processed_code.extend(tensor_param_init)
         processed_code.extend(modified_body)
         processed_code.extend(new_tensor_init)
+        processed_code.append(f'    auto size = {first_inp}_contiguous.numel();')
         processed_code.extend(kernel_call_body)
         processed_code.append('}\n')
 
@@ -300,15 +304,15 @@ if __name__ == "__main__":
     os.makedirs(args.FWD_FINAL_DIR, exist_ok=True)
     os.makedirs(args.REG_DIR, exist_ok=True)
      
-    # kernels_header_file = os.path.join(args.MLU_INPUT_DIR, 'gen_kernels.h') 
-    # with open(kernels_header_file, 'w') as f:  
-    #     f.write("#pragma once\n")
-    #     f.write("#include <cnrt.h>\n\n")
-    #     f.write("// Auto-generated declarations\n")
+    kernels_header_file = os.path.join(args.MLU_INPUT_DIR, 'gen_kernels.h') 
+    with open(kernels_header_file, 'w') as f:  
+        f.write("#pragma once\n")
+        f.write("#include <cnrt.h>\n\n")
+        f.write("// Auto-generated declarations\n")
 
-    # print("\nGenerating entry code for MLU Kernels...")
-    # if process_mlu_files(args.MLU_INPUT_DIR, args.BANG_DIR, kernels_header_file):
-    #     print("\nDone")
+    print("\nGenerating entry code for MLU Kernels...")
+    if process_mlu_files(args.MLU_INPUT_DIR, args.BANG_DIR, kernels_header_file):
+        print("\nDone")
 
     print("\nGenerating forward code for Ops...")
     with open(f"{args.REG_DIR}/__init__.py", 'a', encoding='utf-8') as f:

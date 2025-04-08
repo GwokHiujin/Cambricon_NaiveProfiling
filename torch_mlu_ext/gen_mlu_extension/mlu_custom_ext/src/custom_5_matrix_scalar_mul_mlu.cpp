@@ -24,12 +24,13 @@ torch::Tensor matrix_scalar_mul_mlu(torch::Tensor A, double s) {
     auto C_contiguous = torch_mlu::cnnl_contiguous(C);
     auto C_impl = getMluTensorImpl(C_contiguous);
     auto C_ptr = C_impl->mlu_data_ptr();
+    auto size = A_contiguous.numel();
     matrix_scalar_mul_kernel_entry(
     reinterpret_cast<float*>(A_ptr),
     s,
     reinterpret_cast<float*>(C_ptr),
     size
-    );
+    , size);
     
     return C;
     

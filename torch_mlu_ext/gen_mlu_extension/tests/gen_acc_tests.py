@@ -160,7 +160,7 @@ if __name__ == "__main__":
                         mlu_inputs_def.append(f"        {cur_p}_mlu = {cur_p}_cpu.to(\"mlu\")")
         
         is_comment = 0
-        in_function = -1    # 0: module_fn; 1: get_inputs  
+        in_function = -1    # 0: module_fn; 1: get_inputs; 2: forward
         indentation_level = -1
         starts_line = False
         starts_return = False
@@ -169,7 +169,7 @@ if __name__ == "__main__":
             stripped_line = line.strip()
             cur_indentation_level = len(line) - len(stripped_line)
 
-            if stripped_line.startswith("class") or \
+            if stripped_line.startswith("class Model") or \
                 stripped_line.startswith("def get_init_inputs"):
                 indentation_level = 100
                 continue
@@ -198,7 +198,10 @@ if __name__ == "__main__":
             if stripped_line.startswith("\"\"\""):
                 is_comment = logical_xor(1, is_comment)
                 continue
-
+            if (not is_comment) and indentation_level == 100 and stripped_line.startswith("def forward"):
+                in_function = 2
+                indentation_level = cur_indentation_level
+                continue
             if (not is_comment) and (cur_indentation_level > indentation_level):
                 if in_function == 0 and stripped_line.find(':') == -1:
                     stripped_line = stripped_line.replace('return ', 'result_cpu = ')
@@ -222,6 +225,15 @@ if __name__ == "__main__":
                     if not starts_return:
                         stripped_line = stripped_line.replace(' = ', '_cpu = ')
                     cpu_inputs_raw.append(f"        {stripped_line}")
+                elif in_function == 2:
+                    stripped_line = stripped_line.replace('return ', 'result_mlu = mlu_custom_ext.ops.{func_name}')
+                    stripped_line = stripped_line.replace(' fn.', ' ')
+                    for tp in tensor_param_list:
+                        if stripped_line.find(f"{tp},") != -1:
+                            stripped_line = stripped_line.replace(f"{tp},", f"{tp}_mlu,")
+                        if stripped_line.find(f"{tp})") != -1:
+                            stripped_line = stripped_line.replace(f"{tp})", f"{tp}_mlu)")
+                    mlu_output_gen.append(f"        {stripped_line}")
 
         if starts_return:
             param_init_pattern = re.compile(r'return\s+\[(.*?)\]', re.DOTALL)
@@ -234,11 +246,6 @@ if __name__ == "__main__":
                     cpu_inputs_def.append(f"        {new_def}")
         else:
             cpu_inputs_def = cpu_inputs_raw
-
-        kernel_call = '\n'.join(cpu_output_gen)
-        start = kernel_call.find('(')
-        mlu_output_gen = f"        result_mlu = {func_name}" + kernel_call[start:]
-        mlu_output_gen = mlu_output_gen.replace("_cpu", "_mlu")
 
         test_cases.append(unit_head)
         test_cases.extend(var_def)

@@ -40,8 +40,9 @@ torch::Tensor matvec_mul_mlu(torch::Tensor A, torch::Tensor B) {
     auto C_contiguous = torch_mlu::cnnl_contiguous(C);
     auto C_impl = getMluTensorImpl(C_contiguous);
     auto C_ptr = C_impl->mlu_data_ptr();
+    auto size = A_contiguous.numel();
     matvec_mul_kernel_entry(
-    reinterpret_cast<float*>(A_ptr), reinterpret_cast<float*>(B_ptr), reinterpret_cast<float*>(C_ptr), M, K);
+    reinterpret_cast<float*>(A_ptr), reinterpret_cast<float*>(B_ptr), reinterpret_cast<float*>(C_ptr), M, K, size);
     
     return C;
     

@@ -50,13 +50,13 @@ __mlu_global__ void sum_reduction_kernel(float* v1, float* v2, int32_t v3, int32
 // ********** Entry Functions **********
 
 // Auto-generated entry function for sum_reduction_kernel
-void sum_reduction_kernel_entry(float* v1, float* v2, int32_t v3, int32_t v4, int32_t v5) {
+void sum_reduction_kernel_entry(float* v1, float* v2, int32_t v3, int32_t v4, int32_t v5, int size) {
     cnrtQueue_t queue;
     cnrtQueueCreate(&queue);
     cnrtDim3_t dim = {1, 1, 1};
     cnrtFunctionType_t c = CNRT_FUNC_TYPE_BLOCK;
-    dim.x = v5 / 32;
-    sum_reduction_kernel<<<dim, c, queue>>>(v1, v2, v3, v4, v5);
+    dim.x = size / 32;
+    sum_reduction_kernel<<<dim, c, queue>>>(v1, v2, v3, v4, v5, size);
     cnrtQueueSync(queue);
     cnrtQueueDestroy(queue);
 }

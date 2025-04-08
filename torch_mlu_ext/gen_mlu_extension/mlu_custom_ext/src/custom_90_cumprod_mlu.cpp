@@ -29,11 +29,12 @@ torch::Tensor cumprod_mlu(torch::Tensor x, int64_t dim) {
     auto y_contiguous = torch_mlu::cnnl_contiguous(y);
     auto y_impl = getMluTensorImpl(y_contiguous);
     auto y_ptr = y_impl->mlu_data_ptr();
+    auto size = x_contiguous.numel();
     cumprod_kernel_entry(
     reinterpret_cast<float*>(x_ptr),
     reinterpret_cast<float*>(y_ptr),
     length
-    );
+    , size);
     
     return y;
     

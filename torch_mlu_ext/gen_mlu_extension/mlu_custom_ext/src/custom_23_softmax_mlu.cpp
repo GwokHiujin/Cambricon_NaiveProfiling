@@ -16,7 +16,7 @@ torch::Tensor softmax_mlu(torch::Tensor input) {
     auto input_ptr = input_impl->mlu_data_ptr();
     
     // Ensure input_contiguous is contiguous and on CUDA
-    // auto input_contiguous = input_contiguous.contiguous();
+    auto input_contiguous = input_contiguous.contiguous();
     auto batch_size = input_contiguous.size(0);
     auto dim = input_contiguous.size(1);
     auto output = at::empty_like(input_contiguous);
@@ -29,7 +29,8 @@ torch::Tensor softmax_mlu(torch::Tensor input) {
     auto output_contiguous = torch_mlu::cnnl_contiguous(output);
     auto output_impl = getMluTensorImpl(output_contiguous);
     auto output_ptr = output_impl->mlu_data_ptr();
-    softmax_kernel_batch_entry(reinterpret_cast<float*>(input_ptr), reinterpret_cast<float*>(output_ptr), batch_size, dim);
+    auto size = input_contiguous.numel();
+    softmax_kernel_batch_entry(reinterpret_cast<float*>(input_ptr), reinterpret_cast<float*>(output_ptr), batch_size, dim, size);
     
     return output;
     

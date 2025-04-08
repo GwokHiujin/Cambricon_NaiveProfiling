@@ -32,7 +32,8 @@ torch::Tensor sum_reduction_mlu(torch::Tensor x, int64_t dim) {
     auto out_contiguous = torch_mlu::cnnl_contiguous(out);
     auto out_impl = getMluTensorImpl(out_contiguous);
     auto out_ptr = out_impl->mlu_data_ptr();
-    sum_reduction_kernel_entry(reinterpret_cast<float*>(x_ptr), reinterpret_cast<float*>(out_ptr), dim_size, stride, num_elements);
+    auto size = x_contiguous.numel();
+    sum_reduction_kernel_entry(reinterpret_cast<float*>(x_ptr), reinterpret_cast<float*>(out_ptr), dim_size, stride, num_elements, size);
     
     return out;
     

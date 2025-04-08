@@ -10,7 +10,7 @@
 using namespace torch_mlu;
 
 torch::Tensor matrix_scalar_mul_mlu(torch::Tensor A, float s) {
-    const torch_mlu::mlu::MLUGuard device_guard(predictions.device());
+    const torch_mlu::mlu::MLUGuard device_guard(A.device());
     auto A_contiguous = torch_mlu::cnnl_contiguous(A);
     auto A_impl = getMluTensorImpl(A_contiguous);
     auto A_ptr = A_impl->mlu_data_ptr();

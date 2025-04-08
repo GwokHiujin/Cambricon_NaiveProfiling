@@ -10,7 +10,7 @@
 using namespace torch_mlu;
 
 torch::Tensor triplet_margin_loss_mlu(torch::Tensor anchor, torch::Tensor positive, torch::Tensor negative, float margin) {
-    const torch_mlu::mlu::MLUGuard device_guard(predictions.device());
+    const torch_mlu::mlu::MLUGuard device_guard(anchor.device());
     auto anchor_contiguous = torch_mlu::cnnl_contiguous(anchor);
     auto anchor_impl = getMluTensorImpl(anchor_contiguous);
     auto anchor_ptr = anchor_impl->mlu_data_ptr();

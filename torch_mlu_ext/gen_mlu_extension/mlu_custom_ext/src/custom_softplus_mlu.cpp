@@ -10,7 +10,7 @@
 using namespace torch_mlu;
 
 torch::Tensor softplus_mlu(torch::Tensor input) {
-    const torch_mlu::mlu::MLUGuard device_guard(predictions.device());
+    const torch_mlu::mlu::MLUGuard device_guard(input.device());
     auto input_contiguous = torch_mlu::cnnl_contiguous(input);
     auto input_impl = getMluTensorImpl(input_contiguous);
     auto input_ptr = input_impl->mlu_data_ptr();

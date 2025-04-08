@@ -10,7 +10,7 @@
 using namespace torch_mlu;
 
 torch::Tensor selu_forward_mlu(torch::Tensor x) {
-    const torch_mlu::mlu::MLUGuard device_guard(predictions.device());
+    const torch_mlu::mlu::MLUGuard device_guard(x.device());
     auto x_contiguous = torch_mlu::cnnl_contiguous(x);
     auto x_impl = getMluTensorImpl(x_contiguous);
     auto x_ptr = x_impl->mlu_data_ptr();

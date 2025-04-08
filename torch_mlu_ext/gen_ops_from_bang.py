@@ -185,7 +185,7 @@ using namespace torch_mlu;
         new_tensor_init = []
 
         tensor_param_init.append(f'torch::Tensor {func_name}({params}) {{')
-        tensor_param_init.append('    const torch_mlu::mlu::MLUGuard device_guard(predictions.device());')
+        tensor_param_init.append(f'    const torch_mlu::mlu::MLUGuard device_guard({tensor_params[0]}.device());')
 
         for param in tensor_params:
             tensor_param_init.extend([

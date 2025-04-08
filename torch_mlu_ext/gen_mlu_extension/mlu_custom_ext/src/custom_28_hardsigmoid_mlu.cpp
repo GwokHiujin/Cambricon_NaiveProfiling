@@ -18,8 +18,8 @@ torch::Tensor hardsigmoid_mlu(torch::Tensor input) {
     auto size = input_contiguous.numel();
     auto output = at::empty_like(input_contiguous);
     
-    const int threads = 256;
-    const int blocks = (size + threads - 1) / threads;
+    const int64_t threads = 256;
+    const int64_t blocks = (size + threads - 1) / threads;
     
     auto output_contiguous = torch_mlu::cnnl_contiguous(output);
     auto output_impl = getMluTensorImpl(output_contiguous);

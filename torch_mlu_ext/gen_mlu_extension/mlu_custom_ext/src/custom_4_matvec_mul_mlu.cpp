@@ -19,22 +19,22 @@ torch::Tensor matvec_mul_mlu(torch::Tensor A, torch::Tensor B) {
     auto B_ptr = B_impl->mlu_data_ptr();
     
     // Check device
-    TORCH_CHECK(A_contiguous.is_cuda(), "A_contiguous must be a CUDA tensor");
-    TORCH_CHECK(B_contiguous.is_cuda(), "B_contiguous must be a CUDA tensor");
-    TORCH_CHECK(A_contiguous.is_contiguous(), "A_contiguous must be contiguous");
-    TORCH_CHECK(B_contiguous.is_contiguous(), "B_contiguous must be contiguous");
+    //TORCH_CHECK(A_contiguous.is_cuda(), "A_contiguous must be a CUDA tensor");
+    //TORCH_CHECK(B_contiguous.is_cuda(), "B_contiguous must be a CUDA tensor");
+    //TORCH_CHECK(A_contiguous.is_contiguous(), "A_contiguous must be contiguous");
+    //TORCH_CHECK(B_contiguous.is_contiguous(), "B_contiguous must be contiguous");
     
     // Check dimensions
     int64_t M = A_contiguous.size(0);
     int64_t K = A_contiguous.size(1);
-    TORCH_CHECK(B_contiguous.size(0) == K && B_contiguous.size(1) == 1, "B_contiguous must have size K x 1");
+    //TORCH_CHECK(B_contiguous.size(0) == K && B_contiguous.size(1) == 1, "B_contiguous must have size K x 1");
     
     // Allocate output tensor
     auto C = at::empty({M, 1}, A_contiguous.options());
     
     // Launch kernel
-    int threads = 256;
-    int blocks = M;
+    int64_t threads = 256;
+    int64_t blocks = M;
     size_t shared_mem_size = threads * sizeof(float);
     
     auto C_contiguous = torch_mlu::cnnl_contiguous(C);

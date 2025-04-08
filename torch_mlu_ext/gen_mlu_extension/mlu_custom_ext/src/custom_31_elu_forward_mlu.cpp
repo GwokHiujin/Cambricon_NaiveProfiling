@@ -15,11 +15,11 @@ torch::Tensor elu_forward_mlu(torch::Tensor input, double alpha) {
     auto input_impl = getMluTensorImpl(input_contiguous);
     auto input_ptr = input_impl->mlu_data_ptr();
     
-    int size = input_contiguous.numel();
+    int64_t size = input_contiguous.numel();
     auto output = at::empty_like(input_contiguous);
     
-    const int threads = 1024;
-    const int blocks = (size + threads - 1) / threads;
+    const int64_t threads = 1024;
+    const int64_t blocks = (size + threads - 1) / threads;
     
     auto output_contiguous = torch_mlu::cnnl_contiguous(output);
     auto output_impl = getMluTensorImpl(output_contiguous);

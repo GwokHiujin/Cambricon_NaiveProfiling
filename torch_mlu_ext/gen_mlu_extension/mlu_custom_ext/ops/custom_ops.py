@@ -12,10 +12,10 @@ def elu_forward_mlu(input:Tensor,alpha:double,):
 def softmax_mlu(input:Tensor,):
     return torch.ops.mlu_custom_ext.softmax_mlu(input,)
 
-def maxpool1d_mlu_forward(input:Tensor,kernel_size:int,stride:int,padding:int,dilation:int,):
+def maxpool1d_mlu_forward(input:Tensor,kernel_size:int64_t,stride:int64_t,padding:int64_t,dilation:int64_t,):
     return torch.ops.mlu_custom_ext.maxpool1d_mlu_forward(input,kernel_size,stride,padding,dilation,)
 
-def sum_reduction_mlu(x:Tensor,dim:int,):
+def sum_reduction_mlu(x:Tensor,dim:int64_t,):
     return torch.ops.mlu_custom_ext.sum_reduction_mlu(x,dim,)
 
 def cumprod_mlu(x:Tensor,dim:int64_t,):
@@ -54,7 +54,7 @@ def reverse_cumsum_mlu(x:Tensor,):
 def tanh_mlu(input:Tensor,):
     return torch.ops.mlu_custom_ext.tanh_mlu(input,)
 
-def product_reduction_mlu(input:Tensor,reduction_dim:int,):
+def product_reduction_mlu(input:Tensor,reduction_dim:int64_t,):
     return torch.ops.mlu_custom_ext.product_reduction_mlu(input,reduction_dim,)
 
 def triplet_margin_loss_mlu(anchor:Tensor,positive:Tensor,negative:Tensor,margin:double,):

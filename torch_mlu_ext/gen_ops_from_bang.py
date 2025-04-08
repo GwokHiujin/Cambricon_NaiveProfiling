@@ -122,7 +122,8 @@ def process_fwd_codes(FWD_INPUT_DIR, FWD_FINAL_DIR, MLU_INPUT_DIR, REG_DIR):
             content = f.read()
 
         content_ = content.replace("cudaDeviceSynchronize", "//cudaDeviceSynchronize")
-        # content_ = content.replace("int ", "int64_t ")
+        content_ = content_.replace("TORCH_CHECK", "//TORCH_CHECK")
+        content_ = content_.replace("int ", "int64_t ")
         content_ = content_.replace("float ", "double ")
 
         func_match = re.search(

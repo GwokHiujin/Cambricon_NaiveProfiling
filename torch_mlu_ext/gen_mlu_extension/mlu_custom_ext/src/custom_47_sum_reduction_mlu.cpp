@@ -9,25 +9,25 @@
 
 using namespace torch_mlu;
 
-torch::Tensor sum_reduction_mlu(torch::Tensor x, int dim) {
+torch::Tensor sum_reduction_mlu(torch::Tensor x, int64_t dim) {
     const torch_mlu::mlu::MLUGuard device_guard(x.device());
     auto x_contiguous = torch_mlu::cnnl_contiguous(x);
     auto x_impl = getMluTensorImpl(x_contiguous);
     auto x_ptr = x_impl->mlu_data_ptr();
     
     auto sizes = x_contiguous.sizes();
-    int dim_size = sizes[dim];
-    int stride = 1;
-    for (int i = dim + 1; i < sizes.size(); ++i) {
+    int64_t dim_size = sizes[dim];
+    int64_t stride = 1;
+    for (int64_t i = dim + 1; i < sizes.size(); ++i) {
     stride *= sizes[i];
     }
-    int num_elements = x_contiguous.numel() / dim_size;
+    int64_t num_elements = x_contiguous.numel() / dim_size;
     auto out_sizes = sizes.vec();
     out_sizes[dim] = 1;
     auto out = at::zeros(out_sizes, x_contiguous.options());
     
-    const int block_size = 256;
-    const int num_blocks = (num_elements + block_size - 1) / block_size;
+    const int64_t block_size = 256;
+    const int64_t num_blocks = (num_elements + block_size - 1) / block_size;
     
     auto out_contiguous = torch_mlu::cnnl_contiguous(out);
     auto out_impl = getMluTensorImpl(out_contiguous);
@@ -40,7 +40,7 @@ torch::Tensor sum_reduction_mlu(torch::Tensor x, int dim) {
 
 
 TORCH_LIBRARY_FRAGMENT(mlu_custom_ext, m) {
-    m.def("sum_reduction_mlu(Tensor x, int dim) -> Tensor");
+    m.def("sum_reduction_mlu(Tensor x, int64_t dim) -> Tensor");
 }
 
 TORCH_LIBRARY_IMPL(mlu_custom_ext, PrivateUse1, m) {

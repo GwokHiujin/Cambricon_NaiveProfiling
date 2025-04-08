@@ -18,8 +18,8 @@ torch::Tensor matrix_scalar_mul_mlu(torch::Tensor A, double s) {
     auto size = A_contiguous.numel();
     auto C = at::zeros_like(A_contiguous);
     
-    const int block_size = 256;
-    const int num_blocks = (size + block_size - 1) / block_size;
+    const int64_t block_size = 256;
+    const int64_t num_blocks = (size + block_size - 1) / block_size;
     
     auto C_contiguous = torch_mlu::cnnl_contiguous(C);
     auto C_impl = getMluTensorImpl(C_contiguous);

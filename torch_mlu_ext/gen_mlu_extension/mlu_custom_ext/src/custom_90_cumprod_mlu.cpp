@@ -16,9 +16,9 @@ torch::Tensor cumprod_mlu(torch::Tensor x, int64_t dim) {
     auto x_ptr = x_impl->mlu_data_ptr();
     
     // Ensure input tensor is on CUDA and is contiguous
-    TORCH_CHECK(x_contiguous.is_cuda(), "Input tensor must be on CUDA");
-    TORCH_CHECK(x_contiguous.is_contiguous(), "Input tensor must be contiguous");
-    TORCH_CHECK(x_contiguous.dim() == 2 && dim == 1, "Currently only supports 2D tensors with dim=1");
+    //TORCH_CHECK(x_contiguous.is_cuda(), "Input tensor must be on CUDA");
+    //TORCH_CHECK(x_contiguous.is_contiguous(), "Input tensor must be contiguous");
+    //TORCH_CHECK(x_contiguous.dim() == 2 && dim == 1, "Currently only supports 2D tensors with dim=1");
     
     int64_t batch_size = x_contiguous.size(0);
     int64_t length = x_contiguous.size(1);

@@ -18,8 +18,8 @@ torch::Tensor gelu_mlu(torch::Tensor input) {
     auto size = input_contiguous.numel();
     auto output = at::empty_like(input_contiguous);
     
-    const int block_size = 256;
-    const int num_blocks = (size + block_size - 1) / block_size;
+    const int64_t block_size = 256;
+    const int64_t num_blocks = (size + block_size - 1) / block_size;
     
     auto output_contiguous = torch_mlu::cnnl_contiguous(output);
     auto output_impl = getMluTensorImpl(output_contiguous);

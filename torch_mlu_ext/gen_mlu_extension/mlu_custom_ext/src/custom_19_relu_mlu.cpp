@@ -18,8 +18,8 @@ torch::Tensor relu_mlu(torch::Tensor input) {
     auto size = input_contiguous.numel();
     auto output = at::zeros_like(input_contiguous);
     
-    int threadsPerBlock = 256;
-    int blocksPerGrid = (size + threadsPerBlock - 1) / threadsPerBlock;
+    int64_t threadsPerBlock = 256;
+    int64_t blocksPerGrid = (size + threadsPerBlock - 1) / threadsPerBlock;
     
     auto output_contiguous = torch_mlu::cnnl_contiguous(output);
     auto output_impl = getMluTensorImpl(output_contiguous);

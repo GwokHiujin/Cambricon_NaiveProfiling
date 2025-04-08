@@ -24,8 +24,8 @@ torch::Tensor triplet_margin_loss_mlu(torch::Tensor anchor, torch::Tensor positi
     auto size = anchor_contiguous.size(0);
     auto out = at::zeros(size, at::TensorOptions().device(at::kCUDA));
     
-    const int block_size = 256;
-    const int num_blocks = (size + block_size - 1) / block_size;
+    const int64_t block_size = 256;
+    const int64_t num_blocks = (size + block_size - 1) / block_size;
     
     auto out_contiguous = torch_mlu::cnnl_contiguous(out);
     auto out_impl = getMluTensorImpl(out_contiguous);

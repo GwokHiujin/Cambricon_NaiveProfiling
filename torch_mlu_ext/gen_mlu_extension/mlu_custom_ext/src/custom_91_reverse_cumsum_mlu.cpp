@@ -19,8 +19,8 @@ torch::Tensor reverse_cumsum_mlu(torch::Tensor x) {
     auto M = x_contiguous.size(1);
     auto y = at::zeros_like(x_contiguous);
     
-    const int threads = 1;  // one thread per block
-    const int blocks = N;
+    const int64_t threads = 1;  // one thread per block
+    const int64_t blocks = N;
     
     auto y_contiguous = torch_mlu::cnnl_contiguous(y);
     auto y_impl = getMluTensorImpl(y_contiguous);

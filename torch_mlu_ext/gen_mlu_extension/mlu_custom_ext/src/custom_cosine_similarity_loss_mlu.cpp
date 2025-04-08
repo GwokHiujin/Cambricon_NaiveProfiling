@@ -23,8 +23,8 @@ torch::Tensor cosine_similarity_loss_mlu(torch::Tensor predictions, torch::Tenso
     
     auto losses = at::empty({batch_size}, predictions_contiguous.options());
     
-    const int threads = 256;
-    const int blocks = batch_size;
+    const int64_t threads = 256;
+    const int64_t blocks = batch_size;
     const size_t shared_mem_size = threads * sizeof(float);
     
     auto losses_contiguous = torch_mlu::cnnl_contiguous(losses);

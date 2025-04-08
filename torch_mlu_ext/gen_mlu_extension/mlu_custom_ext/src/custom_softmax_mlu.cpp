@@ -16,13 +16,12 @@ torch::Tensor softmax_mlu(torch::Tensor input) {
     auto input_ptr = input_impl->mlu_data_ptr();
     
     // Ensure input_contiguous is contiguous and on CUDA
-    auto input_contiguous = input_contiguous.contiguous();
     auto batch_size = input_contiguous.size(0);
     auto dim = input_contiguous.size(1);
     auto output = at::empty_like(input_contiguous);
     
-    int threads = 512; // Adjust as needed
-    int blocks = batch_size;
+    int64_t threads = 512; // Adjust as needed
+    int64_t blocks = batch_size;
     
     size_t shared_mem_size = 2 * threads * sizeof(float);
     

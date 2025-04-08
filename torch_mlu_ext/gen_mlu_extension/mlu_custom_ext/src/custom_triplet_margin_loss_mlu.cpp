@@ -9,7 +9,7 @@
 
 using namespace torch_mlu;
 
-torch::Tensor triplet_margin_loss_mlu(torch::Tensor anchor, torch::Tensor positive, torch::Tensor negative, float margin) {
+torch::Tensor triplet_margin_loss_mlu(torch::Tensor anchor, torch::Tensor positive, torch::Tensor negative, double margin) {
     const torch_mlu::mlu::MLUGuard device_guard(anchor.device());
     auto anchor_contiguous = torch_mlu::cnnl_contiguous(anchor);
     auto anchor_impl = getMluTensorImpl(anchor_contiguous);
@@ -24,8 +24,8 @@ torch::Tensor triplet_margin_loss_mlu(torch::Tensor anchor, torch::Tensor positi
     auto size = anchor_contiguous.size(0);
     auto out = at::zeros(size, at::TensorOptions().device(at::kCUDA));
     
-    const int block_size = 256;
-    const int num_blocks = (size + block_size - 1) / block_size;
+    const int64_t block_size = 256;
+    const int64_t num_blocks = (size + block_size - 1) / block_size;
     
     auto out_contiguous = torch_mlu::cnnl_contiguous(out);
     auto out_impl = getMluTensorImpl(out_contiguous);
@@ -38,7 +38,7 @@ torch::Tensor triplet_margin_loss_mlu(torch::Tensor anchor, torch::Tensor positi
 
 
     TORCH_LIBRARY_FRAGMENT(mlu_custom_ext, m) {
-        m.def("triplet_margin_loss_mlu(Tensor anchor, Tensor positive, Tensor negative, float margin) -> Tensor");
+        m.def("triplet_margin_loss_mlu(Tensor anchor, Tensor positive, Tensor negative, double margin) -> Tensor");
     }
 
     TORCH_LIBRARY_IMPL(mlu_custom_ext, PrivateUse1, m) {

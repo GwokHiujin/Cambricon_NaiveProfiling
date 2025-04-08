@@ -19,9 +19,9 @@ torch::Tensor scan_mlu(torch::Tensor input) {
     auto seq_len = input_contiguous.size(1);
     auto output = at::zeros_like(input_contiguous);
     
-    const int threads_per_block = 256;
-    const int total_elements = batch_size * seq_len;
-    const int blocks = (total_elements + threads_per_block - 1) / threads_per_block;
+    const int64_t threads_per_block = 256;
+    const int64_t total_elements = batch_size * seq_len;
+    const int64_t blocks = (total_elements + threads_per_block - 1) / threads_per_block;
     
     auto output_contiguous = torch_mlu::cnnl_contiguous(output);
     auto output_impl = getMluTensorImpl(output_contiguous);

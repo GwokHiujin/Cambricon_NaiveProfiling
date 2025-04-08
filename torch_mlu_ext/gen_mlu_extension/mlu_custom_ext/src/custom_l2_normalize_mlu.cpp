@@ -15,12 +15,12 @@ torch::Tensor l2_normalize_mlu(torch::Tensor x) {
     auto x_impl = getMluTensorImpl(x_contiguous);
     auto x_ptr = x_impl->mlu_data_ptr();
     
-    int batch_size = x_contiguous.size(0);
-    int dim = x_contiguous.size(1);
+    int64_t batch_size = x_contiguous.size(0);
+    int64_t dim = x_contiguous.size(1);
     auto y = at::empty_like(x_contiguous);
     
-    int threads = 256;
-    int blocks = batch_size;
+    int64_t threads = 256;
+    int64_t blocks = batch_size;
     size_t shared_mem_size = threads * sizeof(float);
     
     auto y_contiguous = torch_mlu::cnnl_contiguous(y);

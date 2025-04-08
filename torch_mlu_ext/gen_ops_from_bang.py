@@ -121,9 +121,12 @@ def process_fwd_codes(FWD_INPUT_DIR, FWD_FINAL_DIR, MLU_INPUT_DIR, REG_DIR):
         with open(txt_path, 'r', encoding='utf-8') as f:
             content = f.read()
 
+        content_ = content.replace("int ", "int64_t ")
+        content_ = content_.replace("float ", "double ")
+
         func_match = re.search(
             r'torch::Tensor\s+(\w+)\(([^)]*)\)\s*{',
-            content,
+            content_,
             re.MULTILINE
         )
         if not func_match:
@@ -132,7 +135,7 @@ def process_fwd_codes(FWD_INPUT_DIR, FWD_FINAL_DIR, MLU_INPUT_DIR, REG_DIR):
 
         func_name = func_match.group(1).replace("cuda", "mlu")
         params = func_match.group(2)
-        body = get_func_body(content)
+        body = get_func_body(content_)
 
         cpp_filename = f"/custom_{func_name}.cpp"
         cpp_path = FWD_FINAL_DIR + cpp_filename
@@ -143,6 +146,7 @@ def process_fwd_codes(FWD_INPUT_DIR, FWD_FINAL_DIR, MLU_INPUT_DIR, REG_DIR):
         register_params = ''
         register_names = ''
         param_lines = split_parameters(params)
+
         for p in param_lines:
             last_space_index = p.rfind(' ')
             type = p[:last_space_index].strip()

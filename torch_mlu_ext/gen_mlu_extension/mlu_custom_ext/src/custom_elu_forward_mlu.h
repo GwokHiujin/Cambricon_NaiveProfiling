@@ -1,3 +1,3 @@
 #pragma once
 #include <torch/extension.h>
-torch::Tensor elu_forward_mlu(torch::Tensor input, float alpha);
+torch::Tensor elu_forward_mlu(torch::Tensor input, double alpha);

@@ -16,10 +16,10 @@ torch::Tensor selu_forward_mlu(torch::Tensor x) {
     auto x_ptr = x_impl->mlu_data_ptr();
     
     auto y = at::empty_like(x_contiguous);
-    int N = x_contiguous.numel();
+    int64_t N = x_contiguous.numel();
     
-    const int threads = 256;
-    const int blocks = (N + threads - 1) / threads;
+    const int64_t threads = 256;
+    const int64_t blocks = (N + threads - 1) / threads;
     
     auto y_contiguous = torch_mlu::cnnl_contiguous(y);
     auto y_impl = getMluTensorImpl(y_contiguous);

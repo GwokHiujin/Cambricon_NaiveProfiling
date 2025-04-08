@@ -9,7 +9,7 @@
 
 using namespace torch_mlu;
 
-torch::Tensor leaky_relu_mlu(torch::Tensor input, float negative_slope) {
+torch::Tensor leaky_relu_mlu(torch::Tensor input, double negative_slope) {
     const torch_mlu::mlu::MLUGuard device_guard(input.device());
     auto input_contiguous = torch_mlu::cnnl_contiguous(input);
     auto input_impl = getMluTensorImpl(input_contiguous);
@@ -18,8 +18,8 @@ torch::Tensor leaky_relu_mlu(torch::Tensor input, float negative_slope) {
     auto size = input_contiguous.numel();
     auto output = at::empty_like(input_contiguous);
     
-    const int block_size = 256;
-    const int num_blocks = (size + block_size - 1) / block_size;
+    const int64_t block_size = 256;
+    const int64_t num_blocks = (size + block_size - 1) / block_size;
     
     auto output_contiguous = torch_mlu::cnnl_contiguous(output);
     auto output_impl = getMluTensorImpl(output_contiguous);
@@ -37,7 +37,7 @@ torch::Tensor leaky_relu_mlu(torch::Tensor input, float negative_slope) {
 
 
     TORCH_LIBRARY_FRAGMENT(mlu_custom_ext, m) {
-        m.def("leaky_relu_mlu(Tensor input, float negative_slope) -> Tensor");
+        m.def("leaky_relu_mlu(Tensor input, double negative_slope) -> Tensor");
     }
 
     TORCH_LIBRARY_IMPL(mlu_custom_ext, PrivateUse1, m) {

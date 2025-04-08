@@ -33,8 +33,8 @@ torch::Tensor matvec_mul_mlu(torch::Tensor A, torch::Tensor B) {
     auto C = at::empty({M, 1}, A_contiguous.options());
     
     // Launch kernel
-    int threads = 256;
-    int blocks = M;
+    int64_t threads = 256;
+    int64_t blocks = M;
     size_t shared_mem_size = threads * sizeof(float);
     
     auto C_contiguous = torch_mlu::cnnl_contiguous(C);

@@ -1,6 +1,5 @@
 
 from .custom_ops import mse_mlu
-from .custom_ops import softplus_mlu
 from .custom_ops import elu_forward_mlu
 from .custom_ops import softmax_mlu
 from .custom_ops import maxpool1d_mlu_forward
@@ -16,7 +15,6 @@ from .custom_ops import relu_mlu
 from .custom_ops import cosine_similarity_loss_mlu
 from .custom_ops import leaky_relu_mlu
 from .custom_ops import reverse_cumsum_mlu
-from .custom_ops import gelu_mlu
 from .custom_ops import tanh_mlu
 from .custom_ops import product_reduction_mlu
 from .custom_ops import triplet_margin_loss_mlu

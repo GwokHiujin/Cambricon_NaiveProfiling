@@ -9,7 +9,7 @@
 
 using namespace torch_mlu;
 
-torch::Tensor product_reduction_mlu(torch::Tensor input, int reduction_dim) {
+torch::Tensor product_reduction_mlu(torch::Tensor input, int64_t reduction_dim) {
     const torch_mlu::mlu::MLUGuard device_guard(input.device());
     auto input_contiguous = torch_mlu::cnnl_contiguous(input);
     auto input_impl = getMluTensorImpl(input_contiguous);
@@ -28,8 +28,8 @@ torch::Tensor product_reduction_mlu(torch::Tensor input, int reduction_dim) {
     output = at::empty({batch_size, dim2}, options);
     }
     
-    const int threads = 256;
-    const int blocks = (batch_size * dim2 + threads - 1) / threads;
+    const int64_t threads = 256;
+    const int64_t blocks = (batch_size * dim2 + threads - 1) / threads;
     
     auto output_contiguous = torch_mlu::cnnl_contiguous(output);
     auto output_impl = getMluTensorImpl(output_contiguous);
@@ -46,7 +46,7 @@ torch::Tensor product_reduction_mlu(torch::Tensor input, int reduction_dim) {
 
 
     TORCH_LIBRARY_FRAGMENT(mlu_custom_ext, m) {
-        m.def("product_reduction_mlu(Tensor input, int reduction_dim) -> Tensor");
+        m.def("product_reduction_mlu(Tensor input, int64_t reduction_dim) -> Tensor");
     }
 
     TORCH_LIBRARY_IMPL(mlu_custom_ext, PrivateUse1, m) {

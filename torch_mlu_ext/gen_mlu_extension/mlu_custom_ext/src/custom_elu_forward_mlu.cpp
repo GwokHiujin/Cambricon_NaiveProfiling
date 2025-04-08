@@ -9,17 +9,17 @@
 
 using namespace torch_mlu;
 
-torch::Tensor elu_forward_mlu(torch::Tensor input, float alpha) {
+torch::Tensor elu_forward_mlu(torch::Tensor input, double alpha) {
     const torch_mlu::mlu::MLUGuard device_guard(input.device());
     auto input_contiguous = torch_mlu::cnnl_contiguous(input);
     auto input_impl = getMluTensorImpl(input_contiguous);
     auto input_ptr = input_impl->mlu_data_ptr();
     
-    int size = input_contiguous.numel();
+    int64_t size = input_contiguous.numel();
     auto output = at::empty_like(input_contiguous);
     
-    const int threads = 1024;
-    const int blocks = (size + threads - 1) / threads;
+    const int64_t threads = 1024;
+    const int64_t blocks = (size + threads - 1) / threads;
     
     auto output_contiguous = torch_mlu::cnnl_contiguous(output);
     auto output_impl = getMluTensorImpl(output_contiguous);
@@ -32,7 +32,7 @@ torch::Tensor elu_forward_mlu(torch::Tensor input, float alpha) {
 
 
     TORCH_LIBRARY_FRAGMENT(mlu_custom_ext, m) {
-        m.def("elu_forward_mlu(Tensor input, float alpha) -> Tensor");
+        m.def("elu_forward_mlu(Tensor input, double alpha) -> Tensor");
     }
 
     TORCH_LIBRARY_IMPL(mlu_custom_ext, PrivateUse1, m) {

@@ -42,13 +42,13 @@ __mlu_global__ void gelu_kernel(float* v1, float* v2, int32_t v3) {
 // ********** Entry Functions **********
 
 // Auto-generated entry function for gelu_kernel
-void gelu_kernel_entry(float* v1, float* v2, int32_t v3, int size) {
+void gelu_kernel_entry(float* v1, float* v2, int32_t v3, int elem_num) {
     cnrtQueue_t queue;
     cnrtQueueCreate(&queue);
     cnrtDim3_t dim = {1, 1, 1};
     cnrtFunctionType_t c = CNRT_FUNC_TYPE_BLOCK;
-    dim.x = size / 32;
-    gelu_kernel<<<dim, c, queue>>>(v1, v2, v3, size);
+    dim.x = elem_num / 32;
+    gelu_kernel<<<dim, c, queue>>>(v1, v2, v3);
     cnrtQueueSync(queue);
     cnrtQueueDestroy(queue);
 }

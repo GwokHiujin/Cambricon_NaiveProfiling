@@ -1,0 +1,19 @@
+#include <bang.h>
+__mlu_global__ void tall_skinny_matmul_kernel(float* v1, float* v2, float* v3, int32_t v4, int32_t v5) {
+  bool c0_6 = false;
+  float v7 = (float)0.0e+00;
+  int32_t c16_8 = 16;
+  size_t c16_9 = 16;
+  size_t c18446744073709551615_10 = -1;
+  size_t c0_11 = 0;
+  size_t c1_12 = 1;
+  size_t c32_13 = 32;
+  __nram__ int8_t v14[256];
+  float* v15 = (float*)v14;
+  __nram__ int8_t v16[256];
+  float* v17 = (float*)v16;
+  __nram__ int8_t v18[32];
+  float* v19 = (float*)v18;
+  for (size_t v20 = c0_11; v20 < c32_13; v20 += c1_12) {
+    v19[v20] = v7;
+  }

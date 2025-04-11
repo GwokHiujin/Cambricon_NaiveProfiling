@@ -1,0 +1,8 @@
+#include <bang.h>
+__mlu_global__ void tanh_kernel(float* v1, float* v2, int32_t v3) {
+  int32_t c32_4 = 32;
+  size_t c0_5 = 0;
+  size_t c1_6 = 1;
+  size_t c32_7 = 32;
+  int64_t v8 = taskId;
+  size_t v9 = (size_t)v8;

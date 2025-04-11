@@ -34,12 +34,12 @@ torch::Tensor product_reduction_mlu(torch::Tensor input, int64_t reduction_dim) 
     auto output_contiguous = torch_mlu::cnnl_contiguous(output);
     auto output_impl = getMluTensorImpl(output_contiguous);
     auto output_ptr = output_impl->mlu_data_ptr();
-    auto size = input_contiguous.numel();
+    auto elem_num = input_contiguous.numel();
     product_reduction_kernel_entry(
     reinterpret_cast<float*>(input_ptr),
     reinterpret_cast<float*>(output_ptr),
     batch_size, dim1, dim2, reduction_dim
-    , size);
+    , elem_num);
     
     return output;
     

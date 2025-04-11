@@ -1,19 +1,1 @@
 
-torch::Tensor tall_skinny_matmul_cuda(torch::Tensor A, torch::Tensor B) {
-    const int M = A.size(0);
-    const int N = A.size(1);
-    
-    auto C = torch::zeros({M, M}, A.options());
-    
-    dim3 threadsPerBlock(TILE_SIZE, TILE_SIZE);
-    dim3 numBlocks((M + TILE_SIZE - 1) / TILE_SIZE, 
-                   (M + TILE_SIZE - 1) / TILE_SIZE);
-                   
-    tall_skinny_matmul_kernel<<<numBlocks, threadsPerBlock>>>(
-        A.data_ptr<float>(),
-        B.data_ptr<float>(),
-        C.data_ptr<float>(),
-        M, N);
-        
-    return C;
-}

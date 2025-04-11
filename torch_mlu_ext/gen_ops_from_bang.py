@@ -78,8 +78,12 @@ def process_mlu_files(MLU_INPUT_DIR, BANG_DIR, kernels_header_file):
             header_decls = []
             
             for func_name, params in matches:
-                params = params + ", int size"
-                entry_func = f"void {func_name}_entry({params})"
+                if params == '':
+                    params_ = "int elem_num"
+                else:
+                    params_ = params + ", int elem_num"
+
+                entry_func = f"void {func_name}_entry({params_})"
                 header_decls.append(f"{entry_func};")
 
                 params_list = split_parameters(params)
@@ -96,7 +100,7 @@ def process_mlu_files(MLU_INPUT_DIR, BANG_DIR, kernels_header_file):
                 entry_code.append("    cnrtQueueCreate(&queue);")
                 entry_code.append("    cnrtDim3_t dim = {1, 1, 1};")
                 entry_code.append("    cnrtFunctionType_t c = CNRT_FUNC_TYPE_BLOCK;")
-                entry_code.append(f"    dim.x = size / 32;")
+                entry_code.append(f"    dim.x = elem_num / 32;")
                 entry_code.append(f"    {func_name}<<<dim, c, queue>>>({', '.join(p for p in params_name_list)});")
                 entry_code.append("    cnrtQueueSync(queue);")
                 entry_code.append("    cnrtQueueDestroy(queue);")
@@ -245,7 +249,10 @@ using namespace torch_mlu;
             line = re.sub(r'(\w+)\.data_ptr<float>\(\)', r'reinterpret_cast<float*>(\1_ptr)', line)
             
             if kernel_start:
-                line = line.replace(");", ", size);")
+                if line.find("();") != -1:
+                    line = line.replace(");", "elem_num);")
+                else:
+                    line = line.replace(");", ", elem_num);")
                 kernel_call_body.append(f"    {line.strip()}")
             else:
                 modified_body.append(f"    {line.strip()}")  
@@ -255,7 +262,7 @@ using namespace torch_mlu;
         processed_code.extend(tensor_param_init)
         processed_code.extend(modified_body)
         processed_code.extend(new_tensor_init)
-        processed_code.append(f'    auto size = {first_inp}_contiguous.numel();')
+        processed_code.append(f'    auto elem_num = {first_inp}_contiguous.numel();')
         processed_code.extend(kernel_call_body)
         processed_code.append('}\n')
 

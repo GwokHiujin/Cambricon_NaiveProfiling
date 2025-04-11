@@ -1,18 +1,1 @@
 
-torch::Tensor triu_matmul_cuda(torch::Tensor A, torch::Tensor B) {
-    const int N = A.size(0);
-    auto C = torch::zeros_like(A);
-    
-    dim3 threadsPerBlock(16, 16);
-    dim3 numBlocks((N + threadsPerBlock.x - 1) / threadsPerBlock.x,
-                   (N + threadsPerBlock.y - 1) / threadsPerBlock.y);
-    
-    triu_matmul_kernel<<<numBlocks, threadsPerBlock>>>(
-        A.data_ptr<float>(),
-        B.data_ptr<float>(),
-        C.data_ptr<float>(),
-        N
-    );
-    
-    return C;
-}

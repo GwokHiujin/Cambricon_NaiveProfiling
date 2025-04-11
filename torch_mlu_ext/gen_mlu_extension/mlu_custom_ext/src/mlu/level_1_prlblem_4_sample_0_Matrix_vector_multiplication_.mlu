@@ -76,13 +76,13 @@ __mlu_global__ void matvec_mul_kernel(float* v1, float* v2, float* v3, int32_t v
 // ********** Entry Functions **********
 
 // Auto-generated entry function for matvec_mul_kernel
-void matvec_mul_kernel_entry(float* v1, float* v2, float* v3, int32_t v4, int32_t v5, int size) {
+void matvec_mul_kernel_entry(float* v1, float* v2, float* v3, int32_t v4, int32_t v5, int elem_num) {
     cnrtQueue_t queue;
     cnrtQueueCreate(&queue);
     cnrtDim3_t dim = {1, 1, 1};
     cnrtFunctionType_t c = CNRT_FUNC_TYPE_BLOCK;
-    dim.x = size / 32;
-    matvec_mul_kernel<<<dim, c, queue>>>(v1, v2, v3, v4, v5, size);
+    dim.x = elem_num / 32;
+    matvec_mul_kernel<<<dim, c, queue>>>(v1, v2, v3, v4, v5);
     cnrtQueueSync(queue);
     cnrtQueueDestroy(queue);
 }

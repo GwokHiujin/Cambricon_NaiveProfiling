@@ -1,0 +1,12 @@
+#include <bang.h>
+__mlu_global__ void rms_norm_kernel(float* v1, float* v2, int32_t v3, int32_t v4, int32_t v5, int32_t v6, float v7) {
+  int32_t c0_8 = 0;
+  bool c1_9 = true;
+  int32_t c2_10 = 2;
+  size_t c0_11 = 0;
+  size_t c1_12 = 1;
+  size_t c32_13 = 32;
+  __nram__ int8_t v14[32];
+  float* v15 = (float*)v14;
+  int64_t v16 = taskId;
+  size_t v17 = (size_t)v16;

@@ -24,8 +24,8 @@ torch::Tensor selu_forward_mlu(torch::Tensor x) {
     auto y_contiguous = torch_mlu::cnnl_contiguous(y);
     auto y_impl = getMluTensorImpl(y_contiguous);
     auto y_ptr = y_impl->mlu_data_ptr();
-    auto size = x_contiguous.numel();
-    selu_forward_kernel_entry(reinterpret_cast<float*>(x_ptr), reinterpret_cast<float*>(y_ptr), N, size);
+    auto elem_num = x_contiguous.numel();
+    selu_forward_kernel_entry(reinterpret_cast<float*>(x_ptr), reinterpret_cast<float*>(y_ptr), N, elem_num);
     
     return y;
     

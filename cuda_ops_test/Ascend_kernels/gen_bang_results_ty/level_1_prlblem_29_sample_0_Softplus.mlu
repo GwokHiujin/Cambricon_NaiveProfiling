@@ -1,0 +1,10 @@
+#include <bang.h>
+__mlu_global__ void softplus_kernel(float* v1, float* v2, int32_t v3) {
+  int32_t c32_4 = 32;
+  float v5 = (float)2.000000000e+01;
+  float v6 = (float)1.000000000e+00;
+  size_t c0_7 = 0;
+  size_t c1_8 = 1;
+  size_t c32_9 = 32;
+  int64_t v10 = taskId;
+  size_t v11 = (size_t)v10;

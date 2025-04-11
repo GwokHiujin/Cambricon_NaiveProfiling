@@ -1,0 +1,9 @@
+#include <bang.h>
+__mlu_global__ void scan_kernel(float* v1, float* v2, int32_t v3, int32_t v4) {
+  int32_t c32_5 = 32;
+  float v6 = (float)0.0e+00;
+  size_t c0_7 = 0;
+  size_t c1_8 = 1;
+  size_t c32_9 = 32;
+  int64_t v10 = taskId;
+  size_t v11 = (size_t)v10;

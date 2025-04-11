@@ -30,7 +30,7 @@ torch::Tensor maxpool1d_mlu_forward(torch::Tensor input, int64_t kernel_size, in
     auto output_contiguous = torch_mlu::cnnl_contiguous(output);
     auto output_impl = getMluTensorImpl(output_contiguous);
     auto output_ptr = output_impl->mlu_data_ptr();
-    auto size = input_contiguous.numel();
+    auto elem_num = input_contiguous.numel();
     maxpool1d_cuda_kernel_entry(
     reinterpret_cast<float*>(input_ptr),
     reinterpret_cast<float*>(output_ptr),
@@ -41,7 +41,7 @@ torch::Tensor maxpool1d_mlu_forward(torch::Tensor input, int64_t kernel_size, in
     kernel_size,
     stride,
     padding,
-    dilation, size);
+    dilation, elem_num);
     return output;
     
 }

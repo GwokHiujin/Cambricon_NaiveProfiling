@@ -1,0 +1,14 @@
+#include <bang.h>
+__mlu_global__ void matvec_mul_kernel(float* v1, float* v2, float* v3, int32_t v4, int32_t v5) {
+  size_t c31_6 = 31;
+  size_t c5_7 = 5;
+  int32_t c16_8 = 16;
+  float v9 = (float)0.0e+00;
+  int32_t c0_10 = 0;
+  size_t c0_11 = 0;
+  size_t c1_12 = 1;
+  size_t c32_13 = 32;
+  __nram__ int8_t v14[32];
+  float* v15 = (float*)v14;
+  int64_t v16 = taskId;
+  size_t v17 = (size_t)v16;

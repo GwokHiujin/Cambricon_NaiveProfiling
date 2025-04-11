@@ -24,12 +24,12 @@ torch::Tensor tanh_mlu(torch::Tensor input) {
     auto output_contiguous = torch_mlu::cnnl_contiguous(output);
     auto output_impl = getMluTensorImpl(output_contiguous);
     auto output_ptr = output_impl->mlu_data_ptr();
-    auto size = input_contiguous.numel();
+    auto elem_num = input_contiguous.numel();
     tanh_kernel_entry(
     reinterpret_cast<float*>(input_ptr),
     reinterpret_cast<float*>(output_ptr),
     size
-    , size);
+    , elem_num);
     
     return output;
     

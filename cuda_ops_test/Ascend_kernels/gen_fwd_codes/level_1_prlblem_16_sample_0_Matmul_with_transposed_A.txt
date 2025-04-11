@@ -1,16 +1,1 @@
 
-torch::Tensor matmul_cuda(torch::Tensor A, torch::Tensor B) {
-    int M = A.size(0);
-    int K = A.size(1);
-    int N = B.size(1);
-
-    auto options = torch::TensorOptions().dtype(A.dtype()).device(A.device());
-    auto C = torch::zeros({M, N}, options);
-
-    dim3 block_size(TILE_SIZE, TILE_SIZE);
-    dim3 grid_size((N + TILE_SIZE - 1) / TILE_SIZE, (M + TILE_SIZE - 1) / TILE_SIZE);
-
-    MatMulKernel<<<grid_size, block_size>>>(A.data_ptr<float>(), B.data_ptr<float>(), C.data_ptr<float>(), M, K, N);
-
-    return C;
-}

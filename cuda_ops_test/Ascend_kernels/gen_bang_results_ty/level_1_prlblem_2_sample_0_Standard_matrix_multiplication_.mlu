@@ -1,0 +1,19 @@
+#include <bang.h>
+__mlu_global__ void matmul_kernel(float* v1, float* v2, float* v3, int32_t v4, int32_t v5, int32_t v6) {
+  bool c0_7 = false;
+  int32_t c16_8 = 16;
+  float v9 = (float)0.0e+00;
+  size_t c16_10 = 16;
+  size_t c18446744073709551615_11 = -1;
+  size_t c0_12 = 0;
+  size_t c1_13 = 1;
+  size_t c32_14 = 32;
+  __nram__ int8_t v15[256];
+  float* v16 = (float*)v15;
+  __nram__ int8_t v17[256];
+  float* v18 = (float*)v17;
+  __nram__ int8_t v19[32];
+  float* v20 = (float*)v19;
+  for (size_t v21 = c0_12; v21 < c32_14; v21 += c1_13) {
+    v20[v21] = v9;
+  }

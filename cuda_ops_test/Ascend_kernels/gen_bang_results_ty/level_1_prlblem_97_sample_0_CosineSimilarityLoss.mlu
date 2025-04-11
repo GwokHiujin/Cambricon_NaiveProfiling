@@ -1,0 +1,15 @@
+#include <bang.h>
+__mlu_global__ void cosine_similarity_loss_kernel(float* v1, float* v2, float* v3, int32_t v4, int32_t v5) {
+  size_t c5_6 = 5;
+  int32_t c16_7 = 16;
+  float v8 = (float)0.0e+00;
+  int32_t c0_9 = 0;
+  float v10 = (float)9.999999930e-09;
+  float v11 = (float)1.000000000e+00;
+  size_t c0_12 = 0;
+  size_t c1_13 = 1;
+  size_t c32_14 = 32;
+  __nram__ int8_t v15[32];
+  float* v16 = (float*)v15;
+  int64_t v17 = taskId;
+  size_t v18 = (size_t)v17;

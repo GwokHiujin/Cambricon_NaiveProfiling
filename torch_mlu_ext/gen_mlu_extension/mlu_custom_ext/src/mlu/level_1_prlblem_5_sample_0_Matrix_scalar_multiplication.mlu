@@ -30,13 +30,13 @@ __mlu_global__ void matrix_scalar_mul_kernel(float* v1, float v2, float* v3, int
 // ********** Entry Functions **********
 
 // Auto-generated entry function for matrix_scalar_mul_kernel
-void matrix_scalar_mul_kernel_entry(float* v1, float v2, float* v3, int32_t v4, int size) {
+void matrix_scalar_mul_kernel_entry(float* v1, float v2, float* v3, int32_t v4, int elem_num) {
     cnrtQueue_t queue;
     cnrtQueueCreate(&queue);
     cnrtDim3_t dim = {1, 1, 1};
     cnrtFunctionType_t c = CNRT_FUNC_TYPE_BLOCK;
-    dim.x = size / 32;
-    matrix_scalar_mul_kernel<<<dim, c, queue>>>(v1, v2, v3, v4, size);
+    dim.x = elem_num / 32;
+    matrix_scalar_mul_kernel<<<dim, c, queue>>>(v1, v2, v3, v4);
     cnrtQueueSync(queue);
     cnrtQueueDestroy(queue);
 }

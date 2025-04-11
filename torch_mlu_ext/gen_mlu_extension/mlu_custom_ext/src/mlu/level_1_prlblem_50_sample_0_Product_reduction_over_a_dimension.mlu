@@ -55,13 +55,13 @@ __mlu_global__ void product_reduction_kernel(float* v1, float* v2, int32_t v3, i
 // ********** Entry Functions **********
 
 // Auto-generated entry function for product_reduction_kernel
-void product_reduction_kernel_entry(float* v1, float* v2, int32_t v3, int32_t v4, int32_t v5, int32_t v6, int size) {
+void product_reduction_kernel_entry(float* v1, float* v2, int32_t v3, int32_t v4, int32_t v5, int32_t v6, int elem_num) {
     cnrtQueue_t queue;
     cnrtQueueCreate(&queue);
     cnrtDim3_t dim = {1, 1, 1};
     cnrtFunctionType_t c = CNRT_FUNC_TYPE_BLOCK;
-    dim.x = size / 32;
-    product_reduction_kernel<<<dim, c, queue>>>(v1, v2, v3, v4, v5, v6, size);
+    dim.x = elem_num / 32;
+    product_reduction_kernel<<<dim, c, queue>>>(v1, v2, v3, v4, v5, v6);
     cnrtQueueSync(queue);
     cnrtQueueDestroy(queue);
 }

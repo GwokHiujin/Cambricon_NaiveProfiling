@@ -89,13 +89,13 @@ __mlu_global__ void maxpool1d_cuda_kernel(float* v1, float* v2, int32_t v3, int3
 // ********** Entry Functions **********
 
 // Auto-generated entry function for maxpool1d_cuda_kernel
-void maxpool1d_cuda_kernel_entry(float* v1, float* v2, int32_t v3, int32_t v4, int32_t v5, int32_t v6, int32_t v7, int32_t v8, int32_t v9, int32_t v10, int size) {
+void maxpool1d_cuda_kernel_entry(float* v1, float* v2, int32_t v3, int32_t v4, int32_t v5, int32_t v6, int32_t v7, int32_t v8, int32_t v9, int32_t v10, int elem_num) {
     cnrtQueue_t queue;
     cnrtQueueCreate(&queue);
     cnrtDim3_t dim = {1, 1, 1};
     cnrtFunctionType_t c = CNRT_FUNC_TYPE_BLOCK;
-    dim.x = size / 32;
-    maxpool1d_cuda_kernel<<<dim, c, queue>>>(v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, size);
+    dim.x = elem_num / 32;
+    maxpool1d_cuda_kernel<<<dim, c, queue>>>(v1, v2, v3, v4, v5, v6, v7, v8, v9, v10);
     cnrtQueueSync(queue);
     cnrtQueueDestroy(queue);
 }

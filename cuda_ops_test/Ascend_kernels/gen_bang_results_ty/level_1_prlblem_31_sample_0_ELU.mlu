@@ -1,0 +1,10 @@
+#include <bang.h>
+__mlu_global__ void elu_forward_kernel(float* v1, float* v2, float v3, int32_t v4) {
+  int32_t c32_5 = 32;
+  float v6 = (float)0.0e+00;
+  float v7 = (float)1.000000000e+00;
+  size_t c0_8 = 0;
+  size_t c1_9 = 1;
+  size_t c32_10 = 32;
+  int64_t v11 = taskId;
+  size_t v12 = (size_t)v11;

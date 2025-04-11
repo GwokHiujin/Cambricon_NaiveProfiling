@@ -27,10 +27,10 @@ torch::Tensor mse_mlu(torch::Tensor predictions, torch::Tensor targets) {
     auto out_contiguous = torch_mlu::cnnl_contiguous(out);
     auto out_impl = getMluTensorImpl(out_contiguous);
     auto out_ptr = out_impl->mlu_data_ptr();
-    auto size = predictions_contiguous.numel();
-    mse_kernel_entry(reinterpret_cast<float*>(predictions_ptr), reinterpret_cast<float*>(targets_ptr), reinterpret_cast<float*>(out_ptr), size, size);
+    auto elem_num = predictions_contiguous.numel();
+    mse_kernel_entry(reinterpret_cast<float*>(predictions_ptr), reinterpret_cast<float*>(targets_ptr), reinterpret_cast<float*>(out_ptr), size, elem_num);
     
-    return at::mean(out, size);
+    return at::mean(out, elem_num);
     
 }
 

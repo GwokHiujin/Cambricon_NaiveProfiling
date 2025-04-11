@@ -1,12 +1,1 @@
 
-torch::Tensor triplet_margin_loss_cuda(torch::Tensor anchor, torch::Tensor positive, torch::Tensor negative, float margin) {
-    auto size = anchor.size(0);
-    auto out = torch::zeros(size, torch::TensorOptions().device(torch::kCUDA));
-
-    const int block_size = 256;
-    const int num_blocks = (size + block_size - 1) / block_size;
-
-    triplet_margin_loss_kernel<<<num_blocks, block_size>>>(anchor.data_ptr<float>(), positive.data_ptr<float>(), negative.data_ptr<float>(), margin, out.data_ptr<float>(), size);
-
-    return out.mean();
-}

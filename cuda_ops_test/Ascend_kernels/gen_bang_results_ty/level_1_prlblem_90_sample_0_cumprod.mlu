@@ -1,0 +1,7 @@
+#include <bang.h>
+__mlu_global__ void cumprod_kernel(float* v1, float* v2, int64_t v3) {
+  float v4 = (float)1.000000000e+00;
+  size_t c0_5 = 0;
+  size_t c1_6 = 1;
+  int64_t v7 = taskId;
+  size_t v8 = (size_t)v7;

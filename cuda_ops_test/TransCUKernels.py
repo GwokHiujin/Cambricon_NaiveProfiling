@@ -4,7 +4,7 @@ from pathlib import Path
 import argparse 
 
 def generate_cu_files(file_path, CUDA_OUTPUT_DIR, FWD_OUTPUT_DIR):
-    other_patterns = [
+    cu_patterns = [
         (r'^(__device__\s+\w+.*?)\s*$', 1),
         (r'^(__global__\s+\w+.*?)\s*$', 1),
         (r'^(#include\s*<\w+.*?)\s*$', 0), 
@@ -46,22 +46,23 @@ def generate_cu_files(file_path, CUDA_OUTPUT_DIR, FWD_OUTPUT_DIR):
                         first_left_brace = False
                         brace_level = 1
                         break
-                    
-                for pattern, start_level in other_patterns:
-                    if re.match(pattern, line, re.MULTILINE) and \
-                                ("<torch" not in line) and \
-                                ("<pybind" not in line):
-                        dev_code_block = True
-                        first_left_brace = False
-                        brace_level = start_level
-                        break
+                
+                if not is_fwd:
+                    for pattern, start_level in cu_patterns:
+                        if re.match(pattern, line, re.MULTILINE) and \
+                                    ("<torch" not in line) and \
+                                    ("<pybind" not in line):
+                            dev_code_block = True
+                            first_left_brace = False
+                            brace_level = start_level
+                            break
             
             if dev_code_block:
                 open_braces = line.count('{')
                 close_braces = line.count('}')
                 if first_left_brace == False and open_braces > 0:
                     first_left_brace = True
-                    open_braces -= 1
+                    # open_braces -= 1
                 brace_level += (open_braces - close_braces)
                 
                 if is_fwd:

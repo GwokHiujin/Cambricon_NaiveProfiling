@@ -1,0 +1,2 @@
+#include <bang.h>
+__mlu_global__ void cross_entropy_kernel(float* v1, 

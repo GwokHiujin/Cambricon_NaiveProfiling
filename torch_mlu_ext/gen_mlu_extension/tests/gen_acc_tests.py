@@ -226,7 +226,7 @@ if __name__ == "__main__":
                         stripped_line = stripped_line.replace(' = ', '_cpu = ')
                     cpu_inputs_raw.append(f"        {stripped_line}")
                 elif in_function == 2:
-                    stripped_line = stripped_line.replace('return ', 'result_mlu = mlu_custom_ext.ops.{func_name}')
+                    stripped_line = stripped_line.replace('return fn', f'result_mlu = mlu_custom_ext.ops.{func_name}')
                     stripped_line = stripped_line.replace(' fn.', ' ')
                     for tp in tensor_param_list:
                         if stripped_line.find(f"{tp},") != -1:
@@ -252,7 +252,7 @@ if __name__ == "__main__":
         test_cases.extend(cpu_inputs_def)
         test_cases.extend(mlu_inputs_def)
         test_cases.extend(cpu_output_gen)
-        test_cases.append(mlu_output_gen)
+        test_cases.extend(mlu_output_gen)
         test_cases.append("        np.testing.assert_array_almost_equal(result_mlu.cpu(), result_cpu, decimal=3)")
 
     with open(result_file_path, 'w', encoding='utf-8') as f:

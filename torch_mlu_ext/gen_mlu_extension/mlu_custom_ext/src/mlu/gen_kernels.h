@@ -3,7 +3,6 @@
 
 // Auto-generated declarations
 void mse_kernel_entry(float* v1, float* v2, float* v3, int32_t v4, int elem_num);
-void softplus_kernel_entry(float* v1, float* v2, int32_t v3, int elem_num);
 void elu_forward_kernel_entry(float* v1, float* v2, float v3, int32_t v4, int elem_num);
 void softmax_kernel_batch_entry(float* v1, float* v2, int32_t v3, int32_t v4, int elem_num);
 void maxpool1d_cuda_kernel_entry(float* v1, float* v2, int32_t v3, int32_t v4, int32_t v5, int32_t v6, int32_t v7, int32_t v8, int32_t v9, int32_t v10, int elem_num);
@@ -20,7 +19,6 @@ void relu_kernel_entry(float* v1, float* v2, int32_t v3, int elem_num);
 void cosine_similarity_loss_kernel_entry(float* v1, float* v2, float* v3, int32_t v4, int32_t v5, int elem_num);
 void leaky_relu_kernel_entry(float* v1, float* v2, float v3, int32_t v4, int elem_num);
 void reverse_cumsum_kernel_entry(float* v1, float* v2, int32_t v3, int32_t v4, int elem_num);
-void gelu_kernel_entry(float* v1, float* v2, int32_t v3, int elem_num);
 void tanh_kernel_entry(float* v1, float* v2, int32_t v3, int elem_num);
 void product_reduction_kernel_entry(float* v1, float* v2, int32_t v3, int32_t v4, int32_t v5, int32_t v6, int elem_num);
 void triplet_margin_loss_kernel_entry(float* v1, float* v2, float* v3, float v4, float* v5, int32_t v6, int elem_num);

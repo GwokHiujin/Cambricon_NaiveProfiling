@@ -16,7 +16,7 @@ torch::Tensor softmax_mlu(torch::Tensor input) {
     auto input_ptr = input_impl->mlu_data_ptr();
     
     // Ensure input_contiguous is contiguous and on CUDA
-    auto input_contiguous = input_contiguous.contiguous();
+    // auto input_contiguous = input_contiguous.contiguous();
     auto batch_size = input_contiguous.size(0);
     auto dim = input_contiguous.size(1);
     auto output = at::empty_like(input_contiguous);

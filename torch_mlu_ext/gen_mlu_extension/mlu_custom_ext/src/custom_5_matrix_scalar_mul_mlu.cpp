@@ -9,7 +9,8 @@
 
 using namespace torch_mlu;
 
-torch::Tensor matrix_scalar_mul_mlu(torch::Tensor A, double s) {
+torch::Tensor matrix_scalar_mul_mlu(torch::Tensor A) {
+    float s = 3.14;
     const torch_mlu::mlu::MLUGuard device_guard(A.device());
     auto A_contiguous = torch_mlu::cnnl_contiguous(A);
     auto A_impl = getMluTensorImpl(A_contiguous);
@@ -38,7 +39,7 @@ torch::Tensor matrix_scalar_mul_mlu(torch::Tensor A, double s) {
 
 
 TORCH_LIBRARY_FRAGMENT(mlu_custom_ext, m) {
-    m.def("matrix_scalar_mul_mlu(Tensor A, double s) -> Tensor");
+    m.def("matrix_scalar_mul_mlu(Tensor A) -> Tensor");
 }
 
 TORCH_LIBRARY_IMPL(mlu_custom_ext, PrivateUse1, m) {

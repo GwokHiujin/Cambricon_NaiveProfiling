@@ -9,7 +9,8 @@
 
 using namespace torch_mlu;
 
-torch::Tensor leaky_relu_mlu(torch::Tensor input, double negative_slope) {
+torch::Tensor leaky_relu_mlu(torch::Tensor input) {
+    float negative_slope = 0.01;
     const torch_mlu::mlu::MLUGuard device_guard(input.device());
     auto input_contiguous = torch_mlu::cnnl_contiguous(input);
     auto input_impl = getMluTensorImpl(input_contiguous);
@@ -38,7 +39,7 @@ torch::Tensor leaky_relu_mlu(torch::Tensor input, double negative_slope) {
 
 
 TORCH_LIBRARY_FRAGMENT(mlu_custom_ext, m) {
-    m.def("leaky_relu_mlu(Tensor input, double negative_slope) -> Tensor");
+    m.def("leaky_relu_mlu(Tensor input) -> Tensor");
 }
 
 TORCH_LIBRARY_IMPL(mlu_custom_ext, PrivateUse1, m) {

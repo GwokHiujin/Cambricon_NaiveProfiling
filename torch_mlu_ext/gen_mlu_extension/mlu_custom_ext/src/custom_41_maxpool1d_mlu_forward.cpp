@@ -9,7 +9,11 @@
 
 using namespace torch_mlu;
 
-torch::Tensor maxpool1d_mlu_forward(torch::Tensor input, int64_t kernel_size, int64_t stride, int64_t padding, int64_t dilation) {
+torch::Tensor maxpool1d_mlu_forward(torch::Tensor input) {
+    int64_t kernel_size = 4;
+    int64_t stride = 2;
+    int64_t padding = 2;
+    int64_t dilation = 3;
     const torch_mlu::mlu::MLUGuard device_guard(input.device());
     auto input_contiguous = torch_mlu::cnnl_contiguous(input);
     auto input_impl = getMluTensorImpl(input_contiguous);
@@ -48,7 +52,7 @@ torch::Tensor maxpool1d_mlu_forward(torch::Tensor input, int64_t kernel_size, in
 
 
 TORCH_LIBRARY_FRAGMENT(mlu_custom_ext, m) {
-    m.def("maxpool1d_mlu_forward(Tensor input, int64_t kernel_size, int64_t stride, int64_t padding, int64_t dilation) -> Tensor");
+    m.def("maxpool1d_mlu_forward(Tensor input) -> Tensor");
 }
 
 TORCH_LIBRARY_IMPL(mlu_custom_ext, PrivateUse1, m) {

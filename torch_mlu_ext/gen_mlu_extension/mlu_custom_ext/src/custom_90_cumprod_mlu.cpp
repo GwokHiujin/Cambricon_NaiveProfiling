@@ -9,7 +9,8 @@
 
 using namespace torch_mlu;
 
-torch::Tensor cumprod_mlu(torch::Tensor x, int64_t dim) {
+torch::Tensor cumprod_mlu(torch::Tensor x) {
+    int64_t dim = 1;
     const torch_mlu::mlu::MLUGuard device_guard(x.device());
     auto x_contiguous = torch_mlu::cnnl_contiguous(x);
     auto x_impl = getMluTensorImpl(x_contiguous);
@@ -42,7 +43,7 @@ torch::Tensor cumprod_mlu(torch::Tensor x, int64_t dim) {
 
 
 TORCH_LIBRARY_FRAGMENT(mlu_custom_ext, m) {
-    m.def("cumprod_mlu(Tensor x, int64_t dim) -> Tensor");
+    m.def("cumprod_mlu(Tensor x) -> Tensor");
 }
 
 TORCH_LIBRARY_IMPL(mlu_custom_ext, PrivateUse1, m) {

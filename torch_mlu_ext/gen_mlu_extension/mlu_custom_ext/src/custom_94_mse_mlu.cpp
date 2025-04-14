@@ -30,7 +30,7 @@ torch::Tensor mse_mlu(torch::Tensor predictions, torch::Tensor targets) {
     auto elem_num = predictions_contiguous.numel();
     mse_kernel_entry(reinterpret_cast<float*>(predictions_ptr), reinterpret_cast<float*>(targets_ptr), reinterpret_cast<float*>(out_ptr), size, elem_num);
     
-    return at::mean(out, elem_num);
+    return at::mean(out);
     
 }
 

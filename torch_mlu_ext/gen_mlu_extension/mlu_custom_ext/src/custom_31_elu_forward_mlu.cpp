@@ -9,7 +9,8 @@
 
 using namespace torch_mlu;
 
-torch::Tensor elu_forward_mlu(torch::Tensor input, double alpha) {
+torch::Tensor elu_forward_mlu(torch::Tensor input) {
+    float alpha = 1.0;
     const torch_mlu::mlu::MLUGuard device_guard(input.device());
     auto input_contiguous = torch_mlu::cnnl_contiguous(input);
     auto input_impl = getMluTensorImpl(input_contiguous);
@@ -33,7 +34,7 @@ torch::Tensor elu_forward_mlu(torch::Tensor input, double alpha) {
 
 
 TORCH_LIBRARY_FRAGMENT(mlu_custom_ext, m) {
-    m.def("elu_forward_mlu(Tensor input, double alpha) -> Tensor");
+    m.def("elu_forward_mlu(Tensor input) -> Tensor");
 }
 
 TORCH_LIBRARY_IMPL(mlu_custom_ext, PrivateUse1, m) {

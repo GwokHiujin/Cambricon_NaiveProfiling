@@ -1,0 +1,78 @@
+#include <bang.h>
+__mlu_global__ void tensor_matrix_multiply_kernel(float* v1, float* v2, float* v3, int32_t v4, int32_t v5, int32_t v6, int32_t v7, int32_t v8) {
+  int32_t c32_9 = 32;
+  float v10 = (float)0.0e+00;
+  size_t c0_11 = 0;
+  size_t c1_12 = 1;
+  size_t c32_13 = 32;
+  size_t v14 = (size_t) v8;
+  size_t v15 = (size_t) v7;
+  int32_t v16 = (v4) * (v5);
+  int32_t v17 = (v16) * (v6);
+  int64_t v18 = taskIdX;
+  size_t v19 = (size_t) v18;
+  int32_t v20 = (int32_t) v19;
+  bool v21 = v20 < v17;
+  int32_t v22 = (v5) * (v6);
+  int32_t v23 = (v20) % (v22);
+  int32_t v24 = (v23) % (v6);
+  int64_t v25 = taskIdY;
+  size_t v26 = (size_t) v25;
+  int32_t v27 = (int32_t) v26;
+  int32_t v28 = (v27) * (c32_9);
+  int32_t v29 = (v20) / (v22);
+  int32_t v30 = (v29) * (v5);
+  int32_t v31 = (v23) / (v6);
+  int32_t v32 = (v30) + (v31);
+  int32_t v33 = (v32) * (v6);
+  int32_t v34 = (v33) + (v24);
+  int32_t v35 = (v34) * (v7);
+  size_t v36 = (size_t) v35;
+  int32_t v37 = (v34) * (v8);
+  size_t v38 = (size_t) v37;
+  for (size_t v39 = c0_11; v39 < c32_13; v39 += c1_12) {
+    int32_t v40 = (int32_t) v39;
+    int32_t v41 = (v40) + (v28);
+    size_t v42 = (size_t) v41;
+    bool v43 = v41 < v8;
+    bool v44 = (v21) & (v43);
+    if (v44) {
+      float v45;
+      float v46 = v10;
+      for (size_t v47 = c0_11; v47 < v15; v47 += c1_12) {
+        size_t v48 = (v47) + (v36);
+        float v49 = v1[v48];
+        size_t v50 = (v47) * (v14);
+        size_t v51 = (v50) + (v42);
+        float v52 = v2[v51];
+        float v53 = v49 * v52;
+        float v54 = v46 + v53;
+        v46 = v54;
+      }
+      v45 = v46;
+      size_t v55 = (v38) + (v42);
+      v3[v55] = v45;
+    };
+  }
+  return;
+}
+
+
+
+
+
+
+// ********** Entry Functions **********
+
+// Auto-generated entry function for tensor_matrix_multiply_kernel
+void tensor_matrix_multiply_kernel_entry(float* v1, float* v2, float* v3, int32_t v4, int32_t v5, int32_t v6, int32_t v7, int32_t v8, int elem_num) {
+    cnrtQueue_t queue;
+    cnrtQueueCreate(&queue);
+    cnrtDim3_t dim = {1, 1, 1};
+    cnrtFunctionType_t c = CNRT_FUNC_TYPE_BLOCK;
+    dim.x = (v4 * v5 * v6);
+    dim.y = (v8) / 32;
+    tensor_matrix_multiply_kernel<<<dim, c, queue>>>(v1, v2, v3, v4, v5, v6, v7, v8);
+    cnrtQueueSync(queue);
+    cnrtQueueDestroy(queue);
+}

@@ -1,1 +1,17 @@
+torch::Tensor matmul_cuda(torch::Tensor A, torch::Tensor B_T, int M, int N, int K) {
+    auto C = torch::zeros({M, N}, A.options());
 
+    dim3 block_size(TILE_WIDTH, TILE_WIDTH);
+    dim3 grid_size((N + TILE_WIDTH - 1) / TILE_WIDTH, (M + TILE_WIDTH - 1) / TILE_WIDTH);
+
+    matmul_kernel<<<grid_size, block_size>>>(
+        A.data_ptr<float>(),
+        B_T.data_ptr<float>(),
+        C.data_ptr<float>(),
+        M,
+        N,
+        K
+    );
+
+    return C;
+}

@@ -4,4 +4,3 @@ __global__ void relu_kernel(const float* input, float* output, int size) {
     output[i] = (input[i] > 0) ? input[i] : 0;
   }
 }
-

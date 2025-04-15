@@ -1,1 +1,12 @@
+torch::Tensor new_gelu_cuda(torch::Tensor x)
+{
+    auto y = torch::empty_like(x);
+    int size = x.numel();
 
+    const int threads = 256;
+    const int blocks = (size + threads - 1) / threads;
+
+    new_gelu_kernel<<<blocks, threads>>>(x.data_ptr<float>(), y.data_ptr<float>(), size);
+
+    return y;
+}

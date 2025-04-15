@@ -1,1 +1,19 @@
-
+torch::Tensor matmul_cuda(torch::Tensor a, torch::Tensor b) {
+    const int M = a.size(0);
+    const int K = a.size(1);
+    const int N = b.size(1);
+    
+    auto c = torch::zeros({M, N}, a.options());
+    
+    dim3 threadsPerBlock(TILE_SIZE, TILE_SIZE);
+    dim3 numBlocks((N + TILE_SIZE - 1) / TILE_SIZE,
+                   (M + TILE_SIZE - 1) / TILE_SIZE);
+                   
+    matmul_kernel<<<numBlocks, threadsPerBlock>>>(
+        a.data_ptr<float>(),
+        b.data_ptr<float>(),
+        c.data_ptr<float>(),
+        M, N, K);
+        
+    return c;
+}

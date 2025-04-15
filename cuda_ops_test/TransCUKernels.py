@@ -62,29 +62,30 @@ def generate_cu_files(file_path, CUDA_OUTPUT_DIR, FWD_OUTPUT_DIR):
                 close_braces = line.count('}')
                 if first_left_brace == False and open_braces > 0:
                     first_left_brace = True
-                    # open_braces -= 1
                 brace_level += (open_braces - close_braces)
                 
                 if is_fwd:
                     forward_lines.append(line.rstrip('\n'))
                 else:
                     function_lines.append(line.rstrip('\n'))
-                
+
                 if brace_level <= 0 and first_left_brace:
-                    is_fwd = False
+                    if forward_lines != []:
+                        with open(fwd_path, 'w' if first_write else 'a', encoding='utf-8') as fwd_f:
+                            fwd_f.write('\n'.join(forward_lines))
+                            fwd_f.write('\n')
+                        forward_lines = []
+                    if function_lines != []:
+                        with open(output_path, 'w' if first_write else 'a', encoding='utf-8') as out_f:
+                            out_f.write('\n'.join(function_lines))
+                            out_f.write('\n') 
+                        function_lines = []
+
                     dev_code_block = False
                     brace_level = 0
-
-                    with open(output_path, 'w' if first_write else 'a', encoding='utf-8') as out_f:
-                        out_f.write('\n'.join(function_lines))
-                        out_f.write('\n') 
-                    with open(fwd_path, 'w' if first_write else 'a', encoding='utf-8') as fwd_f:
-                        fwd_f.write('\n'.join(forward_lines))
-                        fwd_f.write('\n')
-
+                    first_left_brace = False
                     first_write = False
-                    function_lines = []
-                    forward_lines = []
+                    is_fwd = False
 
         print(f"Generated successfully.")
 

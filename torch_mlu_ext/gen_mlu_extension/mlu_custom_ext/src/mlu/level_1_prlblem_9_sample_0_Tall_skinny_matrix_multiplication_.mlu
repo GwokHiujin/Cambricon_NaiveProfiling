@@ -1,0 +1,124 @@
+#include <bang.h>
+__mlu_global__ void tall_skinny_matmul_kernel(float* v1, float* v2, float* v3, int32_t v4, int32_t v5) {
+  bool c0_6 = false;
+  float v7 = (float)0.0e+00;
+  int32_t c16_8 = 16;
+  size_t c16_9 = 16;
+  size_t c18446744073709551615_10 = -1;
+  size_t c0_11 = 0;
+  size_t c1_12 = 1;
+  size_t c32_13 = 32;
+  __nram__ int8_t v14[256];
+  float* v15 = (float*)v14;
+  __nram__ int8_t v16[256];
+  float* v17 = (float*)v16;
+  __nram__ int8_t v18[32];
+  float* v19 = (float*)v18;
+  for (size_t v20 = c0_11; v20 < c32_13; v20 += c1_12) {
+    v19[v20] = v7;
+  }
+  size_t v21 = (size_t) v5;
+  int64_t v22 = taskIdX;
+  size_t v23 = (size_t) v22;
+  int32_t v24 = (int32_t) v23;
+  int32_t v25 = (v24) * (c16_8);
+  int64_t v26 = taskIdY;
+  size_t v27 = (size_t) v26;
+  int32_t v28 = (int32_t) v27;
+  int32_t v29 = (v28) * (c16_8);
+  int32_t v30 = (v29) * (v5);
+  size_t v31 = (size_t) v30;
+  size_t v32 = (size_t) v29;
+  size_t v33 = (size_t) v4;
+  size_t v34 = (v33) - (v32);
+  size_t v35 = (v34) + (c18446744073709551615_10);
+  bool v36 = v35 >= c0_11;
+  for (size_t v37 = c0_11; v37 < v21; v37 += c16_9) {
+    int32_t v38 = (int32_t) v37;
+    size_t v39 = (v21) - (v37);
+    size_t v40 = (v39) + (c18446744073709551615_10);
+    bool v41 = v40 >= c0_11;
+    size_t v42 = (v37) + (v31);
+    size_t v43 = (v37) * (v33);
+    for (size_t v44 = c0_11; v44 < c32_13; v44 += c1_12) {
+      int32_t v45 = (int32_t) v44;
+      int32_t v46 = (v25) + (v45);
+      size_t v47 = (size_t) v46;
+      bool v48;
+      if (v36) {
+        int32_t v49 = (v38) + (v45);
+        bool v50 = v49 < v5;
+        v48 = v50;
+      } else {
+        v48 = c0_6;
+      };
+      if (v48) {
+        size_t v51 = (v42) + (v44);
+        float v52 = v1[v51];
+        v17[16*c0_11 + 1*v44 +  0] = v52;
+      } else {
+        v17[16*c0_11 + 1*v44 +  0] = v7;
+      };
+      size_t v53 = (v33) - (v47);
+      size_t v54 = (v53) + (c18446744073709551615_10);
+      bool v55 = v54 >= c0_11;
+      bool v56 = (v41) & (v55);
+      if (v56) {
+        size_t v57 = (v43) + (v47);
+        float v58 = v2[v57];
+        v15[16*c0_11 + 1*v44 +  0] = v58;
+      } else {
+        v15[16*c0_11 + 1*v44 +  0] = v7;
+      };
+    };
+    for (size_t v59 = c0_11; v59 < c32_13; v59 += c1_12) {
+      float v60 = v19[v59];
+      float v61;
+      float v62 = v60;
+      for (size_t v63 = c0_11; v63 < c16_9; v63 += c1_12) {
+        float v64 = v17[16*c0_11 + 1*v63 +  0];
+        float v65 = v15[16*v63 + 1*v59 +  0];
+        float v66 = v64 * v65;
+        float v67 = v62 + v66;
+        v62 = v67;
+      }
+      v61 = v62;;
+      v19[v59] = v61;
+    };
+  }
+  int32_t v68 = (v29) * (v4);
+  size_t v69 = (size_t) v68;
+  bool v70 = v29 < v4;
+  for (size_t v71 = c0_11; v71 < c32_13; v71 += c1_12) {
+    int32_t v72 = (int32_t) v71;
+    int32_t v73 = (v25) + (v72);
+    size_t v74 = (size_t) v73;
+    bool v75 = v73 < v4;
+    float v76 = v19[v71];
+    bool v77 = (v70) & (v75);
+    if (v77) {
+      size_t v78 = (v69) + (v74);
+      v3[v78] = v76;
+    };
+  }
+  return;
+}
+
+
+
+
+
+
+// ********** Entry Functions **********
+
+// Auto-generated entry function for tall_skinny_matmul_kernel
+void tall_skinny_matmul_kernel_entry(float* v1, float* v2, float* v3, int32_t v4, int32_t v5, int elem_num) {
+    cnrtQueue_t queue;
+    cnrtQueueCreate(&queue);
+    cnrtDim3_t dim = {1, 1, 1};
+    cnrtFunctionType_t c = CNRT_FUNC_TYPE_BLOCK;
+    dim.x = elem_num / 32;
+    tall_skinny_matmul_kernel<<<dim, c, queue>>>(v1, v2, v3, v4, v5);
+    cnrtQueueSync(queue);
+    cnrtQueueDestroy(queue);
+}

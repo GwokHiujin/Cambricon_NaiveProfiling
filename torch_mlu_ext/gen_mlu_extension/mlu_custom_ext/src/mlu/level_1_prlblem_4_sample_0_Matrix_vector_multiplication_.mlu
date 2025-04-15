@@ -1,7 +1,7 @@
 #include <bang.h>
 __mlu_global__ void matvec_mul_kernel(float* v1, float* v2, float* v3, int32_t v4, int32_t v5) {
   size_t c31_6 = 31;
-  int32_t c27_7 = 27;
+  size_t c5_7 = 5;
   int32_t c16_8 = 16;
   float v9 = (float)0.0e+00;
   int32_t c0_10 = 0;
@@ -10,9 +10,9 @@ __mlu_global__ void matvec_mul_kernel(float* v1, float* v2, float* v3, int32_t v
   size_t c32_13 = 32;
   __nram__ int8_t v14[32];
   float* v15 = (float*)v14;
-  int64_t v16 = taskId;
-  size_t v17 = (size_t)v16;
-  int32_t v18 = (int32_t) v16;
+  int64_t v16 = taskIdX;
+  size_t v17 = (size_t) v16;
+  int32_t v18 = (int32_t) v17;
   int32_t v19 = (v18) * (v5);
   size_t v20 = (size_t) v19;
   size_t v21 = (size_t) v5;
@@ -36,33 +36,28 @@ __mlu_global__ void matvec_mul_kernel(float* v1, float* v2, float* v3, int32_t v
     v26 = v27;;
     v15[v22] = v26;
   }
-  size_t v37 = (size_t) c27_7;
-  size_t v38 = (c32_13) - (v37);
-  for (size_t v39 = c0_11; v39 < v38; v39 += c1_12) {
-    int64_t v40 = (int64_t)v39;
-    int32_t v41 = (int32_t) v40;
-    int32_t v42 = (c16_8) >> (v41);
-    for (size_t v43 = c0_11; v43 < c32_13; v43 += c1_12) {
-      int64_t v44 = (int64_t)v43;
-      int32_t v45 = (int32_t) v44;
-      bool v46 = v45 < v42;
-      if (v46) {
-        int32_t v47 = (v45) + (v42);
-        size_t v48 = (size_t) v47;
-        float v49 = v15[v48];
-        float v50 = v15[v43];
-        float v51 = v50 + v49;
-        v15[v43] = v51;
+  for (size_t v37 = c0_11; v37 < c5_7; v37 += c1_12) {
+    int32_t v38 = (int32_t) v37;
+    int32_t v39 = (c16_8) >> (v38);
+    for (size_t v40 = c0_11; v40 < c32_13; v40 += c1_12) {
+      int32_t v41 = (int32_t) v40;
+      bool v42 = v41 < v39;
+      if (v42) {
+        int32_t v43 = (v41) + (v39);
+        size_t v44 = (size_t) v43;
+        float v45 = v15[v44];
+        float v46 = v15[v40];
+        float v47 = v46 + v45;
+        v15[v40] = v47;
       };
     };
   }
-  float v52 = v15[c0_11];
-  for (size_t v53 = c0_11; v53 < c32_13; v53 += c1_12) {
-    int64_t v54 = (int64_t)v53;
-    int32_t v55 = (int32_t) v54;
-    bool v56 = v55 == c0_10;
-    if (v56) {
-      v3[v17] = v52;
+  float v48 = v15[c0_11];
+  for (size_t v49 = c0_11; v49 < c32_13; v49 += c1_12) {
+    int32_t v50 = (int32_t) v49;
+    bool v51 = v50 == c0_10;
+    if (v51) {
+      v3[v17] = v48;
     };
   }
   return;

@@ -1,0 +1,128 @@
+#include <bang.h>
+__mlu_global__ void matmul_2_kernel(float* v1, float* v2, float* v3, int32_t v4, int32_t v5, int32_t v6) {
+  bool c0_7 = false;
+  int32_t c16_8 = 16;
+  float v9 = (float)0.0e+00;
+  size_t c16_10 = 16;
+  size_t c18446744073709551615_11 = -1;
+  size_t c0_12 = 0;
+  size_t c1_13 = 1;
+  size_t c16_14 = 16;
+  __nram__ int8_t v15[256];
+  float* v16 = (float*)v15;
+  __nram__ int8_t v17[256];
+  float* v18 = (float*)v17;
+  __nram__ int8_t v19[16];
+  float* v20 = (float*)v19;
+  for (size_t v21 = c0_12; v21 < c16_14; v21 += c1_13) {
+    v20[v21] = v9;
+  }
+  size_t v22 = (size_t) v6;
+  int64_t v23 = taskIdX;
+  size_t v24 = (size_t) v23;
+  int32_t v25 = (int32_t) v24;
+  int32_t v26 = (v25) * (c16_8);
+  int64_t v27 = taskIdY;
+  size_t v28 = (size_t) v27;
+  int32_t v29 = (int32_t) v28;
+  int32_t v30 = (v29) * (c16_8);
+  int32_t v31 = (v30) * (v6);
+  size_t v32 = (size_t) v31;
+  size_t v33 = (size_t) v30;
+  size_t v34 = (size_t) v5;
+  size_t v35 = (size_t) v4;
+  size_t v36 = (v35) - (v33);
+  size_t v37 = (v36) + (c18446744073709551615_11);
+  bool v38 = v37 >= c0_12;
+  size_t v39 = (v24) * (c16_10);
+  for (size_t v40 = c0_12; v40 < v22; v40 += c16_10) {
+    int32_t v41 = (int32_t) v40;
+    size_t v42 = (v22) - (v40);
+    size_t v43 = (v42) + (c18446744073709551615_11);
+    bool v44 = v43 >= c0_12;
+    size_t v45 = (v40) + (v32);
+    size_t v46 = (v40) * (v34);
+    for (size_t v47 = c0_12; v47 < c16_14; v47 += c1_13) {
+      int32_t v48 = (int32_t) v47;
+      int32_t v49 = (v26) + (v48);
+      size_t v50 = (size_t) v49;
+      bool v51;
+      if (v38) {
+        int32_t v52 = (v41) + (v48);
+        bool v53 = v52 < v6;
+        v51 = v53;
+      } else {
+        v51 = c0_7;
+      };
+      if (v51) {
+        size_t v54 = (v45) + (v47);
+        float v55 = v1[v54];
+        v18[16*c0_12 + 1*v47 +  0] = v55;
+      } else {
+        v18[16*c0_12 + 1*v47 +  0] = v9;
+      };
+      size_t v56 = (v34) - (v50);
+      size_t v57 = (v56) + (c18446744073709551615_11);
+      bool v58 = v57 >= c0_12;
+      bool v59 = (v44) & (v58);
+      if (v59) {
+        size_t v60 = (v39) + (v47);
+        size_t v61 = (v46) + (v60);
+        float v62 = v2[v61];
+        v16[16*c0_12 + 1*v47 +  0] = v62;
+      } else {
+        v16[16*c0_12 + 1*v47 +  0] = v9;
+      };
+    };
+    for (size_t v63 = c0_12; v63 < c16_14; v63 += c1_13) {
+      float v64 = v20[v63];
+      float v65;
+      float v66 = v64;
+      for (size_t v67 = c0_12; v67 < c16_10; v67 += c1_13) {
+        float v68 = v18[16*c0_12 + 1*v67 +  0];
+        float v69 = v16[16*v67 + 1*v63 +  0];
+        float v70 = v68 * v69;
+        float v71 = v66 + v70;
+        v66 = v71;
+      }
+      v65 = v66;;
+      v20[v63] = v65;
+    };
+  }
+  int32_t v72 = (v30) * (v5);
+  size_t v73 = (size_t) v72;
+  bool v74 = v30 < v4;
+  size_t v75 = (v73) + (v39);
+  for (size_t v76 = c0_12; v76 < c16_14; v76 += c1_13) {
+    int32_t v77 = (int32_t) v76;
+    int32_t v78 = (v26) + (v77);
+    bool v79 = v78 < v5;
+    float v80 = v20[v76];
+    bool v81 = (v74) & (v79);
+    if (v81) {
+      size_t v82 = (v75) + (v76);
+      v3[v82] = v80;
+    };
+  }
+  return;
+}
+
+
+
+
+
+
+// ********** Entry Functions **********
+
+// Auto-generated entry function for matmul_kernel
+void matmul_2_kernel_entry(float* v1, float* v2, float* v3, int32_t v4, int32_t v5, int32_t v6, int elem_num) {
+    cnrtQueue_t queue;
+    cnrtQueueCreate(&queue);
+    cnrtDim3_t dim = {1, 1, 1};
+    cnrtFunctionType_t c = CNRT_FUNC_TYPE_BLOCK;
+    dim.x = v5 / 16;
+    dim.y = v4 / 16;
+    matmul_2_kernel<<<dim, c, queue>>>(v1, v2, v3, v4, v5, v6);
+    cnrtQueueSync(queue);
+    cnrtQueueDestroy(queue);
+}

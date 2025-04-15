@@ -1,0 +1,125 @@
+#include <bang.h>
+__mlu_global__ void matrix_multiply_kernel(float* v1, float* v2, float* v3, int32_t v4) {
+  int32_t c31_5 = 31;
+  bool c0_6 = false;
+  float v7 = (float)0.0e+00;
+  int32_t c32_8 = 32;
+  size_t c18446744073709551615_9 = -1;
+  size_t c0_10 = 0;
+  size_t c1_11 = 1;
+  size_t c32_12 = 32;
+  __nram__ int8_t v13[1024];
+  float* v14 = (float*)v13;
+  __nram__ int8_t v15[1024];
+  float* v16 = (float*)v15;
+  __nram__ int8_t v17[32];
+  float* v18 = (float*)v17;
+  for (size_t v19 = c0_10; v19 < c32_12; v19 += c1_11) {
+    v18[v19] = v7;
+  }
+  int32_t v20 = (v4) + (c31_5);
+  int32_t v21 = (v20) / (c32_8);
+  size_t v22 = (size_t) v21;
+  int64_t v23 = taskIdX;
+  size_t v24 = (size_t) v23;
+  int32_t v25 = (int32_t) v24;
+  int32_t v26 = (v25) * (c32_8);
+  int64_t v27 = taskIdY;
+  size_t v28 = (size_t) v27;
+  int32_t v29 = (int32_t) v28;
+  int32_t v30 = (v29) * (c32_8);
+  int32_t v31 = (v30) * (v4);
+  size_t v32 = (size_t) v31;
+  size_t v33 = (size_t) v30;
+  size_t v34 = (size_t) v4;
+  size_t v35 = (v34) - (v33);
+  size_t v36 = (v35) + (c18446744073709551615_9);
+  bool v37 = v36 >= c0_10;
+  for (size_t v38 = c0_10; v38 < v22; v38 += c1_11) {
+    int32_t v39 = (int32_t) v38;
+    int32_t v40 = (v39) * (c32_8);
+    size_t v41 = (v38) * (c32_12);
+    size_t v42 = (v41) + (v32);
+    bool v43 = v40 < v4;
+    size_t v44 = (v41) * (v34);
+    for (size_t v45 = c0_10; v45 < c32_12; v45 += c1_11) {
+      int32_t v46 = (int32_t) v45;
+      int32_t v47 = (v26) + (v46);
+      size_t v48 = (size_t) v47;
+      bool v49;
+      if (v37) {
+        int32_t v50 = (v40) + (v46);
+        bool v51 = v50 < v4;
+        v49 = v51;
+      } else {
+        v49 = c0_6;
+      };
+      if (v49) {
+        size_t v52 = (v42) + (v45);
+        float v53 = v1[v52];
+        v16[32*c0_10 + 1*v45 +  0] = v53;
+      } else {
+        v16[32*c0_10 + 1*v45 +  0] = v7;
+      };
+      size_t v54 = (v34) - (v48);
+      size_t v55 = (v54) + (c18446744073709551615_9);
+      bool v56 = v55 >= c0_10;
+      bool v57 = (v56) & (v43);
+      if (v57) {
+        size_t v58 = (v44) + (v48);
+        float v59 = v2[v58];
+        v14[32*c0_10 + 1*v45 +  0] = v59;
+      } else {
+        v14[32*c0_10 + 1*v45 +  0] = v7;
+      };
+    };
+    for (size_t v60 = c0_10; v60 < c32_12; v60 += c1_11) {
+      float v61 = v18[v60];
+      float v62;
+      float v63 = v61;
+      for (size_t v64 = c0_10; v64 < c32_12; v64 += c1_11) {
+        float v65 = v16[32*c0_10 + 1*v64 +  0];
+        float v66 = v14[32*v64 + 1*v60 +  0];
+        float v67 = v65 * v66;
+        float v68 = v63 + v67;
+        v63 = v68;
+      }
+      v62 = v63;;
+      v18[v60] = v62;
+    };
+  }
+  bool v69 = v30 < v4;
+  for (size_t v70 = c0_10; v70 < c32_12; v70 += c1_11) {
+    int32_t v71 = (int32_t) v70;
+    int32_t v72 = (v26) + (v71);
+    size_t v73 = (size_t) v72;
+    float v74 = v18[v70];
+    bool v75 = v72 < v4;
+    bool v76 = (v69) & (v75);
+    if (v76) {
+      size_t v77 = (v32) + (v73);
+      v3[v77] = v74;
+    };
+  }
+  return;
+}
+
+
+
+
+
+
+// ********** Entry Functions **********
+
+// Auto-generated entry function for matrix_multiply_kernel
+void matrix_multiply_kernel_entry(float* v1, float* v2, float* v3, int32_t v4, int elem_num) {
+    cnrtQueue_t queue;
+    cnrtQueueCreate(&queue);
+    cnrtDim3_t dim = {1, 1, 1};
+    cnrtFunctionType_t c = CNRT_FUNC_TYPE_BLOCK;
+    dim.x = elem_num / v4 / 32;
+    dim.y = v4 / 32;
+    matrix_multiply_kernel<<<dim, c, queue>>>(v1, v2, v3, v4);
+    cnrtQueueSync(queue);
+    cnrtQueueDestroy(queue);
+}

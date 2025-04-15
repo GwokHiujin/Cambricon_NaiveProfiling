@@ -8,13 +8,13 @@ __mlu_global__ void hardsigmoid_kernel(float* v1, float* v2, int32_t v3) {
   size_t c0_9 = 0;
   size_t c1_10 = 1;
   size_t c32_11 = 32;
-  int64_t v12 = taskId;
-  int32_t v13 = (int32_t) v12;
-  int32_t v14 = (v13) * (c32_4);
-  for (size_t v15 = c0_9; v15 < c32_11; v15 += c1_10) {
-    int64_t v16 = (int64_t)v15;
+  int64_t v12 = taskIdX;
+  size_t v13 = (size_t) v12;
+  int32_t v14 = (int32_t) v13;
+  int32_t v15 = (v14) * (c32_4);
+  for (size_t v16 = c0_9; v16 < c32_11; v16 += c1_10) {
     int32_t v17 = (int32_t) v16;
-    int32_t v18 = (v14) + (v17);
+    int32_t v18 = (v15) + (v17);
     size_t v19 = (size_t) v18;
     bool v20 = v18 < v3;
     if (v20) {

@@ -9,10 +9,11 @@ __mlu_global__ void log_softmax_kernel(float* v1, float* v2, int32_t v3, int32_t
   float* v11 = (float*)v10;
   __nram__ int8_t v12[32];
   float* v13 = (float*)v12;
-  int64_t v14 = taskId;
-  int32_t v15 = (int32_t) v14;
-  size_t v16 = (size_t) v4;
-  int32_t v17 = (v15) * (v4);
-  size_t v18 = (size_t) v17;
-  for (size_t v19 = c0_7; v19 < c32_9; v19 += c1_8) {
-    float v20 = __builtin_inff();
+  int64_t v14 = taskIdX;
+  size_t v15 = (size_t) v14;
+  int32_t v16 = (int32_t) v15;
+  size_t v17 = (size_t) v4;
+  int32_t v18 = (v16) * (v4);
+  size_t v19 = (size_t) v18;
+  for (size_t v20 = c0_7; v20 < c32_9; v20 += c1_8) {
+    float v21 = __builtin_inff();

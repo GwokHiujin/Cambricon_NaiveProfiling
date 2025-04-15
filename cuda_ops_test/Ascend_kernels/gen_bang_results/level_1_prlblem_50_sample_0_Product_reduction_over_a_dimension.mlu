@@ -8,14 +8,14 @@ __mlu_global__ void product_reduction_kernel(float* v1, float* v2, int32_t v3, i
   size_t c32_12 = 32;
   size_t v13 = (size_t) v5;
   size_t v14 = (size_t) v4;
-  int64_t v15 = taskId;
-  int32_t v16 = (int32_t) v15;
-  int32_t v17 = (v16) * (c32_7);
-  bool v18 = v6 == c1_8;
-  for (size_t v19 = c0_10; v19 < c32_12; v19 += c1_11) {
-    int64_t v20 = (int64_t)v19;
+  int64_t v15 = taskIdX;
+  size_t v16 = (size_t) v15;
+  int32_t v17 = (int32_t) v16;
+  int32_t v18 = (v17) * (c32_7);
+  bool v19 = v6 == c1_8;
+  for (size_t v20 = c0_10; v20 < c32_12; v20 += c1_11) {
     int32_t v21 = (int32_t) v20;
-    int32_t v22 = (v17) + (v21);
+    int32_t v22 = (v18) + (v21);
     int32_t v23 = (v22) / (v5);
     int32_t v24 = (v23) * (v4);
     int32_t v25 = (v24) * (v5);
@@ -27,7 +27,7 @@ __mlu_global__ void product_reduction_kernel(float* v1, float* v2, int32_t v3, i
     bool v31 = v23 < v3;
     bool v32 = v29 < v5;
     bool v33 = (v31) & (v32);
-    bool v34 = (v18) & (v33);
+    bool v34 = (v19) & (v33);
     if (v34) {
       float v35;
       float v36 = v9;

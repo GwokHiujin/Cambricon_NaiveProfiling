@@ -3,6 +3,7 @@
 仅适用于 forward 函数跟 cuda kernel 写在同一个文件内、需要批量注册为 torch_mlu 算子的场景。
 
 参考目录：
+
 - SRC_DIR: /root/Cambricon_NaiveProfiling/cuda_ops_test/Ascend_kernels
 - FWD_OUTPUT_DIR: /root/Cambricon_NaiveProfiling/cuda_ops_test/Ascend_kernels/gen_fwd_codes
 - CUDA_OUTPUT_DIR: /root/Cambricon_NaiveProfiling/cuda_ops_test/Ascend_kernels/gen_cuda_kernels

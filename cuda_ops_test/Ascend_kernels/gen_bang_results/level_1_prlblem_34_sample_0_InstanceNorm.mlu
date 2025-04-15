@@ -1,0 +1,74 @@
+#include <bang.h>
+__mlu_global__ void compute_mean_var_kernel(float* v1, float* v2, float* v3, int32_t v4, int32_t v5, int32_t v6, int32_t v7) {
+  size_t c31_8 = 31;
+  size_t c5_9 = 5;
+  int32_t c16_10 = 16;
+  float v11 = (float)0.0e+00;
+  int32_t c0_12 = 0;
+  size_t c0_13 = 0;
+  size_t c1_14 = 1;
+  size_t c32_15 = 32;
+  __nram__ int8_t v16[32];
+  float* v17 = (float*)v16;
+  int64_t v18 = taskIdX;
+  size_t v19 = (size_t) v18;
+  int32_t v20 = (int32_t) v19;
+  int32_t v21 = (v20) * (v5);
+  int64_t v22 = taskIdY;
+  size_t v23 = (size_t) v22;
+  int32_t v24 = (int32_t) v23;
+  int32_t v25 = (v6) * (v7);
+  size_t v26 = (size_t) v25;
+  int32_t v27 = (v21) + (v24);
+  int32_t v28 = (v27) * (v6);
+  int32_t v29 = (v28) * (v7);
+  size_t v30 = (size_t) v29;
+  for (size_t v31 = c0_13; v31 < c32_15; v31 += c1_14) {
+    size_t v32 = (v26) - (v31);
+    size_t v33 = (v32) + (c31_8);
+    size_t v34 = (v33) / (c32_15);
+    float v35;
+    float v36;
+    float v37 = v11;
+    float v38 = v11;
+    for (size_t v39 = c0_13; v39 < v34; v39 += c1_14) {
+      size_t v40 = (v39) * (c32_15);
+      size_t v41 = (v40) + (v30);
+      size_t v42 = (v41) + (v31);
+      float v43 = v1[v42];
+      float v44 = v38 + v43;
+      float v45 = v43 * v43;
+      float v46 = v37 + v45;
+      v37 = v46;
+      v38 = v44;
+    }
+    v35 = v37;
+    v36 = v38;;
+    v17[v31] = v36;
+    size_t v47 = (v31) + (c32_15);
+    v17[v47] = v35;
+  }
+  for (size_t v48 = c0_13; v48 < c5_9; v48 += c1_14) {
+    int32_t v49 = (int32_t) v48;
+    int32_t v50 = (c16_10) >> (v49);
+    for (size_t v51 = c0_13; v51 < c32_15; v51 += c1_14) {
+      size_t v52 = (v51) + (c32_15);
+      int32_t v53 = (int32_t) v51;
+      bool v54 = v53 < v50;
+      if (v54) {
+        int32_t v55 = (v53) + (v50);
+        size_t v56 = (size_t) v55;
+        float v57 = v17[v56];
+        float v58 = v17[v51];
+        float v59 = v58 + v57;
+        v17[v51] = v59;
+        size_t v60 = (v56) + (c32_15);
+        float v61 = v17[v60];
+        float v62 = v17[v52];
+        float v63 = v62 + v61;
+        v17[v52] = v63;
+      };
+    };
+  }
+  size_t v64 = (size_t) v21;
+  float v65 = v17[c0_13];

@@ -1,4 +1,3 @@
-
 torch::Tensor relu_cuda(torch::Tensor input) {
   auto size = input.numel();
   auto output = torch::zeros_like(input);

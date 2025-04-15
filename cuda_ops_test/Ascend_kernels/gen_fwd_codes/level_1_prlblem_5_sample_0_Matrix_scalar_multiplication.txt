@@ -1,1 +1,16 @@
+torch::Tensor matrix_scalar_mul_cuda(torch::Tensor A, float s) {
+    auto size = A.numel();
+    auto C = torch::zeros_like(A);
 
+    const int block_size = 256;
+    const int num_blocks = (size + block_size - 1) / block_size;
+
+    matrix_scalar_mul_kernel<<<num_blocks, block_size>>>(
+        A.data_ptr<float>(), 
+        s,
+        C.data_ptr<float>(), 
+        size
+    );
+
+    return C;
+}

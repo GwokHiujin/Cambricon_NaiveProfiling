@@ -1,0 +1,116 @@
+#include <bang.h>
+__mlu_global__ void MatMulKernel(float* v1, float* v2, float* v3, int32_t v4, int32_t v5, int32_t v6) {
+  int32_t c15_7 = 15;
+  int32_t c16_8 = 16;
+  float v9 = (float)0.0e+00;
+  size_t c18446744073709551615_10 = -1;
+  size_t c18446744073709551600_11 = -16;
+  size_t c16_12 = 16;
+  size_t c0_13 = 0;
+  size_t c1_14 = 1;
+  size_t c32_15 = 32;
+  __nram__ int8_t v16[256];
+  float* v17 = (float*)v16;
+  __nram__ int8_t v18[256];
+  float* v19 = (float*)v18;
+  __nram__ int8_t v20[32];
+  float* v21 = (float*)v20;
+  for (size_t v22 = c0_13; v22 < c32_15; v22 += c1_14) {
+    v21[v22] = v9;
+  }
+  int32_t v23 = (v6) + (c15_7);
+  int32_t v24 = (v23) / (c16_8);
+  size_t v25 = (size_t) v24;
+  int64_t v26 = taskIdY;
+  size_t v27 = (size_t) v26;
+  int32_t v28 = (int32_t) v27;
+  int32_t v29 = (v28) * (c16_8);
+  int32_t v30 = (v29) * (v6);
+  size_t v31 = (size_t) v30;
+  int64_t v32 = taskIdX;
+  size_t v33 = (size_t) v32;
+  int32_t v34 = (int32_t) v33;
+  int32_t v35 = (v34) * (c16_8);
+  size_t v36 = (size_t) v29;
+  size_t v37 = (size_t) v5;
+  size_t v38 = (size_t) v6;
+  size_t v39 = (size_t) v4;
+  size_t v40 = (v39) - (v36);
+  size_t v41 = (v40) + (c18446744073709551615_10);
+  bool v42 = v41 >= c0_13;
+  for (size_t v43 = c0_13; v43 < v25; v43 += c1_14) {
+    size_t v44 = (v43) * (c18446744073709551600_11);
+    size_t v45 = (v44) + (v38);
+    size_t v46 = (v45) + (c18446744073709551615_10);
+    bool v47 = v46 >= c0_13;
+    size_t v48 = (v43) * (c16_12);
+    size_t v49 = (v48) + (v31);
+    size_t v50 = (v48) * (v37);
+    for (size_t v51 = c0_13; v51 < c32_15; v51 += c1_14) {
+      int32_t v52 = (int32_t) v51;
+      int32_t v53 = (v35) + (v52);
+      size_t v54 = (size_t) v53;
+      size_t v55 = (v44) - (v51);
+      size_t v56 = (v55) + (v38);
+      size_t v57 = (v56) + (c18446744073709551615_10);
+      bool v58 = v57 >= c0_13;
+      bool v59 = (v42) & (v58);
+      float v60;
+      if (v59) {
+        size_t v61 = (v49) + (v51);
+        float v62 = v1[v61];
+        v60 = v62;
+      } else {
+        v60 = v9;
+      };
+      v19[16*c0_13 + 1*v51 +  0] = v60;
+      size_t v63 = (v37) - (v54);
+      size_t v64 = (v63) + (c18446744073709551615_10);
+      bool v65 = v64 >= c0_13;
+      bool v66 = (v47) & (v65);
+      float v67;
+      if (v66) {
+        size_t v68 = (v50) + (v54);
+        float v69 = v2[v68];
+        v67 = v69;
+      } else {
+        v67 = v9;
+      };
+      v17[16*c0_13 + 1*v51 +  0] = v67;
+    };
+    for (size_t v70 = c0_13; v70 < c32_15; v70 += c1_14) {
+      float v71 = v21[v70];
+      float v72;
+      float v73 = v71;
+      for (size_t v74 = c0_13; v74 < c16_12; v74 += c1_14) {
+        float v75 = v19[16*c0_13 + 1*v74 +  0];
+        float v76 = v17[16*v74 + 1*v70 +  0];
+        float v77 = v75 * v76;
+        float v78 = v73 + v77;
+        v73 = v78;
+      }
+      v72 = v73;;
+      v21[v70] = v72;
+    };
+  }
+  int32_t v79 = (v29) * (v5);
+  size_t v80 = (size_t) v79;
+  bool v81 = v29 < v4;
+  for (size_t v82 = c0_13; v82 < c32_15; v82 += c1_14) {
+    int32_t v83 = (int32_t) v82;
+    int32_t v84 = (v35) + (v83);
+    size_t v85 = (size_t) v84;
+    float v86 = v21[v82];
+    bool v87 = v84 < v5;
+    bool v88 = (v81) & (v87);
+    if (v88) {
+      size_t v89 = (v80) + (v85);
+      v3[v89] = v86;
+    };
+  }
+  return;
+}
+
+
+
+

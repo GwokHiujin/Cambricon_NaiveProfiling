@@ -1,1 +1,15 @@
-
+torch::Tensor softplus_cuda(torch::Tensor input) {
+    auto size = input.numel();
+    auto output = torch::empty_like(input);
+    
+    const int threads = 256;
+    const int blocks = (size + threads - 1) / threads;
+    
+    softplus_kernel<<<blocks, threads>>>(
+        input.data_ptr<float>(),
+        output.data_ptr<float>(),
+        size
+    );
+    
+    return output;
+}

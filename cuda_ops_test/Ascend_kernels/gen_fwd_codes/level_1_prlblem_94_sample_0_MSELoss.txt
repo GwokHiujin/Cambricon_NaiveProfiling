@@ -1,1 +1,11 @@
+torch::Tensor mse_cuda(torch::Tensor predictions, torch::Tensor targets) {
+    auto size = predictions.numel();
+    auto out = torch::zeros_like(predictions);
 
+    const int block_size = 256;
+    const int num_blocks = (size + block_size - 1) / block_size;
+
+    mse_kernel<<<num_blocks, block_size>>>(predictions.data_ptr<float>(), targets.data_ptr<float>(), out.data_ptr<float>(), size);
+
+    return torch::mean(out);
+}

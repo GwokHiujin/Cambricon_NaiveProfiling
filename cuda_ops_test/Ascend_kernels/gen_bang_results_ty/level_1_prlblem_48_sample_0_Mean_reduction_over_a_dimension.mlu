@@ -1,7 +1,0 @@
-#include <bang.h>
-__mlu_global__ void mean_reduction_kernel(float* v1, float* v2, int32_t v3, int32_t v4, int32_t v5) {
-  int32_t c32_6 = 32;
-  float v7 = (float)0.0e+00;
-  size_t c0_8 = 0;
-  size_t c1_9 = 1;
-  size_t c32_10 = 32;

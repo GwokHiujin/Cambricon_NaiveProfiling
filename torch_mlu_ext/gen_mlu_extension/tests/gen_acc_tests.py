@@ -8,8 +8,8 @@ from urllib.parse import urljoin
 
 ORIGIN_URL = "https://pub.sakana.ai/ai-cuda-engineer/leaderboard?show_kernels=1&level=1&sort_by=level_task&experiment=all"
 DOWNLOAD_DIR = "./raw_torch_functional"
-MLU_SRC_DIR = "../mlu_custom_ext/src/mlu"
-FWD_SRC_DIR = "../mlu_custom_ext/src"
+MLU_SRC_DIR = "../mlu_custom_ext/src_/mlu"
+FWD_SRC_DIR = "../mlu_custom_ext/src_"
 
 
 def logical_xor(a, b):
@@ -264,7 +264,7 @@ if __name__ == "__main__":
 if __name__ == "__main__":
     os.makedirs(DOWNLOAD_DIR, exist_ok=True)
 
-    # grab_torch_functional(DOWNLOAD_DIR, ORIGIN_URL, MLU_SRC_DIR)
+    grab_torch_functional(DOWNLOAD_DIR, ORIGIN_URL, MLU_SRC_DIR)
     print("\n------------ All Downloaded! ------------")
 
     gen_acc_tests(DOWNLOAD_DIR, FWD_SRC_DIR)

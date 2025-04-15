@@ -1,1 +1,18 @@
-
+torch::Tensor diag_matmul_cuda(torch::Tensor diag, torch::Tensor mat) {
+    const int N = diag.size(0);
+    const int M = mat.size(1);
+    
+    auto out = torch::zeros({N, M}, mat.options());
+    
+    const dim3 threads(16, 16);
+    const dim3 blocks((M + threads.x - 1) / threads.x,
+                     (N + threads.y - 1) / threads.y);
+                     
+    diag_matmul_kernel<<<blocks, threads>>>(
+        diag.data_ptr<float>(),
+        mat.data_ptr<float>(),
+        out.data_ptr<float>(),
+        N, M);
+        
+    return out;
+}

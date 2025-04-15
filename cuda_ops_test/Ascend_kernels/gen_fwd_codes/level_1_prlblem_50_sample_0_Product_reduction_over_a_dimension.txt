@@ -1,1 +1,25 @@
-
+torch::Tensor product_reduction_cuda(torch::Tensor input, int reduction_dim) {
+    auto batch_size = input.size(0);
+    auto dim1 = input.size(1);
+    auto dim2 = input.size(2);
+    
+    auto options = torch::TensorOptions()
+        .dtype(input.dtype())
+        .device(input.device());
+    
+    torch::Tensor output;
+    if (reduction_dim == 1) {
+        output = torch::empty({batch_size, dim2}, options);
+    }
+    
+    const int threads = 256;
+    const int blocks = (batch_size * dim2 + threads - 1) / threads;
+    
+    product_reduction_kernel<<<blocks, threads>>>(
+        input.data_ptr<float>(),
+        output.data_ptr<float>(),
+        batch_size, dim1, dim2, reduction_dim
+    );
+    
+    return output;
+}

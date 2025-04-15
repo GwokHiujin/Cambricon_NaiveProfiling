@@ -1,1 +1,39 @@
-
+torch::Tensor mean_reduction_cuda(torch::Tensor input, int dim) {
+    auto input_sizes = input.sizes();
+    int ndim = input_sizes.size();
+    dim = dim < 0 ? dim + ndim : dim;
+    
+    int reduce_dim_size = input_sizes[dim];
+    
+    int outer_size = 1;
+    for (int i = 0; i < dim; i++) {
+        outer_size *= input_sizes[i];
+    }
+    
+    int inner_size = 1;
+    for (int i = dim + 1; i < ndim; i++) {
+        inner_size *= input_sizes[i];
+    }
+    
+    std::vector<int64_t> output_sizes;
+    for (int i = 0; i < ndim; i++) {
+        if (i != dim) {
+            output_sizes.push_back(input_sizes[i]);
+        }
+    }
+    
+    auto output = torch::empty(output_sizes, input.options());
+    
+    const int threads = 256;
+    const int blocks = (outer_size * inner_size + threads - 1) / threads;
+    
+    mean_reduction_kernel<<<blocks, threads>>>(
+        input.data_ptr<float>(),
+        output.data_ptr<float>(),
+        reduce_dim_size,
+        outer_size,
+        inner_size
+    );
+    
+    return output;
+}

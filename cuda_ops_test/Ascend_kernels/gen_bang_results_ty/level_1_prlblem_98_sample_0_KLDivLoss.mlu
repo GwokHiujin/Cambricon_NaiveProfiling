@@ -1,8 +1,0 @@
-#include <bang.h>
-__mlu_global__ void kl_div_kernel(float* v1, float* v2, float* v3, int32_t v4, int32_t v5) {
-  int32_t c32_6 = 32;
-  size_t c0_7 = 0;
-  size_t c1_8 = 1;
-  size_t c32_9 = 32;
-  int64_t v10 = taskId;
-  size_t v11 = (size_t)v10;

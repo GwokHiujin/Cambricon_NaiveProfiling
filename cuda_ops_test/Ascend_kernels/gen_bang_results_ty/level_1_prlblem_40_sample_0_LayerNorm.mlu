@@ -1,7 +1,0 @@
-#include <bang.h>
-__mlu_global__ void layer_norm_kernel(float* v1, float* v2, float* v3, float* v4, float* v5, float* v6, int32_t v7, int32_t v8, int32_t v9, int32_t v10) {
-  int32_t c32_11 = 32;
-  size_t c18446744073709551615_12 = -1;
-  size_t c0_13 = 0;
-  size_t c1_14 = 1;
-  size_t c32_15 = 32;

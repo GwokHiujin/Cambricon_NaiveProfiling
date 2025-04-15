@@ -6,13 +6,13 @@ __mlu_global__ void elu_forward_kernel(float* v1, float* v2, float v3, int32_t v
   size_t c0_8 = 0;
   size_t c1_9 = 1;
   size_t c32_10 = 32;
-  int64_t v11 = taskId;
-  int32_t v12 = (int32_t) v11;
-  int32_t v13 = (v12) * (c32_5);
-  for (size_t v14 = c0_8; v14 < c32_10; v14 += c1_9) {
-    int64_t v15 = (int64_t)v14;
+  int64_t v11 = taskIdX;
+  size_t v12 = (size_t) v11;
+  int32_t v13 = (int32_t) v12;
+  int32_t v14 = (v13) * (c32_5);
+  for (size_t v15 = c0_8; v15 < c32_10; v15 += c1_9) {
     int32_t v16 = (int32_t) v15;
-    int32_t v17 = (v13) + (v16);
+    int32_t v17 = (v14) + (v16);
     size_t v18 = (size_t) v17;
     bool v19 = v17 < v4;
     if (v19) {

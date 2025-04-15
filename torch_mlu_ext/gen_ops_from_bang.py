@@ -126,6 +126,8 @@ def process_fwd_codes(FWD_INPUT_DIR, FWD_FINAL_DIR, MLU_INPUT_DIR, REG_DIR):
 
         content_ = content.replace("cudaDeviceSynchronize", "//cudaDeviceSynchronize")
         content_ = content_.replace("TORCH_CHECK", "//TORCH_CHECK")
+        content_ = content_.replace("INPUT_CHECK", "//INPUT_CHECK")
+        content_ = content_.replace("dim3", "//dim3")
         # content_ = content_.replace("int ", "int64_t ")
         # content_ = content_.replace("float ", "double ")
 
@@ -148,6 +150,10 @@ def process_fwd_codes(FWD_INPUT_DIR, FWD_FINAL_DIR, MLU_INPUT_DIR, REG_DIR):
         header_filename = f"/custom_{task_id}_{func_name}.h"
         header_path = FWD_FINAL_DIR + header_filename
 
+        # Add-on dev
+        if os.path.isfile(cpp_path):
+            continue
+
         tensor_params = []
         register_params = ''
         register_names = ''
@@ -166,7 +172,7 @@ def process_fwd_codes(FWD_INPUT_DIR, FWD_FINAL_DIR, MLU_INPUT_DIR, REG_DIR):
                 param_name = p.split()[-1]
                 tensor_params.append(param_name)
 
-        print(f"Registering {func_name} in ./gen_mlu_extension/mlu_custom_ext/ops ...")
+        print(f"Registering {func_name} ...")
 
         with open(f"{REG_DIR}/__init__.py", 'a', encoding='utf-8') as f:
             f.write(f"\nfrom .custom_ops import {func_name}")

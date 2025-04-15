@@ -1,1 +1,15 @@
+torch::Tensor sigmoid_cuda_forward(torch::Tensor input) {
+    auto output = torch::empty_like(input);
 
+    int size = input.numel();
+    const int threads = 256;
+    const int blocks = (size + threads - 1) / threads;
+
+    sigmoid_kernel<<<blocks, threads>>>(
+        input.data_ptr<float>(),
+        output.data_ptr<float>(),
+        size
+    );
+
+    return output;
+}

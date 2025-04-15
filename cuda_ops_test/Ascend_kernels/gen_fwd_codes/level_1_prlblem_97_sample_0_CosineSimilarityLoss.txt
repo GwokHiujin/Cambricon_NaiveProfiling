@@ -1,1 +1,20 @@
+torch::Tensor cosine_similarity_loss_cuda(torch::Tensor predictions, torch::Tensor targets) {
+    const auto batch_size = predictions.size(0);
+    const auto input_size = predictions.size(1);
 
+    auto losses = torch::empty({batch_size}, predictions.options());
+
+    const int threads = 256;
+    const int blocks = batch_size;
+    const size_t shared_mem_size = threads * sizeof(float);
+
+    cosine_similarity_loss_kernel<<<blocks, threads, shared_mem_size>>>(
+        predictions.data_ptr<float>(),
+        targets.data_ptr<float>(),
+        losses.data_ptr<float>(),
+        batch_size,
+        input_size
+    );
+
+    return losses;
+}

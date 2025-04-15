@@ -1,1 +1,15 @@
+torch::Tensor l2_normalize_cuda(torch::Tensor x) {
+    int batch_size = x.size(0);
+    int dim = x.size(1);
+    auto y = torch::empty_like(x);
 
+    int threads = 256;
+    int blocks = batch_size;
+    size_t shared_mem_size = threads * sizeof(float);
+
+    l2_normalize_kernel<<<blocks, threads, shared_mem_size>>>(
+        x.data_ptr<float>(), y.data_ptr<float>(), batch_size, dim
+    );
+
+    return y;
+}

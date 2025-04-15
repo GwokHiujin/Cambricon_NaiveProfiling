@@ -1,1 +1,19 @@
-
+torch::Tensor masked_cumsum_cuda(torch::Tensor x, torch::Tensor mask) {
+    auto batch_size = x.size(0);
+    auto seq_len = x.size(1);
+    auto out = torch::zeros_like(x);
+    
+    const int threads_per_block = 256;
+    const int total_elements = batch_size * seq_len;
+    const int blocks = (total_elements + threads_per_block - 1) / threads_per_block;
+    
+    masked_cumsum_kernel<<<blocks, threads_per_block>>>(
+        x.data_ptr<float>(),
+        mask.data_ptr<bool>(),
+        out.data_ptr<float>(),
+        batch_size,
+        seq_len
+    );
+    
+    return out;
+}

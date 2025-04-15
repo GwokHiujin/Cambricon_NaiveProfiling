@@ -4,13 +4,13 @@ __mlu_global__ void matrix_scalar_mul_kernel(float* v1, float v2, float* v3, int
   size_t c0_6 = 0;
   size_t c1_7 = 1;
   size_t c32_8 = 32;
-  int64_t v9 = taskId;
-  int32_t v10 = (int32_t) v9;
-  int32_t v11 = (v10) * (c32_5);
-  for (size_t v12 = c0_6; v12 < c32_8; v12 += c1_7) {
-    int64_t v13 = (int64_t)v12;
+  int64_t v9 = taskIdX;
+  size_t v10 = (size_t) v9;
+  int32_t v11 = (int32_t) v10;
+  int32_t v12 = (v11) * (c32_5);
+  for (size_t v13 = c0_6; v13 < c32_8; v13 += c1_7) {
     int32_t v14 = (int32_t) v13;
-    int32_t v15 = (v11) + (v14);
+    int32_t v15 = (v12) + (v14);
     size_t v16 = (size_t) v15;
     bool v17 = v15 < v4;
     if (v17) {

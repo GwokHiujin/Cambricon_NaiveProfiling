@@ -1,4 +1,3 @@
-
 torch::Tensor cumprod_cuda(torch::Tensor x, int64_t dim) {
     // Ensure input tensor is on CUDA and is contiguous
     TORCH_CHECK(x.is_cuda(), "Input tensor must be on CUDA");

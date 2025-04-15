@@ -1,1 +1,57 @@
+torch::Tensor conv3d_cuda_forward(
+    torch::Tensor input,
+    torch::Tensor weight,
+    int stride_d,
+    int stride_h,
+    int stride_w,
+    int padding_d,
+    int padding_h,
+    int padding_w)
+{
+    int batch_size = input.size(0);
+    int in_channels = input.size(1);
+    int input_depth = input.size(2);
+    int input_height = input.size(3);
+    int input_width = input.size(4);
 
+    int out_channels = weight.size(0);
+    int kernel_depth = weight.size(2);
+    int kernel_height = weight.size(3);
+    int kernel_width = weight.size(4);
+
+    int out_depth = (input_depth + 2 * padding_d - kernel_depth) / stride_d + 1;
+    int out_height = (input_height + 2 * padding_h - kernel_height) / stride_h + 1;
+    int out_width = (input_width + 2 * padding_w - kernel_width) / stride_w + 1;
+
+    auto output = torch::zeros({batch_size, out_channels, out_depth, out_height, out_width}, input.options());
+
+    const int total_threads = out_depth * out_height * out_width;
+    const dim3 blocks(out_channels, batch_size, (total_threads + 1023) / 1024);
+    const dim3 threads(1024);
+
+    conv3d_forward_kernel<<<blocks, threads>>>(
+        input.data_ptr<float>(),
+        weight.data_ptr<float>(),
+        output.data_ptr<float>(),
+        batch_size,
+        in_channels,
+        out_channels,
+        input_depth,
+        input_height,
+        input_width,
+        kernel_depth,
+        kernel_height,
+        kernel_width,
+        stride_d,
+        stride_h,
+        stride_w,
+        padding_d,
+        padding_h,
+        padding_w,
+        out_depth,
+        out_height,
+        out_width
+    );
+
+    return output;
+}

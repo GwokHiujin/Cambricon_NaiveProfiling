@@ -6,25 +6,26 @@ __mlu_global__ void reverse_cumsum_kernel(float* v1, float* v2, int32_t v3, int3
   size_t c1_8 = 1;
   size_t c32_9 = 32;
   size_t v10 = (size_t) v4;
-  int64_t v11 = taskId;
-  int32_t v12 = (int32_t) v11;
-  int32_t v13 = (v12) * (v4);
-  size_t v14 = (size_t) v13;
-  bool v15 = v12 < v3;
-  for (size_t v16 = c0_7; v16 < c32_9; v16 += c1_8) {
-    if (v15) {
-      float v17;
-      float v18 = v5;
-      for (size_t v19 = c0_7; v19 < v10; v19 += c1_8) {
-        size_t v20 = (v14) - (v19);
-        size_t v21 = (v20) + (v10);
-        size_t v22 = (v21) + (c18446744073709551615_6);
-        float v23 = v1[v22];
-        float v24 = v18 + v23;
-        v2[v22] = v24;
-        v18 = v24;
+  int64_t v11 = taskIdX;
+  size_t v12 = (size_t) v11;
+  int32_t v13 = (int32_t) v12;
+  int32_t v14 = (v13) * (v4);
+  size_t v15 = (size_t) v14;
+  bool v16 = v13 < v3;
+  for (size_t v17 = c0_7; v17 < c32_9; v17 += c1_8) {
+    if (v16) {
+      float v18;
+      float v19 = v5;
+      for (size_t v20 = c0_7; v20 < v10; v20 += c1_8) {
+        size_t v21 = (v15) - (v20);
+        size_t v22 = (v21) + (v10);
+        size_t v23 = (v22) + (c18446744073709551615_6);
+        float v24 = v1[v23];
+        float v25 = v19 + v24;
+        v2[v23] = v25;
+        v19 = v25;
       }
-      v17 = v18;;
+      v18 = v19;;
     };
   }
   return;

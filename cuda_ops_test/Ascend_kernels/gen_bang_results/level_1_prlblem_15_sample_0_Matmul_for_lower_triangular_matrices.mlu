@@ -1,0 +1,11 @@
+#include <bang.h>
+__mlu_global__ void lower_triangular_matmul_kernel(float* v1, float* v2, float* v3, int32_t v4) {
+  int32_t c32_5 = 32;
+  float v6 = (float)0.0e+00;
+  size_t c0_7 = 0;
+  size_t c1_8 = 1;
+  size_t c32_9 = 32;
+  size_t v10 = (size_t) v4;
+  int64_t v11 = taskIdY;
+  size_t v12 = (size_t) v11;
+  int32_t v13 = (int32_t) v12;

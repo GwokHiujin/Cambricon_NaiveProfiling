@@ -6,13 +6,13 @@ __mlu_global__ void softplus_kernel(float* v1, float* v2, int32_t v3) {
   size_t c0_7 = 0;
   size_t c1_8 = 1;
   size_t c32_9 = 32;
-  int64_t v10 = taskId;
-  int32_t v11 = (int32_t) v10;
-  int32_t v12 = (v11) * (c32_4);
-  for (size_t v13 = c0_7; v13 < c32_9; v13 += c1_8) {
-    int64_t v14 = (int64_t)v13;
+  int64_t v10 = taskIdX;
+  size_t v11 = (size_t) v10;
+  int32_t v12 = (int32_t) v11;
+  int32_t v13 = (v12) * (c32_4);
+  for (size_t v14 = c0_7; v14 < c32_9; v14 += c1_8) {
     int32_t v15 = (int32_t) v14;
-    int32_t v16 = (v12) + (v15);
+    int32_t v16 = (v13) + (v15);
     size_t v17 = (size_t) v16;
     bool v18 = v16 < v3;
     if (v18) {

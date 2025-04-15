@@ -1,1 +1,25 @@
+torch::Tensor rms_norm_cuda(torch::Tensor x, float eps) {
+    const auto batch_size = x.size(0);
+    const auto num_features = x.size(1);
+    const auto dim1 = x.size(2);
+    const auto dim2 = x.size(3);
 
+    auto out = torch::empty_like(x);
+
+    const int threads_per_block = num_features;
+    const int blocks = batch_size * dim1 * dim2;
+
+    const int shared_mem_size = threads_per_block * sizeof(float);
+
+    rms_norm_kernel<<<blocks, threads_per_block, shared_mem_size>>>(
+        x.data_ptr<float>(),
+        out.data_ptr<float>(),
+        batch_size,
+        num_features,
+        dim1,
+        dim2,
+        eps
+    );
+
+    return out;
+}

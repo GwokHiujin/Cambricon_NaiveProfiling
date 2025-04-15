@@ -7,7 +7,8 @@ __mlu_global__ void mean_reduction_kernel(float* v1, float* v2, int32_t v3, int3
   size_t c32_10 = 32;
   size_t v11 = (size_t) v5;
   size_t v12 = (size_t) v3;
-  int64_t v13 = taskId;
-  int32_t v14 = (int32_t) v13;
-  int32_t v15 = (v14) * (c32_6);
-  int32_t v16 = (v4) * (v5);
+  int64_t v13 = taskIdX;
+  size_t v14 = (size_t) v13;
+  int32_t v15 = (int32_t) v14;
+  int32_t v16 = (v15) * (c32_6);
+  int32_t v17 = (v4) * (v5);

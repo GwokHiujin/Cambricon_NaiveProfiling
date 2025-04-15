@@ -1,2 +1,0 @@
-#include <bang.h>
-__mlu_global__ void masked_cumsum_kernel(float* v1, 

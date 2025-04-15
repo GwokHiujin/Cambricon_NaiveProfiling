@@ -46,3 +46,4 @@ model_zoo/BERT/models/data/squad/v2.0
 model_zoo/BERT/models/checkpoints/cased*
 model_zoo/SSD_ResNet50/models_*
 logfile.txt
+*.egg
